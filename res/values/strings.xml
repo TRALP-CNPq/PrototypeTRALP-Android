@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">PrototypeTRALP</string>
+  <string name="app_name">PrototypeTRALP</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="welcome">Welcome!</string>
@@ -22,8 +22,8 @@
     <string name="tvTextMatches">Text Matches</string>
     <string name="sNoOfMatches">No of Matches</string>
     <string name="etSearchHint">Speech hint here</string>
-
-    <string-array name="saNoOfMatches">
+    
+     <string-array name="saNoOfMatches">
         <item>1</item>
         <item>2</item>
         <item>3</item>

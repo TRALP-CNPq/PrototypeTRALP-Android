@@ -1,1 +1,0 @@
---* This folder must be used to archive media files intented to be used as resources in the respective Android Application Project *--

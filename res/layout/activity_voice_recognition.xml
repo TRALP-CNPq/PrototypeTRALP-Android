@@ -18,16 +18,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="speak"
-        android:padding="@dimen/padding_medium"
         android:text="@string/btSpeak"
         tools:context=".VoiceRecognitionActivity" />
 
-    <Spinner
+     <Spinner
         android:id="@+id/sNoOfMatches"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:entries="@array/saNoOfMatches"
         android:prompt="@string/sNoOfMatches"/>
+    
     
     <TextView
         android:layout_width="match_parent"
