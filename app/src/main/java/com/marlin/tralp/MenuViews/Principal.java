@@ -27,6 +27,7 @@ import com.marlin.tralp.Conexao.Dao.UltimasFrasesDao;
 import com.marlin.tralp.Model.Frase;
 import com.marlin.tralp.R;
 import com.marlin.tralp.Service.PortuguesLibras;
+import com.marlin.tralp.UnityPlayerActivity;
 import com.marlin.tralp.Views.CapturaCameraView;
 import com.marlin.tralp.Views.CapturaTexto;
 
@@ -50,6 +51,8 @@ public class Principal extends Fragment {
     private Animation in;
     private Animation out;
 
+    boolean shouldExecuteOnResume;
+
 
     @Nullable
     @Override
@@ -60,7 +63,7 @@ public class Principal extends Fragment {
         out = new AlphaAnimation(1.0f, 0.0f);
         out.setDuration(1000);
 
-
+        shouldExecuteOnResume = false;
         rootview = inflater.inflate(R.layout.principal, container, false);
         editText = (EditText) rootview.findViewById(R.id.editText);
         btnVoice = (Button) rootview.findViewById(R.id.btn_Voice);
@@ -182,6 +185,14 @@ public class Principal extends Fragment {
         super.onResume();
         if(editText.getText()!=null || "".equalsIgnoreCase(editText.getText().toString())){
             Traduzir(editText.getText().toString());
+        }
+        if(shouldExecuteOnResume){
+            Intent intent = new Intent(getActivity(), UnityPlayerActivity.class);
+            //    String text = editText.getText().toString();
+            //    intent.putExtra("texto", text);
+            getActivity().startActivity(intent);
+        } else{
+            shouldExecuteOnResume = true;
         }
     }
 
