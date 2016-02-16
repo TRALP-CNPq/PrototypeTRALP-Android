@@ -7,7 +7,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.YuvImage;
 import android.hardware.Camera;
+import android.os.Environment;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -32,6 +34,10 @@ import org.opencv.objdetect.CascadeClassifier;
 
 import com.marlin.tralp.R;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
@@ -50,6 +56,7 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
     private Rect RectSilhueta = new Rect(0,0,0,0);
     private Rect Enquadrado = new Rect(0,0,0,0);
     private Camera.Face[] 			mFaces 		= null;
+    private int GetAPict = 1;
 
     Bitmap verde = BitmapFactory.decodeResource(getResources(), R.drawable.silhuetaverde);
     Bitmap vermelho = BitmapFactory.decodeResource(getResources(), R.drawable.silhuetavermelha);
@@ -81,6 +88,7 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        // mCamera.setPreviewCallback();
         try {
             //when the surface is created, we can set the camera to draw images in this surfaceholder
             mCamera.setPreviewDisplay(holder);
@@ -113,6 +121,56 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
             Log.i(TAG, "[INFO] MaxNumDetectedFaces: " + MaxNumDetectedFaces);
             if (MaxNumDetectedFaces > 0)                 mCamera.startFaceDetection();
 
+            mCamera.setPreviewCallback(new Camera.PreviewCallback() {
+
+                @Override
+                public void onPreviewFrame(byte[] data, Camera camera) {
+
+                    // ***The parameter 'data' holds the frame information***
+                    if (GetAPict < 5){
+                        GetAPict++;
+                        int width = 0; int height = 0;
+                        try {
+                            Camera.Parameters parameters = camera.getParameters();
+                            height = parameters.getPreviewSize().height;
+                            width = parameters.getPreviewSize().width;
+                            String dir = Environment.getExternalStorageDirectory()+File.separator+"TesteGB";
+                            File folder = new File(dir);
+                            if(!folder.exists()) {
+                                Log.d("Success","Creating!");
+                                folder.mkdir();
+                            }
+                            if(!folder.exists()) {
+                                Log.d("Error","Not Created!");
+                                //folder.mkdir();
+                            }
+
+                            File photoFile = new File(dir,"myPhoto"+GetAPict+".jpg");
+                            ByteArrayOutputStream out_stream = new ByteArrayOutputStream();
+
+
+                            YuvImage yuvImage = new YuvImage(data, parameters.getPreviewFormat(),
+                                    width, height, null);
+
+                            Rect rectangle = new Rect(0, 0, width, height);
+                            yuvImage.compressToJpeg(rectangle, 80, out_stream);
+                            byte[] byt = out_stream.toByteArray();
+                            FileOutputStream outFile = new FileOutputStream(photoFile);
+                            outFile.write(byt);
+                            outFile.close();
+                        }catch (IOException e) {
+                            Log.d("ERROR", "Camera error on surfaceChanged " + e.getMessage());
+                        }
+                    }
+                }
+
+            });
+
+            // If your preview can change or rotate, take care of those events here.
+            // Make sure to stop the preview before resizing or reformatting it.
+
+
+
         } catch (IOException e) {
             Log.d("ERROR", "Camera error on surfaceChanged " + e.getMessage());
         }
@@ -131,6 +189,8 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
         // TODO Auto-generated method stub
         super.onDraw(canvas);
         Log.i(TAG, "[INFO] OnDraw()");
+
+
 
         RectSilhueta.left = (int) (mViewWidth*0.23);
         RectSilhueta.right = (int) (mViewWidth*0.77);

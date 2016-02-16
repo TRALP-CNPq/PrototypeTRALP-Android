@@ -2,39 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/Users/gabriel/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.1/support-annotations-22.2.1.jar"
+        jar="/Volumes/gb32/Tralp/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/libs/internal_impl-22.2.1.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="61a0ff5c29295ec56d7e0bd3d25d95dbf71b4b2b">
-        <dex dex="/Volumes/gb32/Tralp/app/build/intermediates/pre-dexed/debug/support-annotations-22.2.1-a9e8fba9cdb831c92f12044b138e0d78a35590c6.jar" />
-    </item>
-    <item
-        jar="/Volumes/gb32/Tralp/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="f8efd0096475e0daf054267b61544e10dc776503">
-        <dex dex="/Volumes/gb32/Tralp/app/build/intermediates/pre-dexed/debug/classes-031c5ac1cd31339bd2a9b80e4d481c13d8f34194.jar" />
-    </item>
-    <item
-        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="f8efd0096475e0daf054267b61544e10dc776503">
-        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/pre-dexed/debug/classes-bc9b5d914e96f8013e56d606b129661e012a6dc9.jar" />
-    </item>
-    <item
-        jar="/Volumes/gb32/Tralp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="4486e953d1f35f8ccab098b1dd67146366d5f731">
-        <dex dex="/Volumes/gb32/Tralp/app/build/intermediates/pre-dexed/debug/classes-39ed609d607e2d35868c5b7f9147aaa923eb3f54.jar" />
-    </item>
-    <item
-        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="4486e953d1f35f8ccab098b1dd67146366d5f731">
-        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/pre-dexed/debug/classes-982dab754332e952c49ef075052c3df4c7ef3004.jar" />
+        sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
+        <dex dex="/Volumes/gb32/Tralp/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.1-507f8e185b18fc007cfc3d34cdcbf0ec81f186a8.jar" />
     </item>
     <item
         jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/libs/internal_impl-22.2.1.jar"
@@ -44,11 +16,46 @@
         <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.1-c91170cf3d5e431065c46882e5a22cc21e866990.jar" />
     </item>
     <item
-        jar="/Volumes/gb32/Tralp/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/libs/internal_impl-22.2.1.jar"
+        jar="/Users/gabriel/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.1/support-annotations-22.2.1.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
-        <dex dex="/Volumes/gb32/Tralp/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.1-507f8e185b18fc007cfc3d34cdcbf0ec81f186a8.jar" />
+        sha1="61a0ff5c29295ec56d7e0bd3d25d95dbf71b4b2b">
+        <dex dex="/Volumes/gb32/Tralp/app/build/intermediates/pre-dexed/debug/support-annotations-22.2.1-a9e8fba9cdb831c92f12044b138e0d78a35590c6.jar" />
+    </item>
+    <item
+        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="4486e953d1f35f8ccab098b1dd67146366d5f731">
+        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/pre-dexed/debug/classes-982dab754332e952c49ef075052c3df4c7ef3004.jar" />
+    </item>
+    <item
+        jar="/Volumes/gb32/Tralp/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="f8efd0096475e0daf054267b61544e10dc776503">
+        <dex dex="/Volumes/gb32/Tralp/app/build/intermediates/pre-dexed/debug/classes-031c5ac1cd31339bd2a9b80e4d481c13d8f34194.jar" />
+    </item>
+    <item
+        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/exploded-aar/PrototypeTRALP-Android/openCVLibrary300/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="f24d9a9c62baeeba4956d3fe7156c44f5c85aed5">
+        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/pre-dexed/debug/classes-653599f93eac9e1195f669e2de29d07211efe5d2.jar" />
+    </item>
+    <item
+        jar="/Volumes/gb32/Tralp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="4486e953d1f35f8ccab098b1dd67146366d5f731">
+        <dex dex="/Volumes/gb32/Tralp/app/build/intermediates/pre-dexed/debug/classes-39ed609d607e2d35868c5b7f9147aaa923eb3f54.jar" />
+    </item>
+    <item
+        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="f8efd0096475e0daf054267b61544e10dc776503">
+        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/pre-dexed/debug/classes-bc9b5d914e96f8013e56d606b129661e012a6dc9.jar" />
     </item>
 
 </items>
