@@ -3,6 +3,7 @@ package com.marlin.tralp.Views;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -55,7 +56,9 @@ public class CapturaCameraView extends Activity {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     btnGravar.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.presence_video_busy));
-                    ChamarEventoConfirma();
+                    //ChamarEventoConfirma();
+                    Intent intent = new Intent(CapturaCameraView.this, GravacaoVideo.class);
+                    startActivity(intent);
                 } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     btnGravar.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.presence_video_online));
                 }

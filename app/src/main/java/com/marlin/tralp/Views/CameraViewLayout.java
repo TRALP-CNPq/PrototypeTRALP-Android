@@ -69,7 +69,10 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
             // mCamera.startPreview();
         } catch (IOException e) {
             Log.d("ERROR", "Camera error on surfaceCreated " + e.getMessage());
+        }catch  (RuntimeException e){
+            Log.d("ERROR", "Camera released?  " + e.getMessage());
         }
+
     }
 
     @Override
