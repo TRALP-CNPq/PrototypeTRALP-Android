@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 
 import com.marlin.tralp.MainActivity;
+import com.marlin.tralp.MainApplication;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
@@ -45,11 +46,11 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
     private CameraBridgeViewBase opencvCameraView;
     private Mat matRGBA, matGray, matGrayT;
     private File folder;
-    private static int fileCounter, variance_counter;
+    //private static int fileCounter, variance_counter;
     private List<Mat> frameBuffer;
-    private double [] variances;
+    //private double [] variances;
     private long startTime;
-    int threadCounter;
+    //int threadCounter;
 
 
     @Override
@@ -72,10 +73,10 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
         opencvCameraView.setCvCameraViewListener(this);
         opencvCameraView.enableFpsMeter();
         frameBuffer = new ArrayList<Mat>();
-        threadCounter = 0;
-        fileCounter = 0;
-        variance_counter = 0;
-        variances = new double[500];
+        //threadCounter = 0;
+        //fileCounter = 0;
+        //variance_counter = 0;
+        //variances = new double[500];
         Log.d("[onCreate]", "Recording Class has been created");
 
         setContentView(opencvCameraView);
@@ -123,24 +124,26 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
         }
         Log.d("Exiting","trying to save");
         //@TODO Save and stash all frame files (Needed?)
+        MainApplication mApp = (MainApplication)getApplicationContext();
+        mApp.setFrameBuffer(frameBuffer);
         //@Answer not really possible, too slow to save
-        Mat outMat = new Mat();
-        MatOfDouble std = new MatOfDouble();
-        MatOfDouble mean = new MatOfDouble();
-        double var;
-        Iterator itr = frameBuffer.iterator();
-        while(itr.hasNext()) {
-//                    while (threadCounter > 10) SystemClock.sleep(3);
-            Mat oneframe = (Mat)itr.next();
-            Imgproc.Laplacian(oneframe, outMat, CvType.CV_64F); //dst, out, CvType.CV_64F);
-            Core.meanStdDev(outMat, mean, std);
-            var = std.get(0,0)[0];
-            var = var * var;
-            String _filename = "[var]:"+String.format("%.2f", var)+"test:" + fileCounter + ".png";
-            saveFrame(oneframe, _filename);
-            fileCounter += 1 ;
-        }
-        frameBuffer.clear();
+//        Mat outMat = new Mat();
+//        MatOfDouble std = new MatOfDouble();
+//        MatOfDouble mean = new MatOfDouble();
+//        double var;
+//        Iterator itr = frameBuffer.iterator();
+//        while(itr.hasNext()) {
+////                    while (threadCounter > 10) SystemClock.sleep(3);
+//            Mat oneframe = (Mat)itr.next();
+//            Imgproc.Laplacian(oneframe, outMat, CvType.CV_64F); //dst, out, CvType.CV_64F);
+//            Core.meanStdDev(outMat, mean, std);
+//            var = std.get(0,0)[0];
+//            var = var * var;
+//            //String _filename = "[var]:"+String.format("%.2f", var)+"test:" + fileCounter + ".png";
+//            saveFrame(oneframe, _filename);
+//            //fileCounter += 1 ;
+//        }
+//        frameBuffer.clear();
     }
 
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
@@ -260,7 +263,7 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
                     e.printStackTrace();
                     Log.d(_TAG, e.getMessage());
                 }
-                threadCounter--;
+                //threadCounter--;
 //            }
 //        }).start();
     }
