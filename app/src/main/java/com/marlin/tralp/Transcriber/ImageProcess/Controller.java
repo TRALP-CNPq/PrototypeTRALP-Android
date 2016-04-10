@@ -1,19 +1,31 @@
 package com.marlin.tralp.Transcriber.ImageProcess;
 
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+
 import com.marlin.tralp.MainApplication;
 
 /**
  * Created by gabriel on 16-02-16.
  */
-public class Controller {
+public class Controller implements Runnable{
     MainApplication mApp;
+    Handler uiHandler;
 
-    public void Controller(MainApplication app){
+    public Controller(MainApplication app, Handler mHandler){
         mApp = app;
-        return;
+        uiHandler = mHandler;
     }
 
-
+    @Override
+    public void run(){
+        Message msg = new Message();
+        Bundle bndMock= new Bundle();
+        msg.obj = "Some new text for the screen";
+        bndMock.putString("thisKey", "Nice MSG");
+        uiHandler.sendEmptyMessage(0);
+    }
 
     public void process(){
         //@TODO Create Filter class

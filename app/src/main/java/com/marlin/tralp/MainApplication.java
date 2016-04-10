@@ -1,8 +1,10 @@
 package com.marlin.tralp;
 
 import android.app.Application;
+import com.marlin.tralp.Model.Mat;
+import com.marlin.tralp.Model.Pair;
+import com.marlin.tralp.Transcriber.Models.FrameQueue;
 
-import org.opencv.core.Mat;
 
 import java.util.List;
 
@@ -12,12 +14,19 @@ import java.util.List;
 public class MainApplication extends Application {
     private List<Mat> frameBuffer;
 
+    public FrameQueue frameQueue;
+
     public void setFrameBuffer(List<Mat> received){
         frameBuffer = received;
     }
 
     public List<Mat> getFrameBuffer(){
         return frameBuffer;
+    }
+    public void frameBufferUnSet(){
+        frameBuffer.clear(); // unset the list reference to its elements; clear from other classes if
+                            //any object only have reference to the list
+        frameBuffer = null;  //unsets this reference to the list
     }
 }
 

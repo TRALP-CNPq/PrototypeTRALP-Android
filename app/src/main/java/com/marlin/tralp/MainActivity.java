@@ -23,6 +23,7 @@ import com.marlin.tralp.MenuViews.Dicas;
 import com.marlin.tralp.MenuViews.Principal;
 import com.marlin.tralp.MenuViews.Sobre;
 import com.marlin.tralp.MenuViews.Tutorial;
+import com.marlin.tralp.Views.ProcessView;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity
                 fragment = new Principal();
                 break;
             case 1:
-                fragment = new Configuracoes();
+                fragment = new Configuracoes(); //new ProcessView();
                 break;
             case 2:
                 fragment = new AdicionarGesto();
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity
                 mTitle = getString(R.string.principal) ;
                 break;
             case 2:
-                mTitle =  getString(R.string.configuracoes) ;
+                mTitle = getString(R.string.configuracoes);// "Process View";
                 break;
             case 3:
                 mTitle = getString(R.string.adicionargestos);
