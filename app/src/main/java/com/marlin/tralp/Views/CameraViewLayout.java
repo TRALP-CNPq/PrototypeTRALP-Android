@@ -105,7 +105,7 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-//our app has only one screen, so we'll destroy the camera in the surface
+        //our app has only one screen, so we'll destroy the camera in the surface
         //if you are unsing with more screens, please move this code your activity
         mCamera.stopPreview();
         mCamera.release();

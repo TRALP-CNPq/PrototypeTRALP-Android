@@ -15,6 +15,7 @@ import android.view.MenuItem;
 
 import com.marlin.tralp.MainActivity;
 import com.marlin.tralp.MainApplication;
+import com.marlin.tralp.Model.Pair;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
@@ -47,7 +48,9 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
     private Mat matRGBA, matGray, matGrayT;
     private File folder;
     //private static int fileCounter, variance_counter;
-    private List<Mat> frameBuffer;
+    private List<com.marlin.tralp.Model.Mat> frameBuffer;
+    private long counterTime = 0 ;
+    private int counter = 0;
     //private double [] variances;
     private long startTime;
     //int threadCounter;
@@ -72,7 +75,7 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
         opencvCameraView.setMaxFrameSize(size.width, size.height);
         opencvCameraView.setCvCameraViewListener(this);
         opencvCameraView.enableFpsMeter();
-        frameBuffer = new ArrayList<Mat>();
+        frameBuffer = new ArrayList<com.marlin.tralp.Model.Mat>();
         //threadCounter = 0;
         //fileCounter = 0;
         //variance_counter = 0;
@@ -113,7 +116,7 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
         matGray = new Mat(width, height, CvType.CV_8UC1);
         matGrayT = new Mat(height, width, CvType.CV_8UC1);
         prepareFolder();
-        startTime = (SystemClock.currentThreadTimeMillis())/1000;
+        startTime = SystemClock.currentThreadTimeMillis();
     }
 
     @Override
@@ -147,16 +150,31 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
     }
 
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        if(((SystemClock.currentThreadTimeMillis())/1000 - startTime) > 15) {
+        long tempTime = SystemClock.currentThreadTimeMillis();
+        if((tempTime - startTime)/1000 > 15) {
             Log.d("[time]", "should stop");
-            Intent intent = new Intent(GravacaoVideo.this, CameraViewLayout.class);
+            Intent intent = new Intent(GravacaoVideo.this,ProcessView.class);//CameraViewLayout.class);// MainActivity.class
+            //startActivityFromFragment(new ProcessView(), intent, 0);
             startActivity(intent);
+        }
+        if(counterTime == 0){
+            counterTime = tempTime;
+            counter = 0;
+        }
+        if((tempTime-counterTime) > 1000){
+            counterTime = tempTime;
+            counter++;
         }
 //        fileCounter++;
 //        if((fileCounter%30) == 0 )
 //            Log.d("[time]", "Time Elapsed:"+
 //                    ((SystemClock.currentThreadTimeMillis())/1000 - startTime) );
         matGray = inputFrame.gray();
+        com.marlin.tralp.Model.Mat mGray = new com.marlin.tralp.Model.Mat(matGray);
+        mGray.second = (int) (tempTime - startTime)/1000;
+
+
+
 //        Core.transpose(matGray,matGrayT);
 //        Core.flip(matGrayT, matGrayT, 1);
 //        Mat mRgbaT = matGray.t();
@@ -165,7 +183,9 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
 //        return mRgbaT;
 //        Mat here = new Mat();
 //        rotate90(matGray, here);
-        //matRGBA = inputFrame.rgba();
+//        matRGBA = inputFrame.rgba();
+
+
 //        Mat out = new Mat();
 //        MatOfDouble std = new MatOfDouble();
 //        MatOfDouble mean = new MatOfDouble();
@@ -175,6 +195,8 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
 //        var = var * var;
 //        variances[variance_counter] = var;
 //        variance_counter++;
+
+
 //        Imgproc.putText(matGray, "SomeText", new Point(50, 10), Core.FONT_HERSHEY_SIMPLEX, 10, new Scalar(255));
 //        Imgproc.putText(matGray, ""+var, new Point(100, 10), Core.FONT_HERSHEY_SIMPLEX, 10, new Scalar(128));
 //        Log.d("AboutSTD", std.toString());
@@ -182,8 +204,10 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
 //        Log.d("Variance", ""+var);
 
 
+
+
+        saveFrameToBuffer(mGray);
         //saveFrame(matGray,"defaultName:" + fileCounter + ".png" );
-        saveFrameToBuffer(matGray);
       return matGray;
     }
     private void rotate90(Mat source, Mat destination){
@@ -228,7 +252,7 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
 
         fileOrDirectory.delete();
     }
-    private void saveFrameToBuffer(Mat frameToSave){
+    private void saveFrameToBuffer(com.marlin.tralp.Model.Mat frameToSave){
         frameBuffer.add(frameToSave);
     }
 
