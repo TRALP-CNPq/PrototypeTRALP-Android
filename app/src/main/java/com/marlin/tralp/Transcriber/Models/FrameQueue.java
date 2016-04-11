@@ -2,7 +2,8 @@ package com.marlin.tralp.Transcriber.Models;
 
 import android.app.Fragment;
 
-import org.opencv.core.Mat;
+
+import com.marlin.tralp.Model.Mat;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -14,7 +15,7 @@ import java.util.concurrent.ExecutionException;
  * Created by gabriel on 16-04-09.
  */
 public class FrameQueue {
-    private int howManySeconds = 0;
+    public int howManySeconds = 0;
     private int secondIndex = 0;
     private int frameIndex = 0;
     public int resolutionFramesAmount = 5; //Default amount of frames we will use to represent a second
@@ -97,6 +98,25 @@ public class FrameQueue {
     }
     public Mat getMatFrame(int order){
         return frameData.get(secondIndex).get(frameIndex).get(order);
+    }
+
+    public Mat popMatFrame(int secondIndex, int frameIndex){
+        if(frameData.get(secondIndex).get(frameIndex).size() > 0){
+            return frameData.get(secondIndex).get(frameIndex).remove(0);
+        }
+        return null;
+    }
+    public Mat popMatFrame(int frameIndex){
+        if(frameData.get(secondIndex).get(frameIndex).size() > 0){
+            return frameData.get(secondIndex).get(frameIndex).remove(0);
+        }
+        return null;
+    }
+    public Mat popMatFrame(){
+        if(frameData.get(secondIndex).get(frameIndex).size() > 0){
+            return frameData.get(secondIndex).get(frameIndex).remove(0);
+        }
+        return null;
     }
 
 }
