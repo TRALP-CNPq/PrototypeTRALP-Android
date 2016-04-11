@@ -3,9 +3,11 @@ package com.marlin.tralp;
 import android.app.Application;
 import com.marlin.tralp.Model.Mat;
 import com.marlin.tralp.Model.Pair;
+import com.marlin.tralp.Transcriber.Models.FeatureStructure;
 import com.marlin.tralp.Transcriber.Models.FrameQueue;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,6 +17,8 @@ public class MainApplication extends Application {
     private List<Mat> frameBuffer;
 
     public FrameQueue frameQueue;
+
+    public ArrayList<FeatureStructure> annotation;
 
     public void setFrameBuffer(List<Mat> received){
         frameBuffer = received;

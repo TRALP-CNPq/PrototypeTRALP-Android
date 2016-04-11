@@ -36,7 +36,7 @@ public class FeatureAnnotation {
     FaceDetector faceDetector;
     ArrayList<FeatureStructure> annotationResult;
 
-    public FeatureStructure FeatureAnnotation(MainApplication app){
+    public FeatureAnnotation(MainApplication app){
         mApp = app;
         palm = loadClassifiers(R.raw.palm);
         fist = loadClassifiers(R.raw.fist);
@@ -50,10 +50,10 @@ public class FeatureAnnotation {
                 FaceDetector.Builder(mApp.getApplicationContext()).setTrackingEnabled(false)
                 .build();
 
-        return new FeatureStructure();
+        //
     }
 
-    public ArrayList<FeatureStructure> annotateFeatures(){
+    public void annotateFeatures(){
         Rect [] objects;
         frameQueue.getMatFrame(0,0,0);
         for (int secProcessed = 0; secProcessed < frameQueue.howManySeconds; secProcessed++) {
@@ -62,7 +62,7 @@ public class FeatureAnnotation {
             }
         }
 
-        return annotationResult;
+        mApp.annotation = annotationResult;
     }
 
     private void findObjectExtractFeature(int second, int position){

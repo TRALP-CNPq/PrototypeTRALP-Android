@@ -20,21 +20,24 @@ public class Controller implements Runnable{
 
     @Override
     public void run(){
-        Message msg = new Message();
-        Bundle bndMock= new Bundle();
-        msg.obj = "Some new text for the screen";
-        bndMock.putString("thisKey", "Nice MSG");
-        uiHandler.sendEmptyMessage(0);
+       this.process();
     }
 
     public void process(){
         //@TODO Create Filter class
+        Filter localFilter = new Filter(mApp);
+        sendMessage(1);
+        localFilter.process();
+        sendMessage(35);
 
-        //@TODO Call Filter process
+        FeatureAnnotation localFA = new FeatureAnnotation(mApp);
 
-        //@TODO Create FeatureAnnotation class
+        sendMessage(37);
 
-        /*@TODO
+        localFA.annotateFeatures();
+
+        sendMessage(50);
+        /* Keeping this comment for future reference
         * On Loop
         * keep getting next as x (filter.getNext())
         *   process x over FeatureAnnotation,
@@ -45,7 +48,16 @@ public class Controller implements Runnable{
          *      as per contract with FeatureProcess.Controller
         * */
     }
+    private void sendMessage(int percentage){
 
+        Message msg = new Message();
+        Bundle bndMock= new Bundle();
+        //msg.obj = "Some new text for the screen";
+        msg.what = percentage;
+        //bndMock.putString("thisKey", "Nice MSG");
+        uiHandler.sendEmptyMessage(0);
+
+    }
     private int mergeFeature(int older, int newer){
         /**
          * merge old info with new one, always prioritizing newest

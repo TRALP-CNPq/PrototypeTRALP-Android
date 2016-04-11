@@ -26,7 +26,7 @@ import javax.xml.transform.sax.TemplatesHandler;
  */
 public class ProcessView extends Activity{
     Handler uiThreadHandler;
-    Thread filterThread;
+    Thread imageProcessControllerThread;
 
     @Nullable
     //@Override
@@ -51,8 +51,8 @@ public class ProcessView extends Activity{
                 //filterThread.interrupt();
             }
         };
-        filterThread = new Thread(new Controller((MainApplication)this.getApplicationContext(), uiThreadHandler));
-        filterThread.start();
+        imageProcessControllerThread = new Thread(new Controller((MainApplication)this.getApplicationContext(), uiThreadHandler));
+        imageProcessControllerThread.start();
 
         //Should create Thread and keep this Fragment updated
         return rootview;
