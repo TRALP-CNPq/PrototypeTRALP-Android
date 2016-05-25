@@ -33,14 +33,14 @@ public class ProcessView extends Activity{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.process_view, container, false);
         rootview.setVisibility(View.VISIBLE);
-
+        Log.d("msg ", " Entrei ProcessView.onCreateView");
         //MainApplication app = (MainApplication) getActivity().getApplicationContext();
 
         /* Instanciate the handler object to be used as communication source*/
         uiThreadHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message inputMessage) {
-                Log.d("msg", " " + inputMessage.what);
+                Log.d("msg uiThreadHandler: ", " " + inputMessage.what);
                 //String receivedObject = (String) inputMessage.obj;
                 //String someKey = inputMessage.getData().getString("thisKey");
                 TextView mTxtView = (TextView)findViewById(R.id.textView); // getView().

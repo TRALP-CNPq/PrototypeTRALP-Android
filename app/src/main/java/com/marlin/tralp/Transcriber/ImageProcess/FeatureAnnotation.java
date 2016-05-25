@@ -20,6 +20,7 @@ import org.opencv.android.Utils;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Rect;
 import org.opencv.objdetect.CascadeClassifier;
+import org.opencv.core.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -49,8 +50,6 @@ public class FeatureAnnotation {
         faceDetector = new
                 FaceDetector.Builder(mApp.getApplicationContext()).setTrackingEnabled(false)
                 .build();
-
-        //
     }
 
     public void annotateFeatures(){
@@ -67,7 +66,10 @@ public class FeatureAnnotation {
 
     private void findObjectExtractFeature(int second, int position){
         int i = 0;
-        Mat temp = frameQueue.getMatFrame(second,position,i);
+        Mat temp = null;
+        if (second < 15) {
+            temp = frameQueue.getMatFrame(second,position,i);
+        }
         for (; temp!=null ; i++) {
             if(palmFrameDetector(temp))
                 break;
@@ -80,11 +82,11 @@ public class FeatureAnnotation {
             annotationResult.add(null); // Mark this position as failed to detect
 
         temp = frameQueue.popMatFrame(second,position);
-        while(temp!= null){
-            if(faceDetector(temp))
-                break;
-            temp = frameQueue.popMatFrame(second,position);
-        }
+//        while(temp!= null){
+//            if(faceDetector(temp))
+//                break;
+//            temp = frameQueue.popMatFrame(second,position);
+//        }
         /* Free resources*/
         while (temp != null){
             temp = frameQueue.popMatFrame(second,position);
@@ -117,6 +119,10 @@ public class FeatureAnnotation {
         }
         tempFS.faceCenterX= (int)( face.getPosition().x/ face.getWidth());
         tempFS.faceCenterY= (int)( face.getPosition().y/ face.getHeight());
+        tempFS.faceX= (int)( face.getPosition().x);
+        tempFS.faceY= (int)( face.getPosition().y);
+        tempFS.faceWidth = face.getWidth();
+        tempFS.faceHeight = face.getHeight();
 //        tempFS.handRelativeX= ;
 //        tempFS.handRelativeY=; //@TODO Get from position class
         tempFS.isSimilingProbability = face.getIsSmilingProbability();
@@ -132,7 +138,9 @@ public class FeatureAnnotation {
             FeatureStructure tempFS = new FeatureStructure();
             tempFS.handCenterX = tempObj[0].x + (tempObj[0].width / 2); //@INFO This [May] vary with the screen orientation
             tempFS.handCenterY = tempObj[0].y + (tempObj[0].height / 2);
-
+            Log.d("FeatureAnnotation: ", "secProcessed: " + img.second + "  X " + tempObj[0].x + "  Y " + tempObj[0].y);
+            if (tempObj.length > 1)
+                Log.d("FeatureAnnotation: ", "secProcessed: " + img.second + "  X " + tempObj[1].x + "  Y " + tempObj[1].y);
             tempFS.pinky = FingerState.stretched;
             tempFS.ring = FingerState.stretched;
             tempFS.middle = FingerState.stretched;
@@ -191,8 +199,9 @@ public class FeatureAnnotation {
     private Rect[] detectOnFrame(CascadeClassifier detector, Mat img){
         MatOfRect objectsDetected = new MatOfRect();
 
-        detector.detectMultiScale(img, objectsDetected); //@TODO Default parameters: Better precision, slower processing
-
+    //    detector.detectMultiScale(img, objectsDetected); //@TODO Default parameters: Better precision, slower processing
+    //    detector.detectMultiScale(img,objectsDetected,1.1,3,0,new Size(5,13), new Size(45,80));
+        detector.detectMultiScale(img,objectsDetected,1.1,2,0,new Size(45,80), new Size(165,320));
         return objectsDetected.toArray();
     }
     private CascadeClassifier loadClassifiers(int rawResource){
@@ -227,7 +236,7 @@ public class FeatureAnnotation {
     }
 
     private Frame fromMatToFrame(Mat img){
-        Bitmap tmp_bmp = Bitmap.createBitmap(img.cols(), img.rows(), Bitmap.Config.ALPHA_8); //Maybe ARGB_8888
+        Bitmap tmp_bmp = Bitmap.createBitmap(img.cols(), img.rows(), Bitmap.Config.ARGB_8888); //Maybe ARGB_8888
         Utils.matToBitmap(img,tmp_bmp);
         return new Frame.Builder().setBitmap(tmp_bmp).build();
     }

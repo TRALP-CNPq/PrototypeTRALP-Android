@@ -1,21 +1,28 @@
 package com.marlin.tralp.Views;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.hardware.Camera.Size;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 import com.marlin.tralp.MainActivity;
 import com.marlin.tralp.MainApplication;
 import com.marlin.tralp.Model.Pair;
+import com.marlin.tralp.R;
+import com.marlin.tralp.Transcriber.ImageProcess.Controller;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
@@ -28,13 +35,17 @@ import org.opencv.core.CvException;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfDouble;
+import org.opencv.core.MatOfRect;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.objdetect.CascadeClassifier;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -54,6 +65,11 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
     //private double [] variances;
     private long startTime;
     //int threadCounter;
+    private MainApplication mApplication;
+    private File mCascadeFile;
+    private CascadeClassifier mJavaDetector;
+//    private DetectionBasedTracker  mNativeDetector;
+    private static final Scalar    FACE_RECT_COLOR     = new Scalar(0, 255, 0, 255);
 
 
     @Override
@@ -101,6 +117,29 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
 //                opencvCameraView.setRotation(90);
                 opencvCameraView.enableView();
             }
+    //        File cascadeDir = getDir("cascade", Context.MODE_PRIVATE);
+    //        mCascadeFile = new File(cascadeDir, "palm.xml");
+    //        mJavaDetector = new CascadeClassifier(mCascadeFile.getAbsolutePath());
+            int rawResource = R.raw.palm;
+            MainApplication mApp = (MainApplication)getApplicationContext();
+            try {
+                InputStream is = mApp.getResources().openRawResource(rawResource);
+                File cascadeDir = mApp.getDir("cascade", Context.MODE_PRIVATE);
+                File mCascadeFile = new File(cascadeDir, "cascade["+rawResource+"].xml");
+                FileOutputStream os = null;
+                os = new FileOutputStream(mCascadeFile);
+                byte[] buffer = new byte[4096];
+                int bytesRead;
+                while((bytesRead = is.read(buffer)) != -1)
+                {
+                    os.write(buffer, 0, bytesRead);
+                }
+                is.close();
+                os.close();
+                mJavaDetector = new CascadeClassifier(mCascadeFile.getAbsolutePath());
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+            }
         }
     };
 
@@ -117,6 +156,7 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
         matGrayT = new Mat(height, width, CvType.CV_8UC1);
         prepareFolder();
         startTime = SystemClock.currentThreadTimeMillis();
+        Log.d("onCameraViewStarted ", " startTime: " + (startTime / 1000));
     }
 
     @Override
@@ -151,12 +191,13 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
 
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
         long tempTime = SystemClock.currentThreadTimeMillis();
-        if((tempTime - startTime)/1000 > 15) {
-            Log.d("[time]", "should stop");
-            Intent intent = new Intent(GravacaoVideo.this,ProcessView.class);//CameraViewLayout.class);// MainActivity.class
+        if((tempTime /1000) > 30) {
+            Log.d("[time]", "should stop, tempTime: " + (tempTime / 1000) + " startTime: " + (startTime / 1000));
+            Intent intent = new Intent(GravacaoVideo.this, ProcessView.class);//MainActivity.class);// MainActivity.class    CameraViewLayout
             //startActivityFromFragment(new ProcessView(), intent, 0);
             startActivity(intent);
         }
+        Log.d("[time]", " tempTime: " + (tempTime / 1000) + " startTime: " + (startTime / 1000) + " counterTime: " + counterTime);
         if(counterTime == 0){
             counterTime = tempTime;
             counter = 0;
@@ -171,8 +212,26 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
 //                    ((SystemClock.currentThreadTimeMillis())/1000 - startTime) );
         matGray = inputFrame.gray();
         com.marlin.tralp.Model.Mat mGray = new com.marlin.tralp.Model.Mat(matGray);
-        mGray.second = (int) (tempTime - startTime)/1000;
+        mGray.second = (int) tempTime / 1000;  //(tempTime - startTime)/1000;
 
+/// / novo codigo
+        MatOfRect palms = new MatOfRect();
+
+        if (mJavaDetector != null)
+                mJavaDetector.detectMultiScale(mGray, palms, 1.1, 2, 0, // TODO: objdetect.CV_HAAR_SCALE_IMAGE
+                        new org.opencv.core.Size(45,80), new org.opencv.core.Size(165,320));
+/*        }
+        else if (mDetectorType == NATIVE_DETECTOR) {
+            if (mNativeDetector != null)
+                mNativeDetector.detect(mGray, faces);
+        }
+        else {
+            Log.e(TAG, "Detection method is not selected!");
+        }
+*/
+        Rect[] palmsArray = palms.toArray();
+        for (int i = 0; i < palmsArray.length; i++)
+            Imgproc.rectangle(matGray, palmsArray[i].tl(), palmsArray[i].br(), FACE_RECT_COLOR, 3);
 
 
 //        Core.transpose(matGray,matGrayT);
@@ -218,9 +277,89 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
     @Override
     public void onCameraViewStopped(){
         Log.d("onCameraViewStopped", "Saindo");
+//        Intent intent = new Intent(GravacaoVideo.this, ProcessView.class);//CameraViewLayout.class);// MainActivity.class
+//        //startActivityFromFragment(new ProcessView(), intent, 0);
+//        startActivity(intent);
         if(opencvCameraView != null){
+            Log.d("onCameraViewStopped", "desabilitando");
             opencvCameraView.disableView();
         }
+        Log.d("onCameraViewStopped", "indo para ProcessView");
+        processImages(matGray);
+//        Intent intent = new Intent(GravacaoVideo.this, ProcessView.class);//CameraViewLayout.class);// MainActivity.class
+//        //startActivityFromFragment(new ProcessView(), intent, 0);
+//        startActivity(intent);
+    }
+
+    private void processImages(final Mat tMatGray){
+        Handler uiThreadHandler;
+        Thread imageProcessControllerThread;
+
+        uiThreadHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message inputMessage) {
+                Log.d("msg", " " + inputMessage.what);
+                //String receivedObject = (String) inputMessage.obj;
+                //String someKey = inputMessage.getData().getString("thisKey");
+//                TextView mTxtView = (TextView)findViewById(R.id.textView); // getView().
+//                mTxtView.setText("Consegui!! "+inputMessage.what);
+                //mTxtView.setText(receivedObject);
+                //Log.d("msg", someKey);
+                //filterThread.interrupt();
+                //filterThread.interrupt();
+            }
+        };
+        MainApplication.setFrameBuffer(frameBuffer);
+        imageProcessControllerThread = new Thread(new Controller((MainApplication)this.getApplicationContext(), uiThreadHandler));
+        imageProcessControllerThread.start();
+
+//        Thread t = new Thread(new Runnable(){
+//
+//            @Override
+//            public void run() {
+//                try {
+//                    final int imgsize = (int) (tMatGray.total()*tMatGray.channels());
+//                    byte[] data = new byte[imgsize];
+//                    tMatGray.get(0,0,data);
+//                    final int col = tMatGray.cols();
+//                    final int row = tMatGray.rows();
+//
+//                    mHandler.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Toast.makeText(getBaseContext(), "size:"+imgsize+" row:"+row+" col:"+col, Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//
+//                    //--- SEND IMAGE TO SERVER ---//
+//                    Socket s = new Socket ("192.168.1.25", 6000);
+//
+//                    DataOutputStream dout = new DataOutputStream(s.getOutputStream());
+//                    dout.writeInt(col);
+//                    dout.writeInt(row);
+//                    dout.writeInt(imgsize);
+//                    dout.write(data);
+//
+//                    mHandler.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Toast.makeText(getBaseContext(), "Dout written", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//
+//                    dout.flush();
+//                    dout.close();
+//                    s.close(); //close socket
+//
+//                } catch (UnknownHostException e) {
+//                    e.printStackTrace();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//
+//        t.start();
     }
 
     private void prepareFolder(){
@@ -292,4 +431,7 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
 //        }).start();
     }
 
+    public List<com.marlin.tralp.Model.Mat> getFrameBuffer(){
+        return frameBuffer;
+    }
 }

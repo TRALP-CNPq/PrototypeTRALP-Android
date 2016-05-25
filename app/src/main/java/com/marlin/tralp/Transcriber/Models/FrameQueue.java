@@ -1,6 +1,7 @@
 package com.marlin.tralp.Transcriber.Models;
 
 import android.app.Fragment;
+import android.util.Log;
 
 
 import com.marlin.tralp.Model.Mat;
@@ -94,7 +95,12 @@ public class FrameQueue {
         return frameData.get(secondIndex).get(frameIndex).get(order);
     }
     public Mat getMatFrame(int secondIndex, int frameIndex, int order){
-        return frameData.get(secondIndex).get(frameIndex).get(order);
+        Log.d("FrameQueue", " " + secondIndex + " frameIndex: " + frameIndex + "  order: " + order);
+        List<Mat> localMatList = frameData.get(secondIndex).get(frameIndex);
+        if (localMatList.size() >= frameIndex && localMatList.size() > 0) {
+            return frameData.get(secondIndex).get(frameIndex).get(order);
+        } else
+            return null;
     }
     public Mat getMatFrame(int order){
         return frameData.get(secondIndex).get(frameIndex).get(order);

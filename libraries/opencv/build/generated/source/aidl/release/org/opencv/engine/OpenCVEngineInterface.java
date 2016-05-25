@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: /Users/gabriel/Documents/github/PrototypeTRALP-Android/libraries/opencv/src/org/opencv/engine/OpenCVEngineInterface.aidl
+ * Original file: E:\\Temp\\TRALP\\Testes 20150127\\PrototypeTRALP-Android\\libraries\\opencv\\src\\org\\opencv\\engine\\OpenCVEngineInterface.aidl
  */
 package org.opencv.engine;
 /**

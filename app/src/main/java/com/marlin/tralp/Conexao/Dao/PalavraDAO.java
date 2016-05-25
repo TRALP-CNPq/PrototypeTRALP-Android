@@ -24,24 +24,14 @@ public class PalavraDAO {
         //cria uma nova conexao com o banco e coloca ele como editavel pela Aplicacao.
         DbConnection connection = new DbConnection(context);
         try {
-
             connection.createDataBase();
-
-
         } catch (IOException ioe) {
-
             throw new Error("Unable to create database");
-
         }
-
         try {
-
             db = connection.openDataBase();
-
         } catch (SQLException sqle) {
-
             throw sqle;
-
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
         }
@@ -50,13 +40,9 @@ public class PalavraDAO {
     public void BuscarDefinicao(List<Palavra> palavras, String coluna) {
 
         String[] colunas = new String[]{"*"};
-
         for (Palavra palavraAtual : palavras) {
-
             Cursor busca = db.query("dicionario", colunas, coluna + " = ?", new String[]{palavraAtual.getToken()}, null, null, null, null);
-
             if (busca.getCount() > 0) {
-
                 busca.moveToFirst();
 
                 palavraAtual.setTags(busca.getString(0).split(" "));
@@ -88,5 +74,13 @@ public class PalavraDAO {
             } while (busca.moveToNext());
         }
         return palavras;
+    }
+
+    public String BuscarPalavraPorId(int id) {
+
+        String[] colunas = new String[]{"TOKEN"};
+        Cursor busca = db.query("dicionario", colunas, "CODPAL = ?", new String[]{Integer.toString(id)}, null, null, null, null);
+        String palavra = busca.getString(0);
+        return palavra;
     }
 }

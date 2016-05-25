@@ -14,20 +14,20 @@ import java.util.List;
  * Created by gabriel on 16-03-15.
  */
 public class MainApplication extends Application {
-    private List<Mat> frameBuffer;
+    static private List<Mat> frameBuffer;
 
-    public FrameQueue frameQueue;
+    static public FrameQueue frameQueue;
 
-    public ArrayList<FeatureStructure> annotation;
+    static public ArrayList<FeatureStructure> annotation;
 
-    public void setFrameBuffer(List<Mat> received){
+    static public void setFrameBuffer(List<Mat> received){
         frameBuffer = received;
     }
 
-    public List<Mat> getFrameBuffer(){
+    static public List<Mat> getFrameBuffer(){
         return frameBuffer;
     }
-    public void frameBufferUnSet(){
+    static public void frameBufferUnSet(){
         frameBuffer.clear(); // unset the list reference to its elements; clear from other classes if
                             //any object only have reference to the list
         frameBuffer = null;  //unsets this reference to the list

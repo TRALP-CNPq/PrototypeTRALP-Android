@@ -3,6 +3,7 @@ package com.marlin.tralp.Transcriber.ImageProcess;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.marlin.tralp.MainApplication;
 
@@ -37,6 +38,21 @@ public class Controller implements Runnable{
         localFA.annotateFeatures();
 
         sendMessage(50);
+        Log.d("annotationResult: ", "Size " + localFA.annotationResult.size());
+        for (int secProcessed = 0; secProcessed < (localFA.annotationResult.size()-1); secProcessed++) {
+            if (localFA.annotationResult.get(secProcessed) != null) {
+                Log.d("annotationResult: ", "secProcessed: " + secProcessed +
+                        "  X " + localFA.annotationResult.get(secProcessed).handCenterX +
+                        "  Y " + localFA.annotationResult.get(secProcessed).handCenterY);
+//                Log.d("annotationResult: ", "secProcessed: " + secProcessed +
+//                        "  X " + localFA.annotationResult.get(secProcessed). +
+//                        "  Y " + localFA.annotationResult.get(secProcessed).handCenterY);
+            }
+        }
+
+        UnderstandMovement movs = new UnderstandMovement(mApp);
+        String frase = movs.StartSignsAndMovementsInterpreter(localFA);
+
         /* Keeping this comment for future reference
         * On Loop
         * keep getting next as x (filter.getNext())
@@ -54,8 +70,9 @@ public class Controller implements Runnable{
         Bundle bndMock= new Bundle();
         //msg.obj = "Some new text for the screen";
         msg.what = percentage;
+        Log.d("msg sendMessage: ", " " + percentage);
         //bndMock.putString("thisKey", "Nice MSG");
-        uiHandler.sendEmptyMessage(0);
+        uiHandler.sendEmptyMessage(percentage);
 
     }
     private int mergeFeature(int older, int newer){

@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="E:\Temp\TRALP\Testes 20150127\PrototypeTRALP-Android\libraries\opencv\src\main\jniLibs"/></dataSet><dataSet config="release"><source path="E:\Temp\TRALP\Testes 20150127\PrototypeTRALP-Android\libraries\opencv\src\release\jniLibs"/></dataSet></merger>

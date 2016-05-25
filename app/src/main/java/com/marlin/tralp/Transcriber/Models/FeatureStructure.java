@@ -9,8 +9,16 @@ public class FeatureStructure {
 
     public int handCenterX;
     public int handCenterY;
+    public int handX;
+    public int handY;
+    public float handWidth;
+    public float handHeight;
     public int faceCenterX;
     public int faceCenterY;
+    public int faceX;
+    public int faceY;
+    public float faceWidth;
+    public float faceHeight;
     public int handRelativeX;
     public int handRelativeY;
     public float isSimilingProbability;
@@ -30,5 +38,5 @@ public class FeatureStructure {
     public int palmAng2;
     public int palmAng3;
 
-
+    public int tipo;
 }

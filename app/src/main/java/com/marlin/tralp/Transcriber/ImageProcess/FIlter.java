@@ -5,6 +5,7 @@ import android.util.Log;
 import com.marlin.tralp.MainApplication;
 import com.marlin.tralp.Model.Pair;
 import com.marlin.tralp.Transcriber.Models.FrameQueue;
+import com.marlin.tralp.Views.GravacaoVideo;
 
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -13,6 +14,8 @@ import org.opencv.core.MatOfDouble;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -31,6 +34,7 @@ public class Filter {
         seconds = frameBuffer.get(frameBuffer.size()-1).second;
         frameQueue = new FrameQueue();
         frameQueue.setHowManySeconds(seconds);
+
     }
     public void process(){
         //@TODO Finish main classification process
@@ -41,6 +45,7 @@ public class Filter {
         MatOfDouble mean = new MatOfDouble();
         //double dStd ;// = std.get(0,0)[0];
         double calulatedLaplacian = 0;
+        int frameBufferSize = frameBuffer.size();
 
         //Process per each second
         int lastFrameBufferIndex = 0;
@@ -48,17 +53,22 @@ public class Filter {
 
             //Find how many frames are inside current second
             int thisSecondFrameAmount = 0;
+            Log.d("Filter_FPS", "Second: "+second+" lastFrameBufferIndex: " + lastFrameBufferIndex + "  frameBuffer.second: " + frameBuffer.get(lastFrameBufferIndex).second);
             for(int i = lastFrameBufferIndex; i < frameBuffer.size(); i++)
                 if (frameBuffer.get(i).second > second) {
-                    thisSecondFrameAmount = i;
+                    thisSecondFrameAmount = i-lastFrameBufferIndex;
                     break;
                 }
+                else {
+                    if (frameBuffer.get(i).second < second)
+                        lastFrameBufferIndex++;
+                }
 
-            Log.d("Filter_FPS", "Second: "+second+" qtt: " + thisSecondFrameAmount);
+            Log.d("Filter_FPS", "Second: "+second+" qtt: " + thisSecondFrameAmount + "  frameBuffer.size: " + frameBuffer.size()+" lastFrameBufferIndex: " + lastFrameBufferIndex);
 
             //Calculate how many frames (setOfFrames) we have of each of the **positions**
             int setOfFramesAmount = thisSecondFrameAmount/frameQueue.resolutionFramesAmount;
-
+            Log.d("Filter_FPS - ", " setOfFramesAmount: " + setOfFramesAmount + "  frameQueue.resolutionFramesAmount: " + frameQueue.resolutionFramesAmount );
             //For each position of setOfFrames over frameQueue
             for (int position = 0; position < frameQueue.resolutionFramesAmount; position++) {
 
@@ -67,9 +77,17 @@ public class Filter {
 
                 List<Pair<Integer, Double>> classificationList = new ArrayList<Pair<Integer, Double>>();
                 int ceilIndex = lastFrameBufferIndex+setOfFramesAmount;
+                Log.d("Filter_FPS - ", " frameBufferSize: " + frameBufferSize );
+                if (ceilIndex > frameBufferSize) {
+                    Log.d("Filter_FPS - ", " frameBufferSize: " + frameBufferSize );
+                    ceilIndex = frameBuffer.size();
+                }
+                Log.d("Filter_FPS inicio for ", "ceilIndex: "+ceilIndex+" lastFrameBufferIndex: " + lastFrameBufferIndex+" setOfFramesAmount:"+setOfFramesAmount);
+                for (; lastFrameBufferIndex < ceilIndex ; lastFrameBufferIndex++) {
 
-                for (; lastFrameBufferIndex < ceilIndex; lastFrameBufferIndex++) {
-
+                    if (ceilIndex > frameBuffer.size()) {
+                        break;
+                    }
                     /* CORE Blur Calculation*/
                     com.marlin.tralp.Model.Mat tempMat = frameBuffer.get(lastFrameBufferIndex);
                     Imgproc.Laplacian(tempMat, out, CvType.CV_64F); //dst, out, CvType.CV_64F);
@@ -81,7 +99,9 @@ public class Filter {
                     tempMat.quality = calulatedLaplacian;
                     classificationList = insertOrderingAscending(classificationList,
                             new Pair<Integer, Double>(lastFrameBufferIndex, calulatedLaplacian));
+                    Log.d("Filter_FPS", "calulatedLaplacian: "+calulatedLaplacian+" lastFrameBufferIndex: " + lastFrameBufferIndex);
                 }
+                Log.d("Filter_FPS final for ", "ceilIndex: "+ceilIndex+" lastFrameBufferIndex: " + lastFrameBufferIndex+" setOfFramesAmount:"+setOfFramesAmount);
 
                 //insert on frameQueue at the right *second* and *position*
                 while(!classificationList.isEmpty()){

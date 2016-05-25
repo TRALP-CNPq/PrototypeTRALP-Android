@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,7 +20,7 @@ import java.sql.SQLException;
 public class DbConnection extends SQLiteOpenHelper {
     private static String DB_PATH = "/data/data/com.marlin.tralp/databases/";
     public static final String NOME_DB = "teste";
-    public static final int VERSAO_DB = 1;
+    public static final int VERSAO_DB = 2;
     public static int verificador;
     private final Context myContext;
     private SQLiteDatabase myDataBase;
@@ -68,19 +69,14 @@ public class DbConnection extends SQLiteOpenHelper {
         try{
             String myPath = DB_PATH + NOME_DB;
             checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
-
         }catch(SQLiteException e){
-
+            Toast.makeText(myContext, e.getMessage(), Toast.LENGTH_LONG).show();
             //database does't exist yet.
-
         }
 
         if(checkDB != null){
-
             checkDB.close();
-
         }
-
         return checkDB != null;
     }
 
@@ -106,7 +102,6 @@ public class DbConnection extends SQLiteOpenHelper {
         while ((length = myInput.read(buffer))>0){
             myOutput.write(buffer, 0, length);
         }
-
         //Close the streams
         myOutput.flush();
         myOutput.close();
@@ -119,7 +114,6 @@ public class DbConnection extends SQLiteOpenHelper {
         //Open the database
         String myPath = DB_PATH + NOME_DB;
         return myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
-
     }
 
     @Override
@@ -127,19 +121,21 @@ public class DbConnection extends SQLiteOpenHelper {
 
         if(myDataBase != null)
             myDataBase.close();
-
         super.close();
-
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        if(newVersion>oldVersion)
+            try {
+                copyDataBase();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
     }
 
     // Add your public helper methods to access and get content from the database.
