@@ -117,14 +117,22 @@ public class FeatureAnnotation {
             tempFS = new FeatureStructure();
             annotationResult.add(tempFS);
         }
-        tempFS.faceCenterX= (int)( face.getPosition().x/ face.getWidth());
-        tempFS.faceCenterY= (int)( face.getPosition().y/ face.getHeight());
+        tempFS.faceCenterX= (int)( face.getPosition().x + face.getWidth()/2);
+        tempFS.faceCenterY= (int)( face.getPosition().y + face.getHeight()/2);
         tempFS.faceX= (int)( face.getPosition().x);
         tempFS.faceY= (int)( face.getPosition().y);
         tempFS.faceWidth = face.getWidth();
         tempFS.faceHeight = face.getHeight();
-//        tempFS.handRelativeX= ;
-//        tempFS.handRelativeY=; //@TODO Get from position class
+        Point3D tempPoint3D = new Position().handPosition(face.getPosition().x,
+                                                            face.getPosition().y,
+                                                            face.getPosition().x + face.getWidth(),
+                                                            face.getPosition().y + face.getHeight(),
+                                                            tempFS.handCenterX - tempFS.handWidth/2,
+                                                            tempFS.handCenterY - tempFS.handHeight/2,
+                                                            tempFS.handCenterX + tempFS.handWidth/2,
+                                                            tempFS.handCenterY + tempFS.handHeight/2);
+        tempFS.handRelativeX = (int)tempPoint3D.getX();
+        tempFS.handRelativeY= (int)tempPoint3D.getY();
         tempFS.isSimilingProbability = face.getIsSmilingProbability();
 
 
@@ -138,6 +146,10 @@ public class FeatureAnnotation {
             FeatureStructure tempFS = new FeatureStructure();
             tempFS.handCenterX = tempObj[0].x + (tempObj[0].width / 2); //@INFO This [May] vary with the screen orientation
             tempFS.handCenterY = tempObj[0].y + (tempObj[0].height / 2);
+            tempFS.handWidth = tempObj[0].width;
+            tempFS.handHeight = tempObj[0].height;
+            tempFS.handX = tempObj[0].x;
+            tempFS.handY = tempObj[0].y;
             Log.d("FeatureAnnotation: ", "secProcessed: " + img.second + "  X " + tempObj[0].x + "  Y " + tempObj[0].y);
             if (tempObj.length > 1)
                 Log.d("FeatureAnnotation: ", "secProcessed: " + img.second + "  X " + tempObj[1].x + "  Y " + tempObj[1].y);
@@ -173,6 +185,10 @@ public class FeatureAnnotation {
             FeatureStructure tempFS = new FeatureStructure();
             tempFS.handCenterX= tempObj[0].x + (tempObj[0].width/2); //@INFO This [May] vary with the screen orientation
             tempFS.handCenterY= tempObj[0].y + (tempObj[0].height/2);
+            tempFS.handWidth = tempObj[0].width;
+            tempFS.handHeight = tempObj[0].height;
+            tempFS.handX = tempObj[0].x;
+            tempFS.handY = tempObj[0].y;
 
             tempFS.pinky = FingerState.bent;
             tempFS.ring= FingerState.bent;
