@@ -4,8 +4,11 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,8 +21,11 @@ import java.sql.SQLException;
 
 /*Esta classe gerencia o banco antigo. Ela deve ser Substituida para adaptar-se ao banco que será desenvolvido pela Dominique.*/
 public class DbConnection extends SQLiteOpenHelper {
-    private static String DB_PATH = "/data/data/com.marlin.tralp/databases/";
-    public static final String NOME_DB = "teste";
+    private static String DB_PATH = "/mnt/sdcard/Android/data/com.marlin.tralp/databases/";
+    //Environment.getExternalStorageDirectory().toString()+"/Android/data/com.marlin.tralp/databases/";
+    //this.ctx.getDatabasePath(DBNAME).getAbsolutePath();
+    //Environment.getExternalStorageDirectory().toString()+"/Android/data/com.examples.sms/databases/";     /data/data/com.marlin.tralp/databases/
+    public static final String NOME_DB = "teste.sqlite";
     public static final int VERSAO_DB = 2;
     public static int verificador;
     private final Context myContext;
@@ -40,19 +46,14 @@ public class DbConnection extends SQLiteOpenHelper {
         if(dbExist){
             //do nothing - database already exist
         }else{
-
             //By calling this method and empty database will be created into the default system path
             //of your application so we are gonna be able to overwrite that database with our database.
             this.getReadableDatabase();
-
+            Log.d("createDataBase: ", "Vou criar o banco ");
             try {
-
                 copyDataBase();
-
             } catch (IOException e) {
-
                 throw new Error("Error copying database");
-
             }
         }
 
@@ -68,12 +69,20 @@ public class DbConnection extends SQLiteOpenHelper {
 
         try{
             String myPath = DB_PATH + NOME_DB;
-            checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+            File file = new File(myPath);
+            file.setWritable(true);
+            Log.d("checkDataBase: ", "caminho do banco: " + myPath);
+            Log.d("checkDataBase: ", "getAbsolutePath: " + file.getAbsolutePath().toString());
+            SQLiteDatabase.openDatabase(file.getAbsolutePath(), null, SQLiteDatabase.OPEN_READWRITE);
+            if (file.exists() && !file.isDirectory())
+                checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+            else {
+                Log.d("checkDataBase: ", "Diretorio nao existe " + myPath);
+            }
         }catch(SQLiteException e){
             Toast.makeText(myContext, e.getMessage(), Toast.LENGTH_LONG).show();
             //database does't exist yet.
         }
-
         if(checkDB != null){
             checkDB.close();
         }
@@ -95,7 +104,7 @@ public class DbConnection extends SQLiteOpenHelper {
 
         //Open the empty db as the output stream
         OutputStream myOutput = new FileOutputStream(outFileName);
-
+        Log.d("copyDataBase: ", "copiando banco " + outFileName);
         //transfer bytes from the inputfile to the outputfile
         byte[] buffer = new byte[1024];
         int length;
@@ -113,7 +122,7 @@ public class DbConnection extends SQLiteOpenHelper {
 
         //Open the database
         String myPath = DB_PATH + NOME_DB;
-        return myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+        return myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
     }
 
     @Override

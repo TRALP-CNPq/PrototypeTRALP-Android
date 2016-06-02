@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 
 import com.marlin.tralp.Conexao.DbConnection;
@@ -79,8 +80,11 @@ public class PalavraDAO {
     public String BuscarPalavraPorId(int id) {
 
         String[] colunas = new String[]{"TOKEN"};
-        Cursor busca = db.query("dicionario", colunas, "CODPAL = ?", new String[]{Integer.toString(id)}, null, null, null, null);
+        Log.d("PalavraDAO: ", "CODPAL = Id " + Integer.toString(id));
+    //    Cursor busca = db.query("dicionario", colunas, "CODPAL = ?", new String[]{Integer.toString(id)}, null, null, null, null);
+        Cursor busca = db.query("dicionario", colunas, "CODPAL = 11", new String[]{Integer.toString(id)}, null, null, null, null);
         String palavra = busca.getString(0);
+        Log.d("PalavraDAO: ", "palavra = " + palavra);
         return palavra;
     }
 }

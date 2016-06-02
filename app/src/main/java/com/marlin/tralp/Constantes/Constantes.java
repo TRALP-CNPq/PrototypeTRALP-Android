@@ -6,15 +6,9 @@ package com.marlin.tralp.Constantes;
 public final class Constantes {
 
    public Constantes(){
-
-
-
-
    }
 
-
    public static final String def_datilologia ="Datilologia";
-
    public static final String tag_substantivo ="n";
    public static final String tag_substantivo2="pron-indp";
    public static final String tag_nome_proprio="prop";
@@ -69,7 +63,33 @@ public final class Constantes {
    public static final String feats_sujeito="SUBJ";
 
    public static final String feats_expresso="EXP";
+   private static String signsSerialized = "";
+   private static String fraseTraduzida = "";
+   private static String signsSerialized2 = "";
 
+   public static String getSignsSerialized() {
+      return signsSerialized;
+   }
+
+   public static void setSignsSerialized(String signsSerialized) {
+      Constantes.signsSerialized = signsSerialized;
+   }
+
+   public static String getFraseTraduzida() {
+      return fraseTraduzida;
+   }
+
+   public static void setFraseTraduzida(String fraseTraduzida) {
+      Constantes.fraseTraduzida = fraseTraduzida;
+   }
+
+   public static String getSignsSerialized2() {
+      return signsSerialized2;
+   }
+
+   public static void setSignsSerialized2(String signsSerialized2) {
+      Constantes.signsSerialized2 = signsSerialized2;
+   }
 
 
 

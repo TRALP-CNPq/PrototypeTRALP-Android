@@ -33,6 +33,8 @@ public class PortuguesLibras {
         analise.SintaticaPtLibras(palavras);
         //
         palavras = tratamentos.TratarDatilologia(palavras);
-        return traducao.TraduzirPtLibra(palavras);
+        String textoTraduzido = traducao.TraduzirPtLibra(palavras);
+    //    UnityBridge.setFraseTraduzida(palavras);
+        return textoTraduzido;
     }
 }

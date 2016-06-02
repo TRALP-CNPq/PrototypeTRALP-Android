@@ -191,7 +191,7 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
 
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
         long tempTime = SystemClock.currentThreadTimeMillis();
-        if((tempTime /1000) > 30) {
+        if((tempTime /1000) > 8) {
             Log.d("[time]", "should stop, tempTime: " + (tempTime / 1000) + " startTime: " + (startTime / 1000));
             Intent intent = new Intent(GravacaoVideo.this, ProcessView.class);//MainActivity.class);// MainActivity.class    CameraViewLayout
             //startActivityFromFragment(new ProcessView(), intent, 0);

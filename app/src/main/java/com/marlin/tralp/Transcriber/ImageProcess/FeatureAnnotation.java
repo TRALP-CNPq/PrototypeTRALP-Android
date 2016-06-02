@@ -67,7 +67,7 @@ public class FeatureAnnotation {
     private void findObjectExtractFeature(int second, int position){
         int i = 0;
         Mat temp = null;
-        if (second < 15) {
+        if (second < 8) {
             temp = frameQueue.getMatFrame(second,position,i);
         }
         for (; temp!=null ; i++) {
@@ -75,7 +75,6 @@ public class FeatureAnnotation {
                 break;
             if(fistFrameDetector(temp))
                 break;
-
             temp = frameQueue.getMatFrame(second,position);
         }
         if(temp == null)
@@ -138,6 +137,9 @@ public class FeatureAnnotation {
             FeatureStructure tempFS = new FeatureStructure();
             tempFS.handCenterX = tempObj[0].x + (tempObj[0].width / 2); //@INFO This [May] vary with the screen orientation
             tempFS.handCenterY = tempObj[0].y + (tempObj[0].height / 2);
+            tempFS.handX = tempObj[0].x;
+            tempFS.handY = tempObj[0].y;
+            if (JaExisteEsseXY(tempFS.handX, tempFS.handY)) {return false;}
             Log.d("FeatureAnnotation: ", "secProcessed: " + img.second + "  X " + tempObj[0].x + "  Y " + tempObj[0].y);
             if (tempObj.length > 1)
                 Log.d("FeatureAnnotation: ", "secProcessed: " + img.second + "  X " + tempObj[1].x + "  Y " + tempObj[1].y);
@@ -164,6 +166,12 @@ public class FeatureAnnotation {
         }
         return false;
 
+    }
+    private boolean JaExisteEsseXY(int x, int y) {
+        for (int i = 0; i <= annotationResult.size(); i++) {
+            if (annotationResult.get(i).handX == x && annotationResult.get(i).handY == y){return true;}
+        }
+        return false;
     }
     private boolean fistFrameDetector(Mat img){ //@TODO This boolean [MAY] take out imprecision; makes sense at this point
         Rect [] tempObj = detectOnFrame(fist, img);

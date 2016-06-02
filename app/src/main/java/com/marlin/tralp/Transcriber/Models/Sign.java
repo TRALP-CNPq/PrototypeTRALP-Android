@@ -3,55 +3,61 @@ package com.marlin.tralp.Transcriber.Models;
 import android.app.Application;
 import android.content.Context;
 
+import com.google.gson.Gson;
 import com.marlin.tralp.AppContext;
 import com.marlin.tralp.Conexao.Dao.PalavraDAO;
 import com.marlin.tralp.Conexao.Dao.SignDAO;
 import com.marlin.tralp.MainApplication;
 import com.marlin.tralp.Model.FaceExpression;
 import com.marlin.tralp.Model.HandConfiguration;
+import com.marlin.tralp.Model.Palavra;
 import com.marlin.tralp.Model.PalmOrientation;
 import com.marlin.tralp.Model.PivotPoint;
 import com.marlin.tralp.R;
 
+import java.sql.Array;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
  * Created by aneves on 5/19/2016.
  */
 public class Sign {
-    int codSin;
-    int codPart;
-    int codOp;
-    int codEf;
-    int codCm;
-    int codPal;
-    String palavra;
+    private int codSin;
+    private int codPart;
+    private int codOp;
+    private int codEf;
+    private int codCm;
+    private int codPal;
+    private String palavra;
 
-    HandConfiguration hand;
-    PivotPoint pivotPoint;
-    FaceExpression faceExpression;
-    PalmOrientation palmOrientation;
-    ArrayList<Movement> movements;
-    OrientacaoQuadrante orientacaoQuadrante;
+    private HandConfiguration hand;
+    private PivotPoint pivotPoint;
+    private FaceExpression faceExpression;
+    private PalmOrientation palmOrientation;
+    private ArrayList<Movement> movements;
+    private OrientacaoQuadrante orientacaoQuadrante;
 
-    int ultimaPosX;
-    int ultimaPosY;
-    Context context;
-    MainApplication mApp;
+    private int ultimaPosX;
+    private int ultimaPosY;
+    private Context context;
+    private MainApplication mApp;
 
     public Sign(int codSin) {
         this.codSin = codSin;
-
     }
     public Sign(MainApplication app, int codSin) {
         this.codSin = codSin;
         this.mApp = app;
+        context = new AppContext().getAppContext();
     }
     public Sign(MainApplication app) {
         this.codSin = codSin;
         this.mApp = app;
+        context = new AppContext().getAppContext();
     }
     public Sign() {
+        context = new AppContext().getAppContext();
     }
 
     public ArrayList<Sign> GetSignsStartInPosition(int x, int y, double tolerance){
@@ -91,6 +97,41 @@ public class Sign {
         ultimaPosY = tempSign.orientacaoQuadrante.getOrientacaoY();
 
         return tempSign;
+    }
+
+    public String GetSignsToAnimationSerialized(String frase) {
+        String[] palavras = frase.split(" ");
+    //    String[] sinais = null;
+        ArrayList<SignAnimationDTO> sadto = new ArrayList<SignAnimationDTO>();
+
+        for(int i=0; i<=palavras.length; i++){      //  String palavra : palavras
+            Sign sign = new Sign();
+            SignAnimationDTO sa = new SignAnimationDTO();
+            SignDAO signDao = new SignDAO(context);
+            try {
+                sa = signDao.ObterSinalParaAnimacao(palavras[i]);
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            }
+            sadto.add(sa);
+        //    sinais[i] = SerializeSigns(palavras[i]);
+        }
+        String JsonSerializedSigns = SerializeSigns(sadto);
+        return JsonSerializedSigns;
+    }
+
+    public String SerializeSigns(ArrayList<SignAnimationDTO> sadto) {
+        Gson gson = new Gson();
+    //    Foo<Bar> foo = new Foo<Bar>();
+
+        String textSerilized = gson.toJson(sadto);
+        return textSerilized;
     }
 
     public int getCodSin() {

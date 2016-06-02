@@ -24,12 +24,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.marlin.tralp.Conexao.Dao.UltimasFrasesDao;
+import com.marlin.tralp.Constantes.Constantes;
 import com.marlin.tralp.Model.Frase;
 import com.marlin.tralp.R;
 import com.marlin.tralp.Service.PortuguesLibras;
+import com.marlin.tralp.Transcriber.Models.Sign;
 import com.marlin.tralp.Views.CapturaCameraView;
 import com.marlin.tralp.Views.CapturaTexto;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -59,7 +62,6 @@ public class Principal extends Fragment {
         in.setDuration(1000);
         out = new AlphaAnimation(1.0f, 0.0f);
         out.setDuration(1000);
-
 
         rootview = inflater.inflate(R.layout.principal, container, false);
         editText = (EditText) rootview.findViewById(R.id.editText);
@@ -153,13 +155,10 @@ public class Principal extends Fragment {
         switch (requestCode) {
             case REQ_CODE_SPEECH_INPUT: {
                 if (resultCode == Activity.RESULT_OK && null != data) {
-
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-
                     RetornoActivity = result.get(0);
                     ultimasFrasesDao.adicionar(new Frase(RetornoActivity));
-
 
                     try {
 
@@ -170,24 +169,26 @@ public class Principal extends Fragment {
                 }
                 break;
             }
-
         }if(!("").equalsIgnoreCase(RetornoActivity)){
             Traduzir(RetornoActivity);
         }
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(editText.getText()!=null || "".equalsIgnoreCase(editText.getText().toString())){
+        if((editText.getText()!=null && editText.getText().toString()!="") && !("").equalsIgnoreCase(editText.getText().toString())){
             Traduzir(editText.getText().toString());
         }
     }
 
     public void Traduzir(String retornoActivity) {
         TextViewFraseTraduzida.setAnimation(out);
-        TextViewFraseTraduzida.setText(portuguesLibras.Executar(retornoActivity));
+        String textoTraduzido = portuguesLibras.Executar(retornoActivity);
+        TextViewFraseTraduzida.setText(textoTraduzido);
+        String signsSerialized = new Sign().GetSignsToAnimationSerialized(textoTraduzido);
+        Constantes.setSignsSerialized(signsSerialized);
+        Constantes.setFraseTraduzida(textoTraduzido);
         TextViewFraseTraduzida.setAnimation(in);
     }
 
