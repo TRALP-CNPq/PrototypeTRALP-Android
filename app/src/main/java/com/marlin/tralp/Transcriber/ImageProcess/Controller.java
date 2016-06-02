@@ -53,16 +53,6 @@ public class Controller implements Runnable{
         UnderstandMovement movs = new UnderstandMovement(mApp);
         String frase = movs.StartSignsAndMovementsInterpreter(localFA);
 
-        /* Keeping this comment for future reference
-        * On Loop
-        * keep getting next as x (filter.getNext())
-        *   process x over FeatureAnnotation,
-        *   over incomplete info
-        *       keep getting next on fail as x (Filter.getNextOnFail()) (Will eventually get null)
-        *           merge old info with new one, always prioritizing newest (call mergeFeature)
-        *   save in myApp all the extracted List of info,
-         *      as per contract with FeatureProcess.Controller
-        * */
     }
     private void sendMessage(int percentage){
 
@@ -74,15 +64,5 @@ public class Controller implements Runnable{
         //bndMock.putString("thisKey", "Nice MSG");
         uiHandler.sendEmptyMessage(percentage);
 
-    }
-    private int mergeFeature(int older, int newer){
-        /**
-         * merge old info with new one, always prioritizing newest
-         *
-         */
-        //@TODO change int to type used to specify feature structure (Models.?)
-
-
-        return 0;
     }
 }
