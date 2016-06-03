@@ -39,14 +39,11 @@ public class Controller implements Runnable{
 
         sendMessage(50);
         Log.d("annotationResult: ", "Size " + localFA.annotationResult.size());
-        for (int secProcessed = 0; secProcessed < (localFA.annotationResult.size()-1); secProcessed++) {
-            if (localFA.annotationResult.get(secProcessed) != null) {
-                Log.d("annotationResult: ", "secProcessed: " + secProcessed +
-                        "  X " + localFA.annotationResult.get(secProcessed).handCenterX +
-                        "  Y " + localFA.annotationResult.get(secProcessed).handCenterY);
-//                Log.d("annotationResult: ", "secProcessed: " + secProcessed +
-//                        "  X " + localFA.annotationResult.get(secProcessed). +
-//                        "  Y " + localFA.annotationResult.get(secProcessed).handCenterY);
+        for (int index = 0; index < (localFA.annotationResult.size()-1); index++) {
+            if (localFA.annotationResult.get(index) != null) {
+                Log.d("annotationResult: ", "index: " + index +
+                        "  X " + localFA.annotationResult.get(index).handCenterX +
+                        "  Y " + localFA.annotationResult.get(index).handCenterY);
             }
         }
 
@@ -58,10 +55,8 @@ public class Controller implements Runnable{
 
         Message msg = new Message();
         Bundle bndMock= new Bundle();
-        //msg.obj = "Some new text for the screen";
         msg.what = percentage;
         Log.d("msg sendMessage: ", " " + percentage);
-        //bndMock.putString("thisKey", "Nice MSG");
         uiHandler.sendEmptyMessage(percentage);
 
     }
