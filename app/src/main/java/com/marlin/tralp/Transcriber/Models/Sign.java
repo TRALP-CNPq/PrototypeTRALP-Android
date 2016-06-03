@@ -228,6 +228,9 @@ public class Sign {
     public void removeMovement(int index){
         movements.remove(index);
     }
+    public void removeMovement(Movement obj){
+        movements.remove(obj);
+    }
     public Movement getMovement(int index) {
         return movements.get(index);
     }
