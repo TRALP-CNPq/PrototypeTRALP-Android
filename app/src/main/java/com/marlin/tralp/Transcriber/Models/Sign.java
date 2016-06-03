@@ -57,16 +57,17 @@ public class Sign {
     public ArrayList<Sign> GetSignsStartInPosition(int x, int y, double tolerance){
         ArrayList<Sign> signsResult;
         signsResult = new ArrayList<Sign>();
-        signsResult.add(CreateSign(522, 217));
-        signsResult.add(CreateSign(528, 207));
-        signsResult.add(CreateSign(80, 236));
-        signsResult.add(CreateSign(1024, 117));
-        signsResult.add(CreateSign(759, 417));
+        signsResult.add(CreateSign(0, 0, 522, 217));
+        signsResult.add(CreateSign(0, 0, 528, 207));
+        signsResult.add(CreateSign(0, 0, 80, 236));
+        signsResult.add(CreateSign(0, 0, 1024, 117));
+        signsResult.add(CreateSign(0, 0, 759, 417));
 
         return signsResult;
     }
 
-    private Sign CreateSign(int handCenterX, int handCenterY) {
+    private Sign CreateSign(int quadranteX, int quadranteY, int handCenterX, int handCenterY) {
+        //@TODO busca no banco usando quadranteX e quadranteY como posicoes iniciais
         Sign tempSign = new Sign();
         tempSign.codCm = 1; //@INFO This [May] vary with the screen orientation
         tempSign.codEf = 2;
@@ -87,8 +88,8 @@ public class Sign {
         tempSign.palavra = dao.BuscarPalavraPorId(tempSign.codPal);
         tempSign.orientacaoQuadrante = new SignDAO(context.getApplicationContext()).ObterOrientacaoQuadrante(getCodSin());
 
-        ultimaPosX = tempSign.orientacaoQuadrante.getOrientacaoX();
-        ultimaPosY = tempSign.orientacaoQuadrante.getOrientacaoY();
+        ultimaPosX = handCenterX ;
+        ultimaPosY = handCenterY;
 
         return tempSign;
     }
@@ -220,4 +221,15 @@ public class Sign {
     public void setUltimaPosY(int ultimaPosY) {
         this.ultimaPosY = ultimaPosY;
     }
+
+    public int getMovementsSize(){
+        return movements.size();
+    }
+    public void removeMovement(int index){
+        movements.remove(index);
+    }
+    public Movement getMovement(int index) {
+        return movements.get(index);
+    }
+
 }
