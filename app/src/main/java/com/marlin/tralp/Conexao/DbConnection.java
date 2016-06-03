@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -25,7 +24,7 @@ public class DbConnection extends SQLiteOpenHelper {
     //Environment.getExternalStorageDirectory().toString()+"/Android/data/com.marlin.tralp/databases/";
     //this.ctx.getDatabasePath(DBNAME).getAbsolutePath();
     //Environment.getExternalStorageDirectory().toString()+"/Android/data/com.examples.sms/databases/";     /data/data/com.marlin.tralp/databases/
-    public static final String NOME_DB = "teste.sqlite";
+    public static final String NOME_DB = "teste";
     public static final int VERSAO_DB = 2;
     public static int verificador;
     private final Context myContext;
