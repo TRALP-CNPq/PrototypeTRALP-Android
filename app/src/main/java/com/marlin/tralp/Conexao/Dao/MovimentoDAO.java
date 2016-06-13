@@ -9,6 +9,7 @@ import com.marlin.tralp.Conexao.DbConnection;
 import com.marlin.tralp.Model.Palavra;
 import com.marlin.tralp.Transcriber.Models.Movement;
 import com.marlin.tralp.Transcriber.Models.MovementLinear;
+import com.marlin.tralp.Transcriber.Models.MovementRotational;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -73,6 +74,12 @@ public class MovimentoDAO {
         mov.setAngulo1(busca.getInt(1));
         mov.setAngulo2(busca.getInt(2));
         mov.setTamanho(busca.getFloat(3));
+
+        return mov;
+    }
+    public MovementRotational ObterMovimentoRotacionalPorId(int codMov) {
+
+        MovementRotational mov = new MovementRotational();
 
         return mov;
     }
