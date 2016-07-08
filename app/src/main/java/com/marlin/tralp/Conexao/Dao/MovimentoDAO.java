@@ -1,3 +1,4 @@
+
 package com.marlin.tralp.Conexao.Dao;
 
 import android.content.Context;
@@ -11,6 +12,7 @@ import com.marlin.tralp.Model.Palavra;
 import com.marlin.tralp.Transcriber.Models.Movement;
 import com.marlin.tralp.Transcriber.Models.MovementDTO;
 import com.marlin.tralp.Transcriber.Models.MovementLinear;
+import com.marlin.tralp.Transcriber.Models.MovementRotational;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -111,4 +113,12 @@ public class MovimentoDAO {
         db.close();
         return mov;
     }
+    public MovementRotational ObterMovimentoRotacionalPorId(int codMov) {
+
+        MovementRotational mov = new MovementRotational();
+
+        return mov;
+    }
+
+
 }
