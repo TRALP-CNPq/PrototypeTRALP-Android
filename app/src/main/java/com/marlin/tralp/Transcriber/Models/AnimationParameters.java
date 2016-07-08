@@ -49,6 +49,14 @@ public class AnimationParameters {
         context = new AppContext().getAppContext();
 
     }
+    public AnimationParameters(Context context){
+        this.context = context;
+
+    }
+
+    public AnimationParameters(int codMov){
+        this.codMov = codMov;
+    }
 
     public ArrayList<AnimationParameters> GetAllAnimationParametersSign(ArrayList<Movement> movements) {
         ArrayList<AnimationParameters> ap = new ArrayList<AnimationParameters>();
@@ -60,7 +68,16 @@ public class AnimationParameters {
         }
         return ap;
     }
-
+    public ArrayList<AnimationParametersDTO> GetAllAnimationParametersSignDTO(ArrayList<MovementDTO> movements) {
+        ArrayList<AnimationParametersDTO> ap = new ArrayList<AnimationParametersDTO>();
+        AnimationParametersDAO dao = new AnimationParametersDAO(context);
+        int codMov;
+        for (MovementDTO movement : movements) {
+            codMov =  movement.codMov;
+            ap.add(dao.ObterParametrosPorIdDTO(movement.codMov));
+        }
+        return ap;
+    }
     public int getCodMov() {
         return codMov;
     }
@@ -301,5 +318,8 @@ public class AnimationParameters {
         this.LPinky = LPinky;
     }
 
+    public Integer getIdentifier() {
+        return Integer.valueOf(this.codMov);
+    }
 
 }

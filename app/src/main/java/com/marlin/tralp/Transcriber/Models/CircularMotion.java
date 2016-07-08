@@ -7,6 +7,6 @@ public class CircularMotion extends Movement {
 
     public boolean MovementsThroughThatAddress(int handCenterX, int handCenterY, double tolerance) {
 
-        return true;
+        return false;
     }
 }

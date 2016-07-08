@@ -66,10 +66,10 @@ public class Position
                 handCenter.getY() <= faceUpLeftPoint.getY())
             result = 1;
         else if(handCenter.getY() > faceUpLeftPoint.getY() &&
-                handCenter.getY() <= (faceUpLeftPoint.getY() + 3*arbSumY))
+                handCenter.getY() <= (faceUpLeftPoint.getY() + (3*arbSumY)))
             result = 2;
-        else if(handCenter.getY() > (faceUpLeftPoint.getY() + 3*arbSumY) &&
-                handCenter.getY() <= (faceUpLeftPoint.getY() + 4*arbSumY))
+        else if(handCenter.getY() > (faceUpLeftPoint.getY() + (3*arbSumY)) &&
+                handCenter.getY() <= (faceUpLeftPoint.getY() + (4*arbSumY)))
             result = 3;
         else if(handCenter.getY() > (faceUpLeftPoint.getY() + 4*arbSumY) &&
                 handCenter.getY() <= (faceDownRightPoint.getY() - 2*arbSumY))

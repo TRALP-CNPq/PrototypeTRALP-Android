@@ -42,6 +42,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * Created by aneves on 5/16/2016.
@@ -56,17 +57,26 @@ public class Movement {
     int tipo;
     boolean processed;
     Context context;
-
+    AnimationParameters animationParameters;
 
     public Movement(){
-       context = new AppContext().getAppContext();
-
+        context = new AppContext().getAppContext();
     }
+
     public Movement(int codMov, int codSign,int codMao,int card,Date tempo,int param1,
                     int param2,int param3,int param4,int param5,int param6,
                     int posicaoInicialX,int posicaoInicialY){
         context = new AppContext().getAppContext();
     }
+
+    public AnimationParameters getAnimationParameters() {
+        return animationParameters;
+    }
+
+    public void setAnimationParameters(AnimationParameters animationParameters) {
+        this.animationParameters = animationParameters;
+    }
+
     public ArrayList<FeatureStructure> GetMovementsStartInPosition(int x, int y, double tolerance){
         ArrayList<FeatureStructure> movementsResult;
         movementsResult = new ArrayList<FeatureStructure>();
@@ -97,8 +107,8 @@ public class Movement {
         //@Todo determine how to find angles
         //Rect.br == bottom rigth point
         //Rect.tl == top left
-        tempFS.palmAng1 = 90; //guess
-        tempFS.palmAng2 = 0; //Likely
+        tempFS.palmAng1 = 0; //guess
+        tempFS.palmAng2 = 90; //Likely
         tempFS.palmAng3 = 0; //precise
 
         return tempFS;
@@ -106,9 +116,10 @@ public class Movement {
 
     public boolean MovementsThroughThatAddress(Sign candidate, FeatureStructure frame, double tolerance) {
         ArrayList<FeatureStructure> movementsResult = new ArrayList<FeatureStructure>();
-        movementsResult.add(CreateMovement(522, 217));
-
-        return true;
+        //movementsResult.add(CreateMovement(522, 217));
+        //new Math();
+        int i = (int) (Math.random() % 2);
+        return i > 0;
     }
 
     public ArrayList<Movement> GetAllMovements(int codSin) {
@@ -118,6 +129,14 @@ public class Movement {
 
         return movements;
     }
+    public ArrayList<MovementDTO> GetAllMovementsDTO(int codSin) {
+        ArrayList<MovementDTO> movements = new ArrayList<MovementDTO>();
+        MovimentoDAO dao = new MovimentoDAO(context);
+        movements = dao.ObterTodosMovimentosDeUmSinalDTO(codSin);
+
+        return movements;
+    }
+
     public boolean isProcessed() {
         return processed;
     }

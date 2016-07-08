@@ -20,11 +20,11 @@ import java.sql.SQLException;
 
 /*Esta classe gerencia o banco antigo. Ela deve ser Substituida para adaptar-se ao banco que será desenvolvido pela Dominique.*/
 public class DbConnection extends SQLiteOpenHelper {
-    private static String DB_PATH = "/mnt/sdcard/Android/data/com.marlin.tralp/databases/";
+    private static String DB_PATH = "/data/data/com.marlin.tralp/databases/";
     //Environment.getExternalStorageDirectory().toString()+"/Android/data/com.marlin.tralp/databases/";
     //this.ctx.getDatabasePath(DBNAME).getAbsolutePath();
-    //Environment.getExternalStorageDirectory().toString()+"/Android/data/com.examples.sms/databases/";     /data/data/com.marlin.tralp/databases/
-    public static final String NOME_DB = "teste";
+    //Environment.getExternalStorageDirectory().toString()+"/Android/data/com.examples.sms/databases/";  /mnt/sdcard/Android/data/com.marlin.tralp/databases/
+    public static final String NOME_DB = "teste-sqlite";
     public static final int VERSAO_DB = 2;
     public static int verificador;
     private final Context myContext;
@@ -52,7 +52,7 @@ public class DbConnection extends SQLiteOpenHelper {
             try {
                 copyDataBase();
             } catch (IOException e) {
-                throw new Error("Error copying database");
+                throw new Error("Error copying database: " + e.getMessage().toString());
             }
         }
 
@@ -81,6 +81,7 @@ public class DbConnection extends SQLiteOpenHelper {
         }catch(SQLiteException e){
             Toast.makeText(myContext, e.getMessage(), Toast.LENGTH_LONG).show();
             //database does't exist yet.
+            Log.d("checkDataBase: ", "Banco nao existe ");
         }
         if(checkDB != null){
             checkDB.close();
@@ -95,6 +96,7 @@ public class DbConnection extends SQLiteOpenHelper {
      * */
     private void copyDataBase() throws IOException {
 
+        Log.d("copyDataBase: ", "Open your local db as the input stream " + NOME_DB);
         //Open your local db as the input stream
         InputStream myInput = myContext.getAssets().open(NOME_DB);
 

@@ -29,6 +29,9 @@ public class CapturaCameraView extends Activity {
     private Button btnGravar;
     private TextToSpeech t1;
     private String frasePortugues;
+    int camBackId = Camera.CameraInfo.CAMERA_FACING_BACK;
+    int camFrontId = Camera.CameraInfo.CAMERA_FACING_FRONT;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,8 @@ public class CapturaCameraView extends Activity {
                     btnGravar.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.presence_video_busy));
                     //ChamarEventoConfirma();
                     Intent intent = new Intent(CapturaCameraView.this, GravacaoVideo.class);
+//                    camera.stopPreview();
+//                    camera.release();
                     startActivity(intent);
                 } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     btnGravar.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.presence_video_online));
@@ -101,13 +106,18 @@ public class CapturaCameraView extends Activity {
 
     private void start_camera() {
         try {
-            camera = Camera.open();
+            Camera.CameraInfo currentCamInfo = new Camera.CameraInfo();
+            int currentCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
+            camera = Camera.open(camFrontId);
+//            camera.setDisplayOrientation(90);
+
         } catch (RuntimeException e) {
             System.out.println("Error: " + e);
             return;
         }
         if (camera != null) {
-            mCameraViewLayout = new CameraViewLayout(this, camera,mCameraId);//create a SurfaceView to show camera data
+            mCameraViewLayout = new CameraViewLayout(this, camera,camFrontId);//create a SurfaceView to show camera data
+//            mCameraViewLayout = new CameraViewLayout(this, camera,mCameraId);//create a SurfaceView to show camera data camFrontId
             FrameLayout camera_view = (FrameLayout) findViewById(R.id.CameraView);
             camera_view.addView(mCameraViewLayout);//add the SurfaceView to the layout
         }

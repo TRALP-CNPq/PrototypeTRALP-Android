@@ -1,20 +1,41 @@
 package com.marlin.tralp.Views;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+
+//import android.hardware.Camera;
+
+
 import android.hardware.Camera;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraDevice;
+import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CameraMetadata;
+import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.CaptureResult;
+import android.hardware.camera2.TotalCaptureResult;
+import android.hardware.camera2.params.StreamConfigurationMap;
+
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.hardware.Camera.Size;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -49,11 +70,12 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by gabriel on 16-02-22.
  */
-public class GravacaoVideo extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
+public class GravacaoVideo extends AppCompatActivity implements View.OnTouchListener, CameraBridgeViewBase.CvCameraViewListener2 {
 
     private CameraBridgeViewBase opencvCameraView;
     private Mat matRGBA, matGray, matGrayT;
@@ -70,41 +92,14 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
     private CascadeClassifier mJavaDetector;
 //    private DetectionBasedTracker  mNativeDetector;
     private static final Scalar    FACE_RECT_COLOR     = new Scalar(0, 255, 0, 255);
+    private Button btnParar;
+ //   private CameraBridgeViewBase mOpenCvCameraView;
+    private String state;
+    private final static int mCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //setContentView(); @TODO Display the view here and buttons
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-
-        /* These deprecated libraries don't affect the project since we used them just to get hardware info*/
-        final Camera cam = Camera.open();
-        cam.setDisplayOrientation(90);
-        final Camera.Parameters parameters = cam.getParameters();
-        final List<Size> supportedVideoSizes = parameters.getSupportedVideoSizes();
-        for (int i = 0; i< supportedVideoSizes.size(); i++)
-            Log.d("Suported Video Sizes", supportedVideoSizes.get(i).toString());
-        final Size size = supportedVideoSizes.get(0);
-        opencvCameraView = new JavaCameraView(this,0);
-        opencvCameraView.setMaxFrameSize(size.width, size.height);
-        opencvCameraView.setCvCameraViewListener(this);
-        opencvCameraView.enableFpsMeter();
-        frameBuffer = new ArrayList<com.marlin.tralp.Model.Mat>();
-        //threadCounter = 0;
-        //fileCounter = 0;
-        //variance_counter = 0;
-        //variances = new double[500];
-        Log.d("[onCreate]", "Recording Class has been created");
-
-        setContentView(opencvCameraView);
-
-
+    public void GravacaoVideo() {
+        Log.i("GravacaoVideo: ", "Instantiated new " + this.getClass());
     }
-
-    //@TODO NEED TO CREATE BUTTONS TO STOP THIS
-
 
     private BaseLoaderCallback openCVLoaderCallback = new BaseLoaderCallback(this){
 
@@ -116,10 +111,11 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
                 //Load OpenCV Resources now
 //                opencvCameraView.setRotation(90);
                 opencvCameraView.enableView();
+                opencvCameraView.setOnTouchListener(GravacaoVideo.this);
             }
-    //        File cascadeDir = getDir("cascade", Context.MODE_PRIVATE);
-    //        mCascadeFile = new File(cascadeDir, "palm.xml");
-    //        mJavaDetector = new CascadeClassifier(mCascadeFile.getAbsolutePath());
+            //        File cascadeDir = getDir("cascade", Context.MODE_PRIVATE);
+            //        mCascadeFile = new File(cascadeDir, "palm.xml");
+            //        mJavaDetector = new CascadeClassifier(mCascadeFile.getAbsolutePath());
             int rawResource = R.raw.palm;
             MainApplication mApp = (MainApplication)getApplicationContext();
             try {
@@ -142,6 +138,81 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
             }
         }
     };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    //    setContentView(); // @TODO Display the view here and buttons
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+
+        /* These deprecated libraries don't affect the project since we used them just to get hardware info*/
+        //try {
+            state="started";
+
+            final Camera cam = Camera.open(mCameraId);
+            cam.setDisplayOrientation(90);
+            final Camera.Parameters parameters = cam.getParameters();
+            final List<Size> supportedVideoSizes = parameters.getSupportedVideoSizes();
+            for (int i = 0; i< supportedVideoSizes.size(); i++)
+                Log.d("Suported Video Sizes", supportedVideoSizes.get(i).toString());
+            final Size size = supportedVideoSizes.get(0);
+//            opencvCameraView = new JavaCameraView(this,0);
+            opencvCameraView = new JavaCameraView(this,mCameraId);
+            opencvCameraView.setMaxFrameSize(size.width, size.height);
+            opencvCameraView.setCvCameraViewListener(this);
+            opencvCameraView.enableFpsMeter();
+    //        setContentView(R.layout.camera_view);
+
+     //      opencvCameraView = (CameraBridgeViewBase) findViewById(R.id.camera_view);
+
+            frameBuffer = new ArrayList<com.marlin.tralp.Model.Mat>();
+            //threadCounter = 0;
+            //fileCounter = 0;
+            //variance_counter = 0;
+            //variances = new double[500];
+            //btnGravar = (Button) findViewById(R.id.Btn_Gravar);
+            Log.d("[onCreate]", "Recording Class has been created");
+//            CarregarListeners();
+            setContentView(opencvCameraView);
+        //}
+
+       //catch (RuntimeException e) {
+        //    System.err.println(e);
+       //     return;
+       // }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+//        opencvCameraView.disableView();
+//        Intent intent = new Intent(GravacaoVideo.this, ProcessView.class);//MainActivity.class);// MainActivity.class    CameraViewLayout
+//        //startActivityFromFragment(new ProcessView(), intent, 0);
+//        startActivity(intent);
+        state="stopped";
+        Log.d("[onTouch]", "pare a captura");
+        onCameraViewStopped();
+        return false;
+    }
+    //@TODO NEED TO CREATE BUTTONS TO STOP THIS
+
+    private void CarregarListeners() {
+        btnParar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    btnParar.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.presence_video_busy));
+                    //ChamarEventoConfirma();
+
+                } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    btnParar.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.presence_video_online));
+                }
+                return true;
+            }
+        });
+    }
+
+
 
     @Override
     public void onResume(){
@@ -191,7 +262,7 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
 
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
         long tempTime = SystemClock.currentThreadTimeMillis();
-        if((tempTime /1000) > 8) {
+        if((tempTime /1000) > 8 || state == "stopped") {
             Log.d("[time]", "should stop, tempTime: " + (tempTime / 1000) + " startTime: " + (startTime / 1000));
             Intent intent = new Intent(GravacaoVideo.this, ProcessView.class);//MainActivity.class);// MainActivity.class    CameraViewLayout
             //startActivityFromFragment(new ProcessView(), intent, 0);
@@ -244,7 +315,6 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
 //        rotate90(matGray, here);
 //        matRGBA = inputFrame.rgba();
 
-
 //        Mat out = new Mat();
 //        MatOfDouble std = new MatOfDouble();
 //        MatOfDouble mean = new MatOfDouble();
@@ -254,7 +324,6 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
 //        var = var * var;
 //        variances[variance_counter] = var;
 //        variance_counter++;
-
 
 //        Imgproc.putText(matGray, "SomeText", new Point(50, 10), Core.FONT_HERSHEY_SIMPLEX, 10, new Scalar(255));
 //        Imgproc.putText(matGray, ""+var, new Point(100, 10), Core.FONT_HERSHEY_SIMPLEX, 10, new Scalar(128));
@@ -285,34 +354,53 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
             opencvCameraView.disableView();
         }
         Log.d("onCameraViewStopped", "indo para ProcessView");
-        processImages(matGray);
+
+       processImages(matGray);
 //        Intent intent = new Intent(GravacaoVideo.this, ProcessView.class);//CameraViewLayout.class);// MainActivity.class
 //        //startActivityFromFragment(new ProcessView(), intent, 0);
 //        startActivity(intent);
     }
 
     private void processImages(final Mat tMatGray){
-        Handler uiThreadHandler;
-        Thread imageProcessControllerThread;
+//        Handler uiThreadHandler;
+//        Thread imageProcessControllerThread;
+        String frase;
 
-        uiThreadHandler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(Message inputMessage) {
-                Log.d("msg", " " + inputMessage.what);
-                //String receivedObject = (String) inputMessage.obj;
-                //String someKey = inputMessage.getData().getString("thisKey");
-//                TextView mTxtView = (TextView)findViewById(R.id.textView); // getView().
-//                mTxtView.setText("Consegui!! "+inputMessage.what);
-                //mTxtView.setText(receivedObject);
-                //Log.d("msg", someKey);
-                //filterThread.interrupt();
-                //filterThread.interrupt();
-            }
-        };
+//        uiThreadHandler = new Handler(Looper.getMainLooper()) {
+//            @Override
+//            public void handleMessage(Message inputMessage) {
+//                Log.d("msg", " " + inputMessage.what);
+//                //String receivedObject = (String) inputMessage.obj;
+//                //String someKey = inputMessage.getData().getString("thisKey");
+////                TextView mTxtView = (TextView)findViewById(R.id.textView); // getView().
+////                mTxtView.setText("Consegui!! "+inputMessage.what);
+//                //mTxtView.setText(receivedObject);
+//                //Log.d("msg", someKey);
+//                //filterThread.interrupt();
+//                //filterThread.interrupt();
+//            }
+//        };
         MainApplication.setFrameBuffer(frameBuffer);
-        imageProcessControllerThread = new Thread(new Controller((MainApplication)this.getApplicationContext(), uiThreadHandler));
-        imageProcessControllerThread.start();
+        frase = new Controller((MainApplication)this.getApplicationContext()).process();
+//        imageProcessControllerThread = new Thread(new Controller((MainApplication)this.getApplicationContext(), uiThreadHandler));
+//        imageProcessControllerThread.start();
+        Log.d("processImages", "Voltei com a frase: " + frase);
 
+        Intent intent;//CameraViewLayout.class);// MainActivity.class    ProcessView
+
+        intent = new Intent(this, ResultadoCaptura.class);
+        intent.putExtra("frase", frase);
+        startActivity(intent);
+
+//        Intent sendIntent = new Intent((MainApplication)this.getApplicationContext(), ResultadoCaptura.class);
+//        sendIntent.setAction(Intent.ACTION_SEND);
+//        sendIntent.putExtra(Intent.EXTRA_TEXT, frase);
+//        sendIntent.setType("text/plain");
+//
+////  //Verify that the intent will resolve to an activity
+//        if (sendIntent.resolveActivity(getPackageManager()) != null) {
+////            startActivity(sendIntent);
+//        }
 //        Thread t = new Thread(new Runnable(){
 //
 //            @Override
@@ -434,4 +522,5 @@ public class GravacaoVideo extends AppCompatActivity implements CameraBridgeView
     public List<com.marlin.tralp.Model.Mat> getFrameBuffer(){
         return frameBuffer;
     }
+
 }

@@ -3,6 +3,8 @@ package com.marlin.tralp.Conexao.Repository;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 import com.marlin.tralp.Transcriber.Models.Movement;
+import com.marlin.tralp.Transcriber.Models.SignAnimationDTO;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -20,7 +22,7 @@ public class MovementRepositoryImpl extends RepositoryImpl<Movement> implements 
     {
         try{
             ArrayList<PropertyConfig<Movement>> _configs = new ArrayList<PropertyConfig<Movement>>();
-            _configs.add(new PropertyConfig<Movement>("CODSIN", "codSign"));
+            _configs.add(new PropertyConfig<Movement>("CODSIN", "codSign", Movement.class));
             return _configs;
         }
         catch (NoSuchFieldException e){
