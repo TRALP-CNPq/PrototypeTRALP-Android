@@ -6,7 +6,7 @@ package com.marlin.tralp.Transcriber.Models;
 public class MovementRotational extends Movement {
 
     public boolean MovementsThroughThatAddress(Sign candidate, int handCenterX, int handCenterY, double tolerance) {
-
-        return true;
+        int i = (int) (Math.random() % 2);
+        return i > 0;
     }
 }

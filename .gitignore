@@ -1,3 +1,7 @@
 
 .gradle/*
 .idea/*
+libraries/opencv/build/*
+libraries/opencv/build/intermediates/bundles/release/classes.jar
+local.properties
+libraries/opencv/opencv.iml

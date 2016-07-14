@@ -7,6 +7,6 @@ public class HandConfigurationChange extends Movement {
 
     public boolean MovementsThroughThatAddress(Sign candidate, int handCenterX, int handCenterY, double tolerance) {
 
-        return true;
+        return false;
     }
 }

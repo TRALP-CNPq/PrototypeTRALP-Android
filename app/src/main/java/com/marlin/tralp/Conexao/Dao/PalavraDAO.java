@@ -53,6 +53,8 @@ public class PalavraDAO {
                 palavraAtual.setLibras(busca.getString(4));
             }
         }
+     //   busca.close();
+     //   db.close();
     }
 
     public List<Palavra> buscarVerbos(String verboinfinitivo, String tempo) {
@@ -74,6 +76,8 @@ public class PalavraDAO {
                 palavras.add(palavraAtual);
             } while (busca.moveToNext());
         }
+        busca.close();
+        db.close();
         return palavras;
     }
 
@@ -82,9 +86,12 @@ public class PalavraDAO {
         String[] colunas = new String[]{"TOKEN"};
         Log.d("PalavraDAO: ", "CODPAL = Id " + Integer.toString(id));
     //    Cursor busca = db.query("dicionario", colunas, "CODPAL = ?", new String[]{Integer.toString(id)}, null, null, null, null);
-        Cursor busca = db.query("dicionario", colunas, "CODPAL = 11", new String[]{Integer.toString(id)}, null, null, null, null);
+        Cursor busca = db.query("dicionario", colunas, "CODPAL = ? ", new String[]{Integer.toString(id)}, null, null, null, null);
+        busca.moveToFirst();
         String palavra = busca.getString(0);
         Log.d("PalavraDAO: ", "palavra = " + palavra);
+        busca.close();
+        db.close();
         return palavra;
     }
 }

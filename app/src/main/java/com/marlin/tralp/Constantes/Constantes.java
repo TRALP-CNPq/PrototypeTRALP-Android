@@ -1,12 +1,16 @@
 package com.marlin.tralp.Constantes;
 
+import android.hardware.Camera;
+
+import java.util.Date;
+
 /**
  * Created by psalum on 17/08/2015.
  */
 public final class Constantes {
 
-   public Constantes(){
-   }
+//   public Constantes(){
+//   }
 
    public static final String def_datilologia ="Datilologia";
    public static final String tag_substantivo ="n";
@@ -66,6 +70,22 @@ public final class Constantes {
    private static String signsSerialized = "";
    private static String fraseTraduzida = "";
    private static String signsSerialized2 = "";
+   private static int parameterAnimator1;
+   private static int parameterAnimator2;
+   private static int parameterAnimator3;
+
+   private static final int qualCamera = Camera.CameraInfo.CAMERA_FACING_BACK;   // CAMERA_FACING_FRONT
+
+   public Constantes(){
+      int i = (int) (new Date().getTime()/1000);
+      this.parameterAnimator1 = (i % 3);
+      this.parameterAnimator2 = (i % 6);
+      this.parameterAnimator3 = (i % 9);
+   }
+
+   public static int getQualCamera() {
+      return qualCamera;
+   }
 
    public static String getSignsSerialized() {
       return signsSerialized;

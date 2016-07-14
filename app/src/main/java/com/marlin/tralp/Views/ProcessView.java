@@ -37,22 +37,22 @@ public class ProcessView extends Activity{
         //MainApplication app = (MainApplication) getActivity().getApplicationContext();
 
         /* Instanciate the handler object to be used as communication source*/
-        uiThreadHandler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(Message inputMessage) {
-                Log.d("msg uiThreadHandler: ", " " + inputMessage.what);
-                //String receivedObject = (String) inputMessage.obj;
-                //String someKey = inputMessage.getData().getString("thisKey");
-                TextView mTxtView = (TextView)findViewById(R.id.textView); // getView().
-                mTxtView.setText("Consegui!! "+inputMessage.what);
-                //mTxtView.setText(receivedObject);
-                //Log.d("msg", someKey);
-                //filterThread.interrupt();
-                //filterThread.interrupt();
-            }
-        };
-        imageProcessControllerThread = new Thread(new Controller((MainApplication)this.getApplicationContext(), uiThreadHandler));
-        imageProcessControllerThread.start();
+//        uiThreadHandler = new Handler(Looper.getMainLooper()) {
+//            @Override
+//            public void handleMessage(Message inputMessage) {
+//                Log.d("msg uiThreadHandler: ", " " + inputMessage.what);
+//                //String receivedObject = (String) inputMessage.obj;
+//                //String someKey = inputMessage.getData().getString("thisKey");
+//                TextView mTxtView = (TextView)findViewById(R.id.textView); // getView().
+//                mTxtView.setText("Consegui!! "+inputMessage.what);
+//                //mTxtView.setText(receivedObject);
+//                //Log.d("msg", someKey);
+//                //filterThread.interrupt();
+//                //filterThread.interrupt();
+//            }
+//        };
+//        imageProcessControllerThread = new Thread(new Controller((MainApplication)this.getApplicationContext(), uiThreadHandler));
+//        imageProcessControllerThread.start();
 
         //Should create Thread and keep this Fragment updated
         return rootview;

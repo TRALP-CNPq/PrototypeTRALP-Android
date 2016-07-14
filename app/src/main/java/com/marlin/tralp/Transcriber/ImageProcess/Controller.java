@@ -1,16 +1,23 @@
 package com.marlin.tralp.Transcriber.ImageProcess;
 
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.marlin.tralp.MainActivity;
 import com.marlin.tralp.MainApplication;
+import com.marlin.tralp.Views.ProcessView;
+import com.marlin.tralp.Views.ResultadoCaptura;
+
 
 /**
  * Created by gabriel on 16-02-16.
  */
-public class Controller implements Runnable{
+//public class Controller implements Runnable{
+public class Controller {
     MainApplication mApp;
     Handler uiHandler;
 
@@ -18,13 +25,16 @@ public class Controller implements Runnable{
         mApp = app;
         uiHandler = mHandler;
     }
-
-    @Override
-    public void run(){
-       this.process();
+    public Controller(MainApplication app){
+        mApp = app;
     }
 
-    public void process(){
+//    @Override
+//    public void run(){
+//       this.process();
+//    }
+
+    public String process(){
         //@TODO Create Filter class
         Filter localFilter = new Filter(mApp);
         sendMessage(1);
@@ -39,50 +49,27 @@ public class Controller implements Runnable{
 
         sendMessage(50);
         Log.d("annotationResult: ", "Size " + localFA.annotationResult.size());
-        for (int secProcessed = 0; secProcessed < (localFA.annotationResult.size()-1); secProcessed++) {
-            if (localFA.annotationResult.get(secProcessed) != null) {
-                Log.d("annotationResult: ", "secProcessed: " + secProcessed +
-                        "  X " + localFA.annotationResult.get(secProcessed).handCenterX +
-                        "  Y " + localFA.annotationResult.get(secProcessed).handCenterY);
-//                Log.d("annotationResult: ", "secProcessed: " + secProcessed +
-//                        "  X " + localFA.annotationResult.get(secProcessed). +
-//                        "  Y " + localFA.annotationResult.get(secProcessed).handCenterY);
+        for (int index = 0; index < (localFA.annotationResult.size()-1); index++) {
+            if (localFA.annotationResult.get(index) != null) {
+                Log.d("annotationResult: ", "index: " + index +
+                        "  X " + localFA.annotationResult.get(index).handCenterX +
+                        "  Y " + localFA.annotationResult.get(index).handCenterY);
             }
         }
 
         UnderstandMovement movs = new UnderstandMovement(mApp);
         String frase = movs.StartSignsAndMovementsInterpreter(localFA);
+        Log.d("annotationResult: ", "frase: " + frase);
 
-        /* Keeping this comment for future reference
-        * On Loop
-        * keep getting next as x (filter.getNext())
-        *   process x over FeatureAnnotation,
-        *   over incomplete info
-        *       keep getting next on fail as x (Filter.getNextOnFail()) (Will eventually get null)
-        *           merge old info with new one, always prioritizing newest (call mergeFeature)
-        *   save in myApp all the extracted List of info,
-         *      as per contract with FeatureProcess.Controller
-        * */
+        return frase;
     }
     private void sendMessage(int percentage){
 
         Message msg = new Message();
         Bundle bndMock= new Bundle();
-        //msg.obj = "Some new text for the screen";
         msg.what = percentage;
         Log.d("msg sendMessage: ", " " + percentage);
-        //bndMock.putString("thisKey", "Nice MSG");
-        uiHandler.sendEmptyMessage(percentage);
+//        uiHandler.sendEmptyMessage(percentage);
 
-    }
-    private int mergeFeature(int older, int newer){
-        /**
-         * merge old info with new one, always prioritizing newest
-         *
-         */
-        //@TODO change int to type used to specify feature structure (Models.?)
-
-
-        return 0;
     }
 }

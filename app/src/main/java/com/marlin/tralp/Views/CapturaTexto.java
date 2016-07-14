@@ -22,6 +22,7 @@ import com.marlin.tralp.Model.Frase;
 import com.marlin.tralp.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by psalum on 24/09/2015.
@@ -32,6 +33,7 @@ public class CapturaTexto extends Activity {
     Context context;
     ListView listView;
     UltimasFrasesDao ultimasFrasesDao;
+    List<Frase> frases;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,8 @@ public class CapturaTexto extends Activity {
         listView = (ListView) findViewById(R.id.listView2);
         context = this;
         ultimasFrasesDao = new UltimasFrasesDao(this);
-        popularListview();
+        frases = ultimasFrasesDao.buscarUltimasFrases();
+        popularListview(frases);
         CriarListeners();
 
     }
@@ -52,12 +55,13 @@ public class CapturaTexto extends Activity {
         enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String fraseTexto = editText.getText().toString();
                 if(!("").equalsIgnoreCase(editText.getText().toString())){
-                    ultimasFrasesDao.adicionar(new Frase(editText.getText().toString()));
+                    if (!jaExisteFrase(fraseTexto))
+                        ultimasFrasesDao.adicionar(new Frase(editText.getText().toString()));
                 }
                 finalizarActivity();
             }
-
 
         });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -79,6 +83,16 @@ public class CapturaTexto extends Activity {
 
     }
 
+    protected Boolean jaExisteFrase(String fraseTexto) {
+        for (Frase frase : frases) {
+            String fr = frase.getFrase();
+            if (fr.equals(fraseTexto)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected void DeleteListItemPopUp(final int position) {
 
         final AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -88,7 +102,7 @@ public class CapturaTexto extends Activity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ultimasFrasesDao.DeletarFrase(listView.getItemAtPosition(position).toString());
-                popularListview();
+                popularListview(frases);
                 dialog.dismiss();
             }
 
@@ -108,9 +122,9 @@ public class CapturaTexto extends Activity {
 
     }
 
-    protected void popularListview() {
+    protected void popularListview(List<Frase> frases) {
         ArrayList<String> itens = new ArrayList<String>();
-        for (Frase frase : ultimasFrasesDao.buscarUltimasFrases()) {
+        for (Frase frase : frases) {
             itens.add(frase.getId() +" - "+frase.getFrase());
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_selectable_list_item, itens);

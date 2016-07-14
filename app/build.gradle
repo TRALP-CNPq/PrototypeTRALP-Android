@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "23.0.0"
+    buildToolsVersion '23.0.0'
 
     defaultConfig {
         applicationId "com.marlin.tralp"
@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dexOptions {
+        incremental true
+    }
+
 }
 
 dependencies {
@@ -25,4 +29,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-vision:8.1.0'
     compile 'com.google.code.gson:gson:2.6.2'
     compile project(':libraries:opencv')
+    compile files('libs/unity-classes.jar')
+    compile files('libs/UnityBridge.jar')
 }

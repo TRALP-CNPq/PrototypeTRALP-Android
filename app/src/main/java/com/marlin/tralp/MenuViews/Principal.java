@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.marlin.tralp.Model.Frase;
 import com.marlin.tralp.R;
 import com.marlin.tralp.Service.PortuguesLibras;
 import com.marlin.tralp.Transcriber.Models.Sign;
+import com.marlin.tralp.Views.UnityPlayerActivity;
 import com.marlin.tralp.Views.CapturaCameraView;
 import com.marlin.tralp.Views.CapturaTexto;
 
@@ -186,10 +188,16 @@ public class Principal extends Fragment {
         TextViewFraseTraduzida.setAnimation(out);
         String textoTraduzido = portuguesLibras.Executar(retornoActivity);
         TextViewFraseTraduzida.setText(textoTraduzido);
-        String signsSerialized = new Sign().GetSignsToAnimationSerialized(textoTraduzido);
+        Sign sinais = new Sign(getActivity());
+        String signsSerialized = sinais.GetSignsToAnimationSerialized(textoTraduzido);
         Constantes.setSignsSerialized(signsSerialized);
         Constantes.setFraseTraduzida(textoTraduzido);
+        Log.d("Principal, Traduzir: ", "texto serializado = " + signsSerialized);
+        Log.d("Principal, Traduzir: ", "frase = " + textoTraduzido);
         TextViewFraseTraduzida.setAnimation(in);
+        Intent intent = new Intent(getActivity(), UnityPlayerActivity.class);
+        intent.putExtra("Sinais",signsSerialized);
+        getActivity().startActivity(intent);
     }
 
 

@@ -3,6 +3,7 @@ package com.marlin.tralp.Conexao.Repository;
 import android.database.Cursor;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,16 +36,18 @@ public class PropertyConfig<T>
         return propertyClass;
     }
 
-    public PropertyConfig(String fieldName, String propertyName)throws NoSuchFieldException {
+    public PropertyConfig(String fieldName, String propertyName, Class<T> tipo)throws NoSuchFieldException {
         this.fieldName = fieldName;
         this.propertyName = propertyName;
-        this.objectClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+     //   ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
+    //    this.objectClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        this.objectClass = tipo; //(Class<T>) genericSuperclass.getActualTypeArguments()[0];
         this.property = this.objectClass.getDeclaredField(this.propertyName);
         this.propertyClass = this.property.getType();
     }
 
-    public PropertyConfig(String fieldAndPropertyName) throws NoSuchFieldException {
-        this(fieldAndPropertyName, fieldAndPropertyName);
+    public PropertyConfig(String fieldAndPropertyName, Class<T> tipo) throws NoSuchFieldException {
+        this(fieldAndPropertyName, fieldAndPropertyName, tipo);
     }
     private PropertyConfig(){}
 
@@ -63,12 +66,19 @@ public class PropertyConfig<T>
         return this.property.get(instance);
     }
 
-    private void captureValue(T instance, Cursor cursor) throws IllegalAccessException, ParseException {
+    private void captureValue(T instance, Cursor cursor) throws IllegalAccessException, ParseException, NoSuchFieldException {
         int columnIndex = cursor.getColumnIndex(this.fieldName);
+        String name = this.propertyName;
         if(columnIndex >= 0) {
 
             if (propertyClass.equals(String.class)) {
                 property.set(instance, cursor.getString(columnIndex));
+                return;
+            }
+
+            if (propertyClass.getName().equals("int")) {
+                propertyClass.getField(getPropertyName()).setInt(instance, cursor.getInt(columnIndex));
+    //            property.setInt(instance, cursor.getInt(columnIndex));
                 return;
             }
 
@@ -102,7 +112,7 @@ public class PropertyConfig<T>
         throw new IllegalAccessException("A coluna '"+ this.getFieldName()+ "' não foi encontrada no cursor da consulta.");
     }
 
-    public void mapObject(T instance, ArrayList<PropertyConfig<T>> configs, Cursor cursor) throws ParseException, IllegalAccessException {
+    public void mapObject(T instance, ArrayList<PropertyConfig<T>> configs, Cursor cursor) throws ParseException, IllegalAccessException, NoSuchFieldException {
         if(!cursor.isClosed() && (cursor.getCount() > 0)) {
             for (PropertyConfig config: configs) {
                 config.captureValue(instance, cursor);
@@ -110,13 +120,13 @@ public class PropertyConfig<T>
         }
     }
 
-    public T createAndMapObject(ArrayList<PropertyConfig<T>> configs, Cursor cursor) throws ParseException, IllegalAccessException, InstantiationException  {
+    public T createAndMapObject(ArrayList<PropertyConfig<T>> configs, Cursor cursor) throws ParseException, IllegalAccessException, InstantiationException, NoSuchFieldException {
         T instance = this.getNewInstance();
         this.mapObject(instance, configs, cursor);
         return instance;
     }
 
-    public ArrayList<T> createAndMapObjectCollection(ArrayList<PropertyConfig<T>> configs, Cursor cursor) throws ParseException, IllegalAccessException, InstantiationException {
+    public ArrayList<T> createAndMapObjectCollection(ArrayList<PropertyConfig<T>> configs, Cursor cursor) throws ParseException, IllegalAccessException, InstantiationException, NoSuchFieldException {
 
         ArrayList<T> result = new ArrayList<T>();
 
