@@ -160,6 +160,7 @@ public class SignDAO {
         db.close();
         return  signProperties;
     }
+
     public Sign ObterSinalParaAnimacao(String palavra) {
         String[] selectionArgs = new String[]{palavra.toLowerCase()};
         String sql = "SELECT d.CODPAL as CODPAL, d.TOKEN as TOKEN, ps.CODSIN as CODSIN, sc.CODMAO as CODMAO, " +
@@ -243,13 +244,15 @@ public class SignDAO {
     }
 
     private AnimationParameters getAnimationParametersPorCodigodeMovimento(int codMov) {
-        String[] colunas = new String[]{"CODMOV", "RShoulder_V", "RShoulder_H", "RArm_V", "RArm_H", "RArm_R", "RForearm_V", "RForearm_H", "RHand_V",
-                "RHand_H", "RThumb", "RIndex", "RMiddle", "RRing", "RPinky", "LShoulder_V", "LShoulder_H", "LArm_V", "LArm_H",
-                "LArm_R", "LForearm_V", "LForearm_H", "Lforearm_R", "LHand_V", "LHand_H", "LThumb", "LIndex", "LMiddle", "LRing", "LPinky"};
+        String[] colunas = new String[]{"CODMOV", "RShoulder_V", "RShoulder_H", "RArm_V", "RArm_H", "RArm_R", "RForearm_V", "RForearm_H", "RForearm_R",
+                "RHand_V", "RHand_H", "RThumb1V", "RThumb1H", "RThumb2V", "RIndex1V", "RIndex1H", "RIndex2V", "RMiddle1V", "RMiddle1H", "RMiddle2V",
+                "RRing1V", "RRing1H", "RRing2V", "RPinky1V", "RPinky1H", "RPinky2V", "LShoulder_V", "LShoulder_H", "LArm_V", "LArm_H",
+                "LArm_R", "LForearm_V", "LForearm_H", "LForearm_R", "LHand_V", "LHand_H", "LThumb1V", "LThumb1H", "LThumb2V", "LIndex1V", "LIndex1H",
+                "LIndex2V", "LMiddle1V", "LMiddle1H", "LMiddle2V", "LRing1V", "LRing1H", "LRing2V", "LPinky1V", "LPinky1H", "LPinky2V"};
 
         String[] selectionArgs = new String[]{Integer.toString(codMov)};
 
-        Cursor busca = db.query("parametrosmovimento", colunas, "CODMOV = ? ", selectionArgs, null, null, null, null);
+        Cursor busca = db.query("PARAMETROSMOVIMENTONOVO", colunas, "CODMOV = ? ", selectionArgs, null, null, null, null);
         if (busca.moveToFirst()) {
             AnimationParameters par = new AnimationParameters();
             par.setCodMov(getInt("CODMOV", busca));
@@ -258,15 +261,26 @@ public class SignDAO {
             par.setRArm_V(getFloat("RArm_V", busca));
             par.setRArm_H(getFloat("RArm_H", busca));
             par.setRArm_R(getFloat("RArm_R", busca));
-            par.setLForearm_V(getFloat("RForearm_V", busca));
+            par.setRForearm_V(getFloat("RForearm_V", busca));
             par.setRForearm_H(getFloat("RForearm_H", busca));
+            par.setRForearm_R(getFloat("RForearm_R", busca));
             par.setRHand_V(getFloat("RHand_V", busca));
             par.setRHand_H(getFloat("RHand_H", busca));
-            par.setRThumb(getFloat("RThumb", busca));
-            par.setRIndex(getFloat("RIndex", busca));
-            par.setRMiddle(getFloat("RMiddle", busca));
-            par.setRRing(getFloat("RRing", busca));
-            par.setRPinky(getFloat("RPinky", busca));
+            par.setRThumb1V(getFloat("RThumb1V", busca));
+            par.setRThumb1H(getFloat("RThumb1H", busca));
+            par.setRThumb2V(getFloat("RThumb2V", busca));
+            par.setRIndex1V(getFloat("RIndex1V", busca));
+            par.setRIndex1H(getFloat("RIndex1H", busca));
+            par.setRIndex2V(getFloat("RIndex2V", busca));
+            par.setRMiddle1V(getFloat("RMiddle1V", busca));
+            par.setRMiddle1H(getFloat("RMiddle1H", busca));
+            par.setRMiddle2V(getFloat("RMiddle2V", busca));
+            par.setRRing1V(getFloat("RRing1V", busca));
+            par.setRRing1H(getFloat("RRing1H", busca));
+            par.setRRing2V(getFloat("RRing2V", busca));
+            par.setRPinky1V(getFloat("RPinky1V", busca));
+            par.setRPinky1H(getFloat("RPinky1H", busca));
+            par.setRPinky2V(getFloat("RPinky2V", busca));
             par.setLShoulder_V(getFloat("LShoulder_V", busca));
             par.setLShoulder_H(getFloat("LShoulder_H", busca));
             par.setLArm_V(getFloat("LArm_V", busca));
@@ -274,14 +288,24 @@ public class SignDAO {
             par.setLArm_R(getFloat("LArm_R", busca));
             par.setLForearm_V(getFloat("LForearm_V", busca));
             par.setLForearm_H(getFloat("LForearm_H", busca));
-            par.setLforearm_R(getFloat("Lforearm_R", busca));
+            par.setLForearm_R(getFloat("LForearm_R", busca));
             par.setLHand_V(getFloat("LHand_V", busca));
             par.setLHand_H(getFloat("LHand_H", busca));
-            par.setLThumb(getFloat("LThumb", busca));
-            par.setLIndex(getFloat("LIndex", busca));
-            par.setLMiddle(getFloat("LMiddle", busca));
-            par.setLRing(getFloat("LRing", busca));
-            par.setLPinky(getFloat("LPinky", busca));
+            par.setLThumb1V(getFloat("LThumb1V", busca));
+            par.setLThumb1H(getFloat("LThumb1H", busca));
+            par.setLThumb2V(getFloat("LThumb2V", busca));
+            par.setLIndex1V(getFloat("LIndex1V", busca));
+            par.setLIndex1H(getFloat("LIndex1H", busca));
+            par.setLIndex2V(getFloat("LIndex2V", busca));
+            par.setLMiddle1V(getFloat("LMiddle1V", busca));
+            par.setLMiddle1H(getFloat("LMiddle1H", busca));
+            par.setLMiddle2V(getFloat("LMiddle2V", busca));
+            par.setLRing1V(getFloat("LRing1V", busca));
+            par.setLRing1H(getFloat("LRing1H", busca));
+            par.setLRing2V(getFloat("LRing2V", busca));
+            par.setLPinky1V(getFloat("LPinky1V", busca));
+            par.setLPinky1H(getFloat("LPinky1H", busca));
+            par.setLPinky2V(getFloat("LPinky2V", busca));
             busca.close();
             return par;
         }

@@ -32,7 +32,7 @@ public class PortuguesLibras {
         analise.Morfologica(palavras, "Token");
         analise.SintaticaPtLibras(palavras);
         //
-        palavras = tratamentos.TratarDatilologia(palavras);
+        //palavras = tratamentos.TratarDatilologia(palavras);
         String textoTraduzido = traducao.TraduzirPtLibra(palavras);
     //    UnityBridge.setFraseTraduzida(palavras);
         return textoTraduzido;

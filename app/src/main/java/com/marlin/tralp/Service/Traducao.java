@@ -40,11 +40,19 @@ public class Traducao {
             }
             //adiciona os sujeitos a lista de sujeitos
             else if (palavra.isSujeito()) {
-                sujeito.add(palavra.getLibras());
+                    if (palavra.getTags()[0] == Constantes.def_datilologia) {
+                        MontaDatilologia(palavra, sujeito);
+                    }
+                    else
+                        sujeito.add(palavra.getLibras());
             }
             //adiciona os objetos a lista de objetos
             else if (palavra.isObjeto()) {
-                objeto.add(palavra.getLibras());
+                if (palavra.getTags()[0] == Constantes.def_datilologia) {
+                    MontaDatilologia(palavra, objeto);
+                }
+                else
+                    objeto.add(palavra.getLibras());
             } else if (palavra.isInterrogativo()) {
                 interrogativo = palavra.getLibras();
             }
@@ -126,6 +134,14 @@ public class Traducao {
 
 
         return frase.toString().trim().toUpperCase();
+    }
+
+    private void MontaDatilologia(Palavra _palavra, List<String> _lista) {
+
+        String pal = _palavra.getLibras().replace("-", "");
+        for (char ch: pal.toCharArray()) {
+            _lista.add(String.valueOf(ch));
+        }
     }
 
     private boolean VerificarInterrogativo(String palavra) {

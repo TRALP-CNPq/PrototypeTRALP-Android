@@ -46,11 +46,11 @@ public class PalavraDAO {
             if (busca.getCount() > 0) {
                 busca.moveToFirst();
 
-                palavraAtual.setTags(busca.getString(0).split(" "));
-                palavraAtual.setFeats(busca.getString(1).split(" "));
-                palavraAtual.setLemmas(busca.getString(2).split(" "));
-                palavraAtual.setToken(busca.getString(3));
-                palavraAtual.setLibras(busca.getString(4));
+                palavraAtual.setTags(busca.getString(1).split(" "));
+                palavraAtual.setFeats(busca.getString(2).split(" "));
+                palavraAtual.setLemmas(busca.getString(3).split(" "));
+                palavraAtual.setToken(busca.getString(4));
+                palavraAtual.setLibras(busca.getString(5));
             }
         }
      //   busca.close();

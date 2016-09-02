@@ -44,8 +44,6 @@ public class Analise {
         IdentificarInterrogativos(palavras);
         IdentificarSujeito(palavras);
         IdentificarObjetoLibrasPt(palavras);
-
-
     }
 
 
@@ -58,8 +56,6 @@ public class Analise {
         IdentificarSujeito(palavras);
         identificarObjetoPtLibras(palavras);
     }
-
-
 
     public void IdentificarVerbos(List<Palavra> palavras) {
         HashMap<String, String> verbos = new HashMap<String, String>();
@@ -169,7 +165,6 @@ public class Analise {
         boolean resultado = false;
         if (tags != null) {
             for (String tag : tags) {
-
                 if (tag.equalsIgnoreCase(Constantes.tag_preposicao) || (tag.equalsIgnoreCase(Constantes.tag_artigo))) {
                     resultado = true;
                 }
@@ -185,7 +180,6 @@ public class Analise {
             String tags[] = palavraAtual.getTags();
             String feats[] = palavraAtual.getTags();
             String lemmas[] = palavraAtual.getTags();
-
 
             if ((tags == null) && (feats == null) && (lemmas == null)) {
                 palavraAtual.setToken(palavraAtual.getToken().replace("", " ").trim().replace(" ", "-"));
