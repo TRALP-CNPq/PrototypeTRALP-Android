@@ -40,3 +40,24 @@ Android sdk
 Gradle
 
 Melhorias das proximas versões:
+
+
+Versão de 05/09/2016
+Observações da versão:
+- É necessário celular com Android 6.01.
+- Testado com aparelho Moto X Play e emulador Genymotion com versão igual.
+- Aplicativo desenvolvido no Android Studio 2.1.2.
+O banco de dados possui poucas palavras e poucas letras, as palavras e letras são as seguintes:
+- eu
+- vou 
+- cinema
+- Todas as letras 
+- numeros de 0-9
+
+Para carregar o aplicativo deve-se instalar os seguintes softwares:
+jdk 1.8
+Android Studio
+Android sdk
+Gradle
+
+Melhorias das proximas versões:
