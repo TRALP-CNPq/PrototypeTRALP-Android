@@ -119,7 +119,6 @@ public class CapturaCameraView extends Activity {
         }
         if (camera != null) {
             mCameraViewLayout = new CameraViewLayout(this, camera, mCameraId);//create a SurfaceView to show camera data
-//            mCameraViewLayout = new CameraViewLayout(this, camera,mCameraId);//create a SurfaceView to show camera data camFrontId
             FrameLayout camera_view = (FrameLayout) findViewById(R.id.CameraView);
             camera_view.addView(mCameraViewLayout);//add the SurfaceView to the layout
         }

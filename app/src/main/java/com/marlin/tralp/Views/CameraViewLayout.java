@@ -30,13 +30,13 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
     private static final int colorGray = Color.GRAY;
     private SurfaceHolder mHolder;
     private Camera mCamera;
-    private int				mCameraId 	= getQualCamera();
+    private int		mCameraId 	= getQualCamera();
     private final Paint[]   mPaintList 	= new Paint[colorTable.length];
-    private int 			mViewWidth 	= 0;
-    private int 			mViewHeight = 0;
+    private int 	mViewWidth 	= 0;
+    private int 	mViewHeight = 0;
     private Rect RectSilhueta = new Rect(0,0,0,0);
     private Rect Enquadrado = new Rect(0,0,0,0);
-    private Camera.Face[] 			mFaces 		= null;
+    private Camera.Face[] mFaces = null;
 
     Bitmap verde = BitmapFactory.decodeResource(getResources(), R.drawable.silhuetaverde);
     Bitmap vermelho = BitmapFactory.decodeResource(getResources(), R.drawable.silhuetavermelha);
@@ -47,14 +47,11 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
         mCamera = camera;
         mCameraId = cameraId;
         Camera.Parameters parameters = camera.getParameters();
-    //    mCamera.setDisplayOrientation(90);
+
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
         Camera.Size tamanho = parameters.getPreviewSize();
         Log.d("CameraViewLayout", "Camera size " + tamanho.toString());
         Log.d("CameraViewLayout", "Camera Back/Front " + cameraId );
-//        parameters.set("orientation", "landscape");
-//        mCamera.setDisplayOrientation(90);
-//        parameters.setRotation(90);
         Log.d("CameraViewLayout", "Camera Portrait " + this.getResources().getConfiguration().orientation);
 
         List<String> efeitos = parameters.getSupportedColorEffects();
@@ -98,11 +95,6 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
                 parameters.setRotation(0);
                 parameters.setColorEffect(android.hardware.Camera.Parameters.EFFECT_MONO);
                 mCamera.setParameters(parameters);
-//                parameters.set("orientation", "landscape");
-                // For Android 2.2 and above
-//                mCamera.setDisplayOrientation(0);
-                // Uncomment for Android 2.0 and above
-//                parameters.setRotation(0);
                 Log.d("surfaceCreated", "Camera Portrait " + this.getResources().getConfiguration().orientation);
             }
             else {
