@@ -59,7 +59,6 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
         for (int i =  0; i < efeitos.size(); i++)
         {
             Log.d("surfaceCreated", "getSupportedColorEffects " + this.getResources().getConfiguration().orientation);
-            //               Log.i(TAG, "[INFO] ["+i+"] " + efeitos.get(i)  );
         }
 
         //get the holder and set this class as the callback, so we can get camera data here
@@ -71,7 +70,6 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
         for(int i = 0; i < mPaintList.length; i++)
         {
             mPaintList[i] = new Paint();
-        //    mPaintList[i].setColor(colorTable[i]);
             mPaintList[i].setColor(colorGray);
             mPaintList[i].setStyle(Paint.Style.STROKE);
             mPaintList[i].setStrokeWidth(7);
@@ -98,12 +96,12 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
                 Log.d("surfaceCreated", "Camera Portrait " + this.getResources().getConfiguration().orientation);
             }
             else {
-                // This is an undocumented although widely known feature
-//                parameters.set("orientation", "landscape");
-                // For Android 2.2 and above
-//                mCamera.setDisplayOrientation(0);
-                // Uncomment for Android 2.0 and above
- //               parameters.setRotation(0);
+  /*               This is an undocumented although widely known feature
+                 parameters.set("orientation", "landscape");
+                 For Android 2.2 and above
+                 mCamera.setDisplayOrientation(0);
+                Uncomment for Android 2.0 and above
+                parameters.setRotation(0);*/
                 parameters.setColorEffect(android.hardware.Camera.Parameters.EFFECT_MONO);
                 mCamera.setParameters(parameters);
                 Log.d("surfaceCreated", "Camera landscape " + this.getResources().getConfiguration().orientation);
@@ -200,12 +198,6 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
                 canvas.drawBitmap(vermelho,null,RectSilhueta,null);
             }
 
-  /*          if (mFaces.length > 0){
-                canvas.drawBitmap(verde,null,RectSilhueta,null);
-            } else {
-                canvas.drawBitmap(vermelho,null,RectSilhueta,null);
-            };
-    */
             mFaces = null;
 
         } else {

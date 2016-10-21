@@ -241,7 +241,7 @@ public class GravacaoVideo extends AppCompatActivity implements View.OnTouchList
         matGray = inputFrame.gray();
         com.marlin.tralp.Model.Mat mGray = new com.marlin.tralp.Model.Mat(matGray);
         mGray.second = (int) tempTime / 1000;  //(tempTime - startTime)/1000;
-        
+
 /// / novo codigo
         MatOfRect palms = new MatOfRect();
 
