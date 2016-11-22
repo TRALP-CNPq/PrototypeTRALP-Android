@@ -34,7 +34,7 @@ public class ProcessView extends Activity{
         View rootview = inflater.inflate(R.layout.process_view, container, false);
         rootview.setVisibility(View.VISIBLE);
         Log.d("msg ", " Entrei ProcessView.onCreateView");
-    
+
         return rootview;
     }
 }

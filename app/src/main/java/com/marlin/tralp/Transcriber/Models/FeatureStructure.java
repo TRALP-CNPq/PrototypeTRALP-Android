@@ -19,16 +19,16 @@ public class FeatureStructure {
     public int faceY;
     public float faceWidth;
     public float faceHeight;
+
     public int handRelativeX;
     public int handRelativeY;
     public float isSimilingProbability;
-
+//no more
     public FingerState pinky;
     public FingerState ring;
     public FingerState middle;
     public FingerState index;
     public FingerState thumb;
-
     public boolean isSeparetedFingers;
 
 

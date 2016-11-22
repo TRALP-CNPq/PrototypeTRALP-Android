@@ -25,7 +25,9 @@ import org.opencv.core.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by gabriel on 16-02-16.
@@ -36,12 +38,14 @@ public class FeatureAnnotation {
     FrameQueue frameQueue;
     FaceDetector faceDetector;
     ArrayList<FeatureStructure> annotationResult;
+    Map<Long , CascadeClassifier> The_Map;
+
 
     public FeatureAnnotation(MainApplication app){
         mApp = app;
-        fist = loadClassifiers(R.raw.fist);
-        face = loadClassifiers(R.raw.face);
-        palm = loadClassifiers(R.raw.palm);
+        fist = loadClassifiers("R.raw.fist");
+        face = loadClassifiers("R.raw.face");
+        palm = loadClassifiers("R.raw.palm");
         frameQueue = mApp.frameQueue;
         if(frameQueue == null){
             throw new NullPointerException("No FrameQueue object found at the MainApplication");
@@ -51,6 +55,19 @@ public class FeatureAnnotation {
 //        faceDetector = new
 //                FaceDetector.Builder(mApp.getApplicationContext()).setTrackingEnabled(false)
 //                .build();
+
+        /*1_Executa query e busca lista (ID, FILENAME);
+            the_map (ID, LOAD_CLASSIFIER(FILENAME))*/
+    }
+
+    public static int getId(String resourceName, Class<?> c) {
+        try {
+            Field idField = c.getDeclaredField(resourceName);
+            return idField.getInt(idField);
+        } catch (Exception e) {
+            throw new RuntimeException("No resource ID found for: "
+                    + resourceName + " / " + c, e);
+        }
     }
 
     public void annotateFeatures(){
@@ -71,15 +88,10 @@ public class FeatureAnnotation {
         if (second < 9) {
             temp = frameQueue.getMatFrame(second,position,i);
         }
-//        for (; temp!=null && i<5 ; i++) {
         if (temp!=null)
             if(!palmFrameDetector(temp))
                 fistFrameDetector(temp);
-//                break;
-//            temp = frameQueue.getMatFrame(second,position,i);
-//        }
-//        if(temp == null)
-//            annotationResult.add(null); // Mark this position as failed to detect
+
 
         while(temp!= null){
             if(faceDetector(temp))
@@ -96,19 +108,9 @@ public class FeatureAnnotation {
 
     private boolean faceDetector(Mat img){
         //@TODO Implement face detection with Android
-//        if(!faceDetector.isOperational()){
-//            Log.d("Face Detector","Could not set up the face detector!" );
-//            return false;
-//        }
+
         Rect [] tempObj = detectOnFrame(face, img);
-//        Frame tempFrame = fromMatToFrame(img);
-//        SparseArray<Face> faces = faceDetector.detect(tempFrame);
-//        Face face;
-//        if(faces.size() >= 1)
-//            face = faces.get(0); //@INFO only working with 1 face
-//        else{
-//            return false;
-//        }
+
         if(tempObj.length != 0) {
             int size = annotationResult.size();
             FeatureStructure tempFS = annotationResult.get(size - 1);
@@ -133,7 +135,7 @@ public class FeatureAnnotation {
                     tempFS.handCenterY + tempFS.handHeight / 2);
             tempFS.handRelativeX = (int) tempPoint3D.getX();
             tempFS.handRelativeY = (int) tempPoint3D.getY();
-            //tempFS.isSimilingProbability = true;
+
             if (tempFS.faceX > 0 && tempFS.faceY > 0 && tempFS.faceWidth > 0 && tempFS.faceHeight > 0) {
                 annotationResult.set(size - 1, tempFS);
                 return true;
@@ -169,8 +171,7 @@ public class FeatureAnnotation {
             tempFS.touchingFingers = false;
 
             //@Todo determine how to find angles
-            //Rect.br == bottom rigth point
-            //Rect.tl == top left
+
             tempFS.palmAng1 = 90; //guess
             tempFS.palmAng2 = 0; //Likely
             tempFS.palmAng3 = 0; //precise
@@ -232,15 +233,13 @@ public class FeatureAnnotation {
     private Rect[] detectOnFrame(CascadeClassifier detector, Mat img){
         MatOfRect objectsDetected = new MatOfRect();
 
-    //    detector.detectMultiScale(img, objectsDetected); //@TODO Default parameters: Better precision, slower processing
-    //    detector.detectMultiScale(img,objectsDetected,1.1,3,0,new Size(5,13), new Size(45,80));
         detector.detectMultiScale(img,objectsDetected,1.1,1,0,new Size(45,80), new Size(165,320));
         return objectsDetected.toArray();
     }
-    private CascadeClassifier loadClassifiers(int rawResource){
+    private CascadeClassifier loadClassifiers(String rawResource){
         CascadeClassifier haarCascade;
         try{
-            InputStream is = mApp.getResources().openRawResource(rawResource);
+            InputStream is = mApp.getResources().openRawResource(Integer.parseInt("rawResource"));
             File cascadeDir = mApp.getDir("cascade", Context.MODE_PRIVATE);
             File mCascadeFile = new File(cascadeDir, "cascade["+rawResource+"].xml");
             FileOutputStream os = new FileOutputStream(mCascadeFile);
@@ -273,5 +272,10 @@ public class FeatureAnnotation {
         Utils.matToBitmap(img,tmp_bmp);
         return new Frame.Builder().setBitmap(tmp_bmp).build();
     }
+
+
+    /*public boolean *DEtector(mat){
+    rect[]qualquernome=
+     */
 }
 

@@ -37,7 +37,7 @@ public class ResultadoCaptura extends Activity implements View.OnTouchListener {
         Bundle extras = getIntent().getExtras();
     //    String inputString = extras.getString("frase");
         //TextView view = (TextView) findViewById(R.id.displayintentextra);
-    //    view.setText(inputString);
+        //    view.setText(inputString);
         String frase = extras.getString("frase");
         TextView mTxtView = (TextView)findViewById(R.id.textView3); // getView().
         mTxtView.setText(frase);

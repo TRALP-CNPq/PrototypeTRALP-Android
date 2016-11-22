@@ -39,18 +39,10 @@ public class MovimentoDAO {
         }
     }
 
-    public void ObterMovimentoPorLocalizaçãoDaMaoAproximada(int mao_x, int mao_y, int qual_mao) {
-        String[] colunas = new String[]{"*"};
-        Log.d("MovimentoDAO: ", "mao_x = Id " + Integer.toString(mao_x));
-        String[] selectionArgs = new String[]{Integer.toString(mao_x), Integer.toString(mao_y)};
-        Cursor busca = db.query("MOVIMENTO", colunas, "PARAM1 = ? AND PARAM2 = ?", selectionArgs, null, null, null, null);
-        busca.moveToFirst();
-        busca.close();
-        db.close();
-    }
+
 
     public ArrayList<Movement> ObterTodosMovimentosDeUmSinal(int codSin) {
-        ArrayList<Movement> movements = new ArrayList<Movement>();
+        ArrayList<Movement> movements = new ArrayList<>();
         Log.d("MovimentoDAO: ", "codSin = Id " + Integer.toString(codSin));
         String[] colunas = new String[]{"*"};
         String[] selectionArgs = new String[]{Integer.toString(codSin)};
@@ -73,7 +65,7 @@ public class MovimentoDAO {
         return movements;
     }
     public ArrayList<MovementDTO> ObterTodosMovimentosDeUmSinalDTO(int codSin) {
-        ArrayList<MovementDTO> movements = new ArrayList<MovementDTO>();
+        ArrayList<MovementDTO> movements = new ArrayList<>();
         Log.d("MovimentoDAO: ", "codSin = Id " + Integer.toString(codSin));
         String[] colunas = new String[]{"*"};
         String[] selectionArgs = new String[]{Integer.toString(codSin)};

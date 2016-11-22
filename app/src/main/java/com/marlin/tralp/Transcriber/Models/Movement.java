@@ -53,7 +53,6 @@ public class Movement {
     int codSign;
     int codMao;
     int card;
-    Date tempo;
     int tipo;
     boolean processed;
     Context context;
@@ -63,7 +62,7 @@ public class Movement {
         context = new AppContext().getAppContext();
     }
 
-    public Movement(int codMov, int codSign,int codMao,int card,Date tempo,int param1,
+    public Movement(int codMov, int codSign,int codMao,int card,int param1,
                     int param2,int param3,int param4,int param5,int param6,
                     int posicaoInicialX,int posicaoInicialY){
         context = new AppContext().getAppContext();
@@ -123,19 +122,13 @@ public class Movement {
     }
 
     public ArrayList<Movement> GetAllMovements(int codSin) {
-        ArrayList<Movement> movements = new ArrayList<Movement>();
+        ArrayList<Movement> movements = new ArrayList<>();
         MovimentoDAO dao = new MovimentoDAO(context);
         movements = dao.ObterTodosMovimentosDeUmSinal(codSin);
 
         return movements;
     }
-    public ArrayList<MovementDTO> GetAllMovementsDTO(int codSin) {
-        ArrayList<MovementDTO> movements = new ArrayList<MovementDTO>();
-        MovimentoDAO dao = new MovimentoDAO(context);
-        movements = dao.ObterTodosMovimentosDeUmSinalDTO(codSin);
 
-        return movements;
-    }
 
     public boolean isProcessed() {
         return processed;
@@ -174,14 +167,6 @@ public class Movement {
 
     public void setCard(int card) {
         this.card = card;
-    }
-
-    public Date getTempo() {
-        return tempo;
-    }
-
-    public void setTempo(Date tempo) {
-        this.tempo = tempo;
     }
 
     public int getTipo() {
