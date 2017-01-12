@@ -1,5 +1,7 @@
 package com.marlin.tralp.Transcriber.tr_Models;
 
+import android.content.Context;
+
 import com.marlin.tralp.Conexao.Dao.tr_MovimentsDAO;
 
 import java.util.ArrayList;
@@ -9,8 +11,7 @@ import java.util.ArrayList;
  */
 
 public class tr_Moviments {
-    public tr_Moviments() {
-    }
+    public tr_Moviments() { }
 
     @Override
     public String toString() {

@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.marlin.tralp.AppContext;
 import com.marlin.tralp.Conexao.DbConnection;
 import com.marlin.tralp.Transcriber.tr_Models.tr_Moviments;
 
@@ -17,10 +18,12 @@ import java.util.List;
  */
 
 public class tr_MovimentsDAO {
+    Context context;
     private SQLiteDatabase db;
 
-    public tr_MovimentsDAO(Context context) {
-        DbConnection connection = new DbConnection(context);
+    public tr_MovimentsDAO() {
+        this.context = new AppContext().getAppContext();
+        DbConnection connection = new DbConnection(this.context);
         try {
             connection.createDataBase();
         } catch (IOException ioe) {

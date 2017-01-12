@@ -29,7 +29,7 @@ public class MovementDto {
         this.codSign = origin.getCodSign();
         this.codMao = origin.getCodMao();
         this.card = origin.getCard();
-        this.tempo = origin.getTempo();
+//        this.tempo = origin.getTempo();
         this.tipo = origin.getTipo();
         if(origin.getAnimationParameters() != null)
             this.animationParameters =  new AnimationParametersDto(origin.getAnimationParameters());

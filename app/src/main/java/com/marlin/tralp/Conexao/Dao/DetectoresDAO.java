@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.marlin.tralp.Conexao.DbConnection;
 import com.marlin.tralp.Transcriber.tr_Models.Detector;
-import com.marlin.tralp.Transcriber.tr_Models.Detectores;
 
 import java.io.IOException;
 import java.util.ArrayList;
