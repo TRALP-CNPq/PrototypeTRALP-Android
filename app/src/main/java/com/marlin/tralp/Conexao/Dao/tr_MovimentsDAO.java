@@ -18,12 +18,11 @@ import java.util.List;
  */
 
 public class tr_MovimentsDAO {
-    Context context;
     private SQLiteDatabase db;
 
     public tr_MovimentsDAO() {
-        this.context = new AppContext().getAppContext();
-        DbConnection connection = new DbConnection(this.context);
+        int duh = 1;
+        DbConnection connection = new DbConnection(new AppContext().getAppContext());
         try {
             connection.createDataBase();
         } catch (IOException ioe) {

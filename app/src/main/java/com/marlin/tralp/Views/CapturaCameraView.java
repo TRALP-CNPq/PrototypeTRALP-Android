@@ -73,6 +73,15 @@ public class CapturaCameraView extends Activity {
         });
     }
 
+    public void changeColor(boolean allow){
+        if(allow){
+            btnGravar.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.presence_video_online));
+        }else {
+            btnGravar.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.presence_video_busy));
+        }
+
+    }
+
     private void ChamarEventoConfirma() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
@@ -111,14 +120,13 @@ public class CapturaCameraView extends Activity {
         //    int currentCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
             int currentCameraId = mCameraId;    //Camera.CameraInfo.CAMERA_FACING_BACK;
             camera = Camera.open(mCameraId);   // camFrontId camBackId
-//            camera.setDisplayOrientation(90);
 
         } catch (RuntimeException e) {
             System.out.println("Error: " + e);
             return;
         }
         if (camera != null) {
-            mCameraViewLayout = new CameraViewLayout(this, camera, mCameraId);//create a SurfaceView to show camera data
+            mCameraViewLayout = new CameraViewLayout(this, camera, mCameraId, this);//create a SurfaceView to show camera data
             FrameLayout camera_view = (FrameLayout) findViewById(R.id.CameraView);
             camera_view.addView(mCameraViewLayout);//add the SurfaceView to the layout
         }

@@ -38,11 +38,14 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
     private Rect Enquadrado = new Rect(0,0,0,0);
     private Camera.Face[] mFaces = null;
 
+    private CapturaCameraView viewCallback;
+
     Bitmap verde = BitmapFactory.decodeResource(getResources(), R.drawable.silhuetaverde);
     Bitmap vermelho = BitmapFactory.decodeResource(getResources(), R.drawable.silhuetavermelha);
 
-    public CameraViewLayout(Context context, Camera camera, int cameraId) {
+    public CameraViewLayout(Context context, Camera camera, int cameraId, CapturaCameraView callback) {
         super(context);
+        viewCallback = callback;
         setWillNotDraw(false);
         mCamera = camera;
         mCameraId = cameraId;
@@ -87,33 +90,42 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
         try {
             //when the surface is created, we can set the camera to draw images in this surfaceholder
             Camera.Parameters parameters = mCamera.getParameters();
-            if (this.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
-                parameters.set("orientation", "landscape");
-                mCamera.setDisplayOrientation(0);
-                parameters.setRotation(0);
-                parameters.setColorEffect(android.hardware.Camera.Parameters.EFFECT_MONO);
-                mCamera.setParameters(parameters);
-                Log.d("surfaceCreated", "Camera Portrait " + this.getResources().getConfiguration().orientation);
-            }
-            else {
-  /*               This is an undocumented although widely known feature
-                 parameters.set("orientation", "landscape");
-                 For Android 2.2 and above
-                 mCamera.setDisplayOrientation(0);
-                Uncomment for Android 2.0 and above
-                parameters.setRotation(0);*/
-                parameters.setColorEffect(android.hardware.Camera.Parameters.EFFECT_MONO);
-                mCamera.setParameters(parameters);
-                Log.d("surfaceCreated", "Camera landscape " + this.getResources().getConfiguration().orientation);
-            }
+            parameters.set("orientation", "portrait");
+            mCamera.setDisplayOrientation(90);
+//            List<Camera.Size> mSupportedPreviewSizes = mCamera.getParameters().getSupportedPreviewSizes();
+//            for(Camera.Size str: mSupportedPreviewSizes)
+//                Log.e("[OPTIONS]", str.width + "/" + str.height);
+//            parameters.setPreviewSize(mSupportedPreviewSizes.get(0).width, mSupportedPreviewSizes.get(0).height);
+            mCamera.setParameters(parameters);
+            parameters.setRotation(90);
+            mCamera.setParameters(parameters);
+//            if (this.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+//                parameters.set("orientation", "landscape");
+//                mCamera.setDisplayOrientation(0);
+//                parameters.setRotation(0);
+////                parameters.setColorEffect(android.hardware.Camera.Parameters.EFFECT_MONO);
+//                mCamera.setParameters(parameters);
+//                Log.d("surfaceCreated", "Camera Portrait " + this.getResources().getConfiguration().orientation);
+//            }
+//            else {
+//  /*               This is an undocumented although widely known feature
+//                 parameters.set("orientation", "landscape");
+//                 For Android 2.2 and above
+//                 mCamera.setDisplayOrientation(0);
+//                Uncomment for Android 2.0 and above
+//                parameters.setRotation(0);*/
+////                parameters.setColorEffect(android.hardware.Camera.Parameters.EFFECT_MONO);
+//                mCamera.setParameters(parameters);
+//                Log.d("surfaceCreated", "Camera landscape " + this.getResources().getConfiguration().orientation);
+//            }
 
-            List<String> efeitos = parameters.getSupportedColorEffects();
-            Log.d("surfaceCreated", "getSupportedColorEffects size " + efeitos.size() + "efeito atual " + parameters.getColorEffect());
-            for (int i =  0; i < efeitos.size(); i++)
-            {
-                Log.d("surfaceCreated", "getSupportedColorEffects " + this.getResources().getConfiguration().orientation);
- //               Log.i(TAG, "[INFO] ["+i+"] " + efeitos.get(i)  );
-            }
+//            List<String> efeitos = parameters.getSupportedColorEffects();
+//            Log.d("surfaceCreated", "getSupportedColorEffects size " + efeitos.size() + "efeito atual " + parameters.getColorEffect());
+//            for (int i =  0; i < efeitos.size(); i++)
+//            {
+//                Log.d("surfaceCreated", "getSupportedColorEffects " + this.getResources().getConfiguration().orientation);
+// //               Log.i(TAG, "[INFO] ["+i+"] " + efeitos.get(i)  );
+//            }
 
             mCamera.setPreviewDisplay(holder);
             mCamera.startPreview();
@@ -194,8 +206,10 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
             int left 	= (int)((float)mViewWidth/2000 * (1000 - mFaces[0].rect.bottom));
             if (((top - Enquadrado.top)^2 + (left - Enquadrado.left)^2) < 100 && ((bottom - Enquadrado.bottom)^2 + (right - Enquadrado.right)^2) < 200  ) {
                 canvas.drawBitmap(verde,null,RectSilhueta,null);
+                viewCallback.changeColor(true);
             } else {
                 canvas.drawBitmap(vermelho,null,RectSilhueta,null);
+                viewCallback.changeColor(false);
             }
 
             mFaces = null;

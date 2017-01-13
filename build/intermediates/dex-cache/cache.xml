@@ -3,111 +3,111 @@
 
     <item
         is-multidex="true"
-        jar="C:\Users\paulo\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.2.1\support-annotations-22.2.1.jar"
+        jar="/Users/gabriel/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.1/support-annotations-22.2.1.jar"
         jumboMode="true"
         optimize="true"
         revision="23.0.0"
         sha1="61a0ff5c29295ec56d7e0bd3d25d95dbf71b4b2b">
-        <dex dex="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-22.2.1_d3441ed1095a385f290ae345fe1a95aa2c940a9e\classes.dex" />
+        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-22.2.1_a9e8fba9cdb831c92f12044b138e0d78a35590c6/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.1.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.0"
-        sha1="d0dda274b703dd9c5bb056867649d22b4171ae7d">
-        <dex dex="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-basement-8.1.0_e60ad790d17ccc32cab36d8f420617b5bf007866\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\libs\unity-classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.0"
-        sha1="96798cae35ac60eb5a18ed28892d2954092cdaab">
-        <dex dex="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\build\intermediates\transforms\dex\debug\folders\1000\2\unity-classes_44084b13efb97b31b93e1a53ab35c30c9a90ed6f\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.0"
-        sha1="4486e953d1f35f8ccab098b1dd67146366d5f731">
-        <dex dex="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-22.2.1_aca8129b4fb17273616a311acf502e9d49165faa\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.1\jars\libs\internal_impl-22.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.0"
-        sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
-        <dex dex="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-22.2.1_3be468f94a2efd2ebba894a7a218a0bd605c2ecd\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.0"
-        sha1="f6870768cb79cbcd36df04fa99ca964000a15cd6">
-        <dex dex="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_2d17b5531c218f0c739bce45e568731f6a755466\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.1.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.0"
-        sha1="82825756edeeb3b56b15e73b2edd56e93da5a444">
-        <dex dex="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-base-8.1.0_632102ed8e47e8b973d3e961a397d8a3c8146a6e\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.0"
-        sha1="f8efd0096475e0daf054267b61544e10dc776503">
-        <dex dex="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-22.2.1_654ca0c21ca529f496427266c79fe3a28d32b1b2\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\paulo\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.6.2\f1bc476cc167b18e66c297df599b2377131a8947\gson-2.6.2.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.0"
-        sha1="f1bc476cc167b18e66c297df599b2377131a8947">
-        <dex dex="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\gson-2.6.2_e095247a702b02d87497044c11cfb7d8cd17d360\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-vision\8.1.0\jars\classes.jar"
+        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-vision/8.1.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="23.0.0"
         sha1="17449c47df35c754b257532052f1270c444f7993">
-        <dex dex="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-vision-8.1.0_b315a090d70156ed20efb1196d702fff27fb9d49\classes.dex" />
+        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-vision-8.1.0_532bd74ff0644e665c69b502e7c279dd2e26532c/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\libs\UnityBridge.jar"
+        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.0"
+        sha1="4116bc1416332451c1d70e32895a9005ad4e0788">
+        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_345f71696748d689e956cab285948cce574083cb/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/libs/internal_impl-22.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.0"
+        sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
+        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-22.2.1_c91170cf3d5e431065c46882e5a22cc21e866990/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.0"
+        sha1="9b0bc3bd513a548747f83dbfae8c28a45b4a860f">
+        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_406f264fd2cac079acf3489319d9fde008714a79/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.0"
+        sha1="f8efd0096475e0daf054267b61544e10dc776503">
+        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-22.2.1_bc9b5d914e96f8013e56d606b129661e012a6dc9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/gabriel/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.6.2/f1bc476cc167b18e66c297df599b2377131a8947/gson-2.6.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.0"
+        sha1="f1bc476cc167b18e66c297df599b2377131a8947">
+        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.6.2_1673237e7246402019d85fc8e99bd9ac60485e85/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/libs/unity-classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.0"
+        sha1="96798cae35ac60eb5a18ed28892d2954092cdaab">
+        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/2/unity-classes_580e9cabe35c138df716d8e0fe408b07ac735556/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.0"
+        sha1="d0dda274b703dd9c5bb056867649d22b4171ae7d">
+        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-basement-8.1.0_104eda2200c242afbbdc396af107a8be70c7a24d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.0"
+        sha1="4486e953d1f35f8ccab098b1dd67146366d5f731">
+        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-22.2.1_982dab754332e952c49ef075052c3df4c7ef3004/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/libs/UnityBridge.jar"
         jumboMode="true"
         optimize="true"
         revision="23.0.0"
         sha1="c77de2d061634c507e788dd8dddf887e95cfc51b">
-        <dex dex="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\build\intermediates\transforms\dex\debug\folders\1000\2\UnityBridge_206c43d62c669e6e2cf04e5b2b941da3b37b0a5c\classes.dex" />
+        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/2/UnityBridge_7e6d7d986bbc71c51b7c9bccac6b8c2c1f6c17ad/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.1.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="23.0.0"
-        sha1="ec8c1a3430c809a9a765b25015e059ecfac3a14a">
-        <dex dex="C:\Users\paulo\Desktop\PrototypeTRALP-Android-master\PrototypeTRALP-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_e51be770c9dbc0c17a9d39830a933b99e7a60241\classes.dex" />
+        sha1="82825756edeeb3b56b15e73b2edd56e93da5a444">
+        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-base-8.1.0_193fcf0b7d505cfb62a7f06d25643d7375c5d329/classes.dex" />
     </item>
 
 </items>
