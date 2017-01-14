@@ -10,22 +10,9 @@ import android.graphics.Bitmap;
 
 
 import android.hardware.Camera;
-//import android.hardware.camera2.CameraAccessException;
-//import android.hardware.camera2.CameraCaptureSession;
-//import android.hardware.camera2.CameraCharacteristics;
-//import android.hardware.camera2.CameraDevice;
-//import android.hardware.camera2.CameraManager;
-//import android.hardware.camera2.CameraMetadata;
-//import android.hardware.camera2.CaptureRequest;
-//import android.hardware.camera2.CaptureResult;
-//import android.hardware.camera2.TotalCaptureResult;
-//import android.hardware.camera2.params.StreamConfigurationMap;
 
 import android.os.Bundle;
 import android.os.Environment;
-//import android.os.Handler;
-//import android.os.Looper;
-//import android.os.Message;
 import android.os.SystemClock;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
@@ -90,6 +77,7 @@ public class GravacaoVideo extends AppCompatActivity implements View.OnTouchList
     private long startTime;
     //int threadCounter;
     private MainApplication mApplication;
+    Mat mRgba_Mat;
     private File mCascadeFile;
     private CascadeClassifier mJavaDetector;
     //    private DetectionBasedTracker  mNativeDetector;
@@ -101,6 +89,7 @@ public class GravacaoVideo extends AppCompatActivity implements View.OnTouchList
 
     public void GravacaoVideo() {
         Log.i("GravacaoVideo: ", "Instantiated new " + this.getClass());
+        mApplication = (MainApplication)this.getApplicationContext();
     }
 
     private BaseLoaderCallback openCVLoaderCallback = new BaseLoaderCallback(this){
@@ -143,7 +132,7 @@ public class GravacaoVideo extends AppCompatActivity implements View.OnTouchList
         state="started";
         Log.d("GravacaoVideo OnCreate", "mCameraId: " + mCameraId);
 
-        opencvCameraView = new JavaCameraView(this,mCameraId);
+        opencvCameraView = new PortraitCameraView(this,mCameraId);
 
         opencvCameraView.setCvCameraViewListener(this);
         opencvCameraView.enableFpsMeter();
@@ -182,7 +171,6 @@ public class GravacaoVideo extends AppCompatActivity implements View.OnTouchList
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     btnParar.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.presence_video_busy));
                     //ChamarEventoConfirma();
-
                 } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     btnParar.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.presence_video_online));
                 }
@@ -204,7 +192,7 @@ public class GravacaoVideo extends AppCompatActivity implements View.OnTouchList
         //@TODO setup file folder and filename counters
         matGray = new Mat(width, height, CvType.CV_8UC1);
         matGrayT = new Mat(height, width, CvType.CV_8UC1);
-        prepareFolder();
+//        prepareFolder();
         startTime = SystemClock.currentThreadTimeMillis();
         Log.d("onCameraViewStarted ", " startTime: " + (startTime / 1000));
     }
@@ -222,38 +210,46 @@ public class GravacaoVideo extends AppCompatActivity implements View.OnTouchList
     }
 
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        long tempTime = SystemClock.currentThreadTimeMillis();
-        if((tempTime /1000) > 8 || state == "stopped") {
-            Log.d("[time]", "should stop, tempTime: " + (tempTime / 1000) + " startTime: " + (startTime / 1000));
-            Intent intent = new Intent(GravacaoVideo.this, ProcessView.class);//MainActivity.class);// MainActivity.class    CameraViewLayout
-            //startActivityFromFragment(new ProcessView(), intent, 0);
-            startActivity(intent);
-        }
-        Log.d("[time]", " tempTime: " + (tempTime / 1000) + " startTime: " + (startTime / 1000) + " counterTime: " + counterTime);
-        if(counterTime == 0){
-            counterTime = tempTime;
-            counter = 0;
-        }
-        if((tempTime-counterTime) > 1000){
-            counterTime = tempTime;
-            counter++;
-        }
-        matGray = inputFrame.gray();
-        com.marlin.tralp.Model.Mat mGray = new com.marlin.tralp.Model.Mat(matGray);
-        mGray.second = (int) tempTime / 1000;  //(tempTime - startTime)/1000;
-
-/// / novo codigo
-        MatOfRect palms = new MatOfRect();
-
-        if (mJavaDetector != null)
-            mJavaDetector.detectMultiScale(mGray, palms, 1.1, 2, 0, // TODO: objdetect.CV_HAAR_SCALE_IMAGE
-                    new org.opencv.core.Size(45,80), new org.opencv.core.Size(165,320));
-        Rect[] palmsArray = palms.toArray();
-        for (int i = 0; i < palmsArray.length; i++)
-            Imgproc.rectangle(matGray, palmsArray[i].tl(), palmsArray[i].br(), FACE_RECT_COLOR, 3);
-
-        saveFrameToBuffer(mGray);
-        return matGray;
+        Mat mRgba = inputFrame.rgba();
+//        Mat mRgbaT = mRgba.t();
+//        Core.flip(mRgba.t(), mRgbaT, 1);
+////        org.opencv.core.Size a = new org.opencv.core.Size(900,600);
+////        Log.d("SIZE",""+ mRgba.size() + " " + a);
+////        Mat m = new Mat(900, 600, mRgba.type());
+//        Imgproc.resize(mRgbaT, mRgbaT, mRgba.size());
+        return mRgba;
+//        long tempTime = SystemClock.currentThreadTimeMillis();
+//        if((tempTime /1000) > 8 || state == "stopped") {
+//            Log.d("[time]", "should stop, tempTime: " + (tempTime / 1000) + " startTime: " + (startTime / 1000));
+//            Intent intent = new Intent(GravacaoVideo.this, ProcessView.class);//MainActivity.class);// MainActivity.class    CameraViewLayout
+//            //startActivityFromFragment(new ProcessView(), intent, 0);
+//            startActivity(intent);
+//        }
+//        Log.d("[time]", " tempTime: " + (tempTime / 1000) + " startTime: " + (startTime / 1000) + " counterTime: " + counterTime);
+//        if(counterTime == 0){
+//            counterTime = tempTime;
+//            counter = 0;
+//        }
+//        if((tempTime-counterTime) > 1000){
+//            counterTime = tempTime;
+//            counter++;
+//        }
+//        matGray = inputFrame.gray();
+//        com.marlin.tralp.Model.Mat mGray = new com.marlin.tralp.Model.Mat(matGray);
+//        mGray.second = (int) tempTime / 1000;  //(tempTime - startTime)/1000;
+//
+///// / novo codigo
+//        MatOfRect palms = new MatOfRect();
+//
+//        if (mJavaDetector != null)
+//            mJavaDetector.detectMultiScale(mGray, palms, 1.1, 2, 0, // TODO: objdetect.CV_HAAR_SCALE_IMAGE
+//                    new org.opencv.core.Size(45,80), new org.opencv.core.Size(165,320));
+//        Rect[] palmsArray = palms.toArray();
+//        for (int i = 0; i < palmsArray.length; i++)
+//            Imgproc.rectangle(matGray, palmsArray[i].tl(), palmsArray[i].br(), FACE_RECT_COLOR, 3);
+//
+//        saveFrameToBuffer(mGray);
+//        return matGray;
     }
     private void rotate90(Mat source, Mat destination){
         destination.create(source.size(),source.type());
@@ -303,6 +299,7 @@ public class GravacaoVideo extends AppCompatActivity implements View.OnTouchList
             Log.d("[prepareFolder]", "Write Error!");
         }
     }
+
     void deleteRecursive(File fileOrDirectory) {
         if (fileOrDirectory.isDirectory())
             for (File child : fileOrDirectory.listFiles())

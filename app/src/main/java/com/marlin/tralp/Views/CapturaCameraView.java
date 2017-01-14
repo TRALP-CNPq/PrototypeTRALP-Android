@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import com.marlin.tralp.MainApplication;
 import com.marlin.tralp.R;
 
 import java.util.Locale;
@@ -126,7 +127,8 @@ public class CapturaCameraView extends Activity {
             return;
         }
         if (camera != null) {
-            mCameraViewLayout = new CameraViewLayout(this, camera, mCameraId, this);//create a SurfaceView to show camera data
+            MainApplication m = (MainApplication)this.getApplicationContext();
+            mCameraViewLayout = new CameraViewLayout(this, camera, mCameraId, this, m);//create a SurfaceView to show camera data
             FrameLayout camera_view = (FrameLayout) findViewById(R.id.CameraView);
             camera_view.addView(mCameraViewLayout);//add the SurfaceView to the layout
         }

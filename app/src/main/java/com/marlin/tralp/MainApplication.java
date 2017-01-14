@@ -1,6 +1,8 @@
 package com.marlin.tralp;
 
 import android.app.Application;
+import android.graphics.YuvImage;
+
 import com.marlin.tralp.Model.Mat;
 import com.marlin.tralp.Model.Pair;
 import com.marlin.tralp.Transcriber.Models.FeatureStructure;

@@ -25,7 +25,7 @@
         jumboMode="true"
         optimize="true"
         revision="23.0.0"
-        sha1="4116bc1416332451c1d70e32895a9005ad4e0788">
+        sha1="63f86c1506ef28bf0f34a95d5473bad511831835">
         <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_345f71696748d689e956cab285948cce574083cb/classes.dex" />
     </item>
     <item
@@ -43,7 +43,7 @@
         jumboMode="true"
         optimize="true"
         revision="23.0.0"
-        sha1="9b0bc3bd513a548747f83dbfae8c28a45b4a860f">
+        sha1="51105a67f0a869c14338bd25b8d68b2bd45bdb41">
         <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_406f264fd2cac079acf3489319d9fde008714a79/classes.dex" />
     </item>
     <item

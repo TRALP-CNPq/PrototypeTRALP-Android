@@ -6,17 +6,24 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ImageFormat;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.marlin.tralp.MainActivity;
+import com.marlin.tralp.MainApplication;
 import com.marlin.tralp.R;
 
 import java.io.IOException;
 import java.util.List;
+
+import org.opencv.android.Utils;
+
 
 import static com.marlin.tralp.Constantes.Constantes.getQualCamera;
 
@@ -34,25 +41,33 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
     private final Paint[]   mPaintList 	= new Paint[colorTable.length];
     private int 	mViewWidth 	= 0;
     private int 	mViewHeight = 0;
+    private int 	mCamWidth = 0;
+    private int 	mCamHeight = 0;
     private Rect RectSilhueta = new Rect(0,0,0,0);
     private Rect Enquadrado = new Rect(0,0,0,0);
     private Camera.Face[] mFaces = null;
+    private int stop = 0;
 
     private CapturaCameraView viewCallback;
+
+    public MainApplication mApp;
 
     Bitmap verde = BitmapFactory.decodeResource(getResources(), R.drawable.silhuetaverde);
     Bitmap vermelho = BitmapFactory.decodeResource(getResources(), R.drawable.silhuetavermelha);
 
-    public CameraViewLayout(Context context, Camera camera, int cameraId, CapturaCameraView callback) {
+    public CameraViewLayout(Context context, Camera camera, int cameraId, CapturaCameraView callback, MainApplication m) {
         super(context);
         viewCallback = callback;
-        setWillNotDraw(false);
+        mApp = m;
+
         mCamera = camera;
         mCameraId = cameraId;
         Camera.Parameters parameters = camera.getParameters();
 
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
         Camera.Size tamanho = parameters.getPreviewSize();
+        mCamWidth = tamanho.width;
+        mCamHeight = tamanho.height;
         Log.d("CameraViewLayout", "Camera size " + tamanho.toString());
         Log.d("CameraViewLayout", "Camera Back/Front " + cameraId );
         Log.d("CameraViewLayout", "Camera Portrait " + this.getResources().getConfiguration().orientation);
@@ -87,45 +102,17 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        setWillNotDraw(false);
         try {
             //when the surface is created, we can set the camera to draw images in this surfaceholder
             Camera.Parameters parameters = mCamera.getParameters();
+
             parameters.set("orientation", "portrait");
             mCamera.setDisplayOrientation(90);
-//            List<Camera.Size> mSupportedPreviewSizes = mCamera.getParameters().getSupportedPreviewSizes();
-//            for(Camera.Size str: mSupportedPreviewSizes)
-//                Log.e("[OPTIONS]", str.width + "/" + str.height);
-//            parameters.setPreviewSize(mSupportedPreviewSizes.get(0).width, mSupportedPreviewSizes.get(0).height);
+
             mCamera.setParameters(parameters);
             parameters.setRotation(90);
             mCamera.setParameters(parameters);
-//            if (this.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
-//                parameters.set("orientation", "landscape");
-//                mCamera.setDisplayOrientation(0);
-//                parameters.setRotation(0);
-////                parameters.setColorEffect(android.hardware.Camera.Parameters.EFFECT_MONO);
-//                mCamera.setParameters(parameters);
-//                Log.d("surfaceCreated", "Camera Portrait " + this.getResources().getConfiguration().orientation);
-//            }
-//            else {
-//  /*               This is an undocumented although widely known feature
-//                 parameters.set("orientation", "landscape");
-//                 For Android 2.2 and above
-//                 mCamera.setDisplayOrientation(0);
-//                Uncomment for Android 2.0 and above
-//                parameters.setRotation(0);*/
-////                parameters.setColorEffect(android.hardware.Camera.Parameters.EFFECT_MONO);
-//                mCamera.setParameters(parameters);
-//                Log.d("surfaceCreated", "Camera landscape " + this.getResources().getConfiguration().orientation);
-//            }
-
-//            List<String> efeitos = parameters.getSupportedColorEffects();
-//            Log.d("surfaceCreated", "getSupportedColorEffects size " + efeitos.size() + "efeito atual " + parameters.getColorEffect());
-//            for (int i =  0; i < efeitos.size(); i++)
-//            {
-//                Log.d("surfaceCreated", "getSupportedColorEffects " + this.getResources().getConfiguration().orientation);
-// //               Log.i(TAG, "[INFO] ["+i+"] " + efeitos.get(i)  );
-//            }
 
             mCamera.setPreviewDisplay(holder);
             mCamera.startPreview();
@@ -178,6 +165,8 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
 
     @Override
     protected void onDraw(Canvas canvas) {
+
+
         // TODO Auto-generated method stub
         super.onDraw(canvas);
         Log.i(TAG, "[INFO] OnDraw()");
