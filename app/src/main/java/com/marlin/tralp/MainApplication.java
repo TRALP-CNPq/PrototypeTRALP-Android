@@ -7,6 +7,7 @@ import com.marlin.tralp.Model.Mat;
 import com.marlin.tralp.Model.Pair;
 import com.marlin.tralp.Transcriber.Models.FeatureStructure;
 import com.marlin.tralp.Transcriber.Models.FrameQueue;
+import com.marlin.tralp.Transcriber.tr_Models.tr_FeatureStructure;
 
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class MainApplication extends Application {
 
     static public FrameQueue frameQueue;
 
-    static public ArrayList<FeatureStructure> annotation;
+    static public ArrayList<tr_FeatureStructure> annotation;
 
     static public void setFrameBuffer(List<Mat> received){
         frameBuffer = received;

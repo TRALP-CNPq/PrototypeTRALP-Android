@@ -102,6 +102,9 @@ public class FrameQueue {
         } else
             return null;
     }
+    public List<Mat> getGroupList(int secondIndex, int frameIndex){
+        return frameData.get(secondIndex).get(frameIndex);
+    }
     public Mat getMatFrame(int order){
         return frameData.get(secondIndex).get(frameIndex).get(order);
     }

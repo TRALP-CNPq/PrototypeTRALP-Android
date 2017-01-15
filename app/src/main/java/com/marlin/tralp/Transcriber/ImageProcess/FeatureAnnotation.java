@@ -79,7 +79,7 @@ public class FeatureAnnotation {
             }
         }
 
-        mApp.annotation = annotationResult;
+//        mApp.annotation = annotationResult;
     }
 
     private void findObjectExtractFeature(int second, int position){

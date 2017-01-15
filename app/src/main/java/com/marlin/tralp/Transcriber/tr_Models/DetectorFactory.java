@@ -66,8 +66,8 @@ public class DetectorFactory {
         }
     }
 
-    public List<Detector> getDetectors(MainApplication app){
-        List<Detector> a = new ArrayList<Detector>();
+    public ArrayList<Detector> getDetectors(MainApplication app){
+        ArrayList<Detector> a = new ArrayList<Detector>();
         a.add(new Detector(app, 1,2,"testing"));
         return a;
     }
