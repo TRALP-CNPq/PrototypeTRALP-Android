@@ -7,6 +7,7 @@ import android.util.SparseArray;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
+import com.marlin.tralp.AppContext;
 import com.marlin.tralp.MainApplication;
 import com.marlin.tralp.Model.Mat;
 import com.marlin.tralp.Transcriber.Models.FrameQueue;
@@ -40,7 +41,7 @@ public class tr_FeatureAnnotation {
         annotationResult = new ArrayList<tr_FeatureStructure>();
 
         faceDetector = new
-                FaceDetector.Builder(mApp.getApplicationContext()).setTrackingEnabled(false)
+                FaceDetector.Builder(new AppContext().getAppContext()).setTrackingEnabled(false)
                 .build();
         loadDetectors();
     }

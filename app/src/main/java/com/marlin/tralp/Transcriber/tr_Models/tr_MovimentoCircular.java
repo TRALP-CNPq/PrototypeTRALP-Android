@@ -6,10 +6,11 @@ package com.marlin.tralp.Transcriber.tr_Models;
 
 public class tr_MovimentoCircular implements tr_Movimento{
     public int angulo;
-    public String raio;
+    public int raio;
 
-    public tr_MovimentoCircular() {
-        //@// TODO: 2017-01-14 Parsear linha de consulta ao banco
+    public tr_MovimentoCircular(int angulo, int raio) {
+        this.angulo = angulo;
+        this.raio = raio;
     }
 
     @Override
@@ -18,7 +19,7 @@ public class tr_MovimentoCircular implements tr_Movimento{
     }
 
     @Override
-    public boolean aceita(int idConfigMao, String orientacaoPalma, int posX, int posY) {
+    public boolean aceita(tr_FeatureStructure fs) {
         return false;
     }
 }

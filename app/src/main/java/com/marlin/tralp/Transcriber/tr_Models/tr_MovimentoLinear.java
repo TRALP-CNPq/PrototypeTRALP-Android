@@ -1,19 +1,16 @@
 package com.marlin.tralp.Transcriber.tr_Models;
 
-import com.marlin.tralp.Conexao.Dao.tr_MovimentsDAO;
-
-import java.util.ArrayList;
-
 /**
  * Created by paulo on 10/11/2016.
  */
 
 public class tr_MovimentoLinear implements tr_Movimento {
     public int angulo;
-    public String tamanho;
+    public int tamanho;
 
-    public tr_MovimentoLinear() {
-        //@// TODO: 2017-01-14 Parsear linha de consulta ao banco
+    public tr_MovimentoLinear(int angulo, int tamanho) {
+        this.angulo = angulo;
+        this.tamanho = tamanho;
     }
 
     @Override
@@ -22,7 +19,7 @@ public class tr_MovimentoLinear implements tr_Movimento {
     }
 
     @Override
-    public boolean aceita(int idConfigMao, String orientacaoPalma, int posX, int posY) {
+    public boolean aceita(tr_FeatureStructure fs) {
         return false;
     }
 }

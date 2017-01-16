@@ -28,7 +28,6 @@ public class Filter {
     private int seconds;
 
     public Filter(MainApplication app){
-        // @TODO Make classification based on Laplacian to classify per second
         MainApplication mApp = app;
         frameBuffer = mApp.getFrameBuffer();
         seconds = frameBuffer.get(frameBuffer.size()-1).second;
@@ -37,13 +36,11 @@ public class Filter {
 
     }
     public void process(){
-        //@TODO Finish main classification process
-        //@TODO Cut the right portion of the image for Laplacian blur classification
 
         Mat out = new Mat();
         MatOfDouble std = new MatOfDouble();
         MatOfDouble mean = new MatOfDouble();
-        //double dStd ;// = std.get(0,0)[0];
+
         double calulatedLaplacian = 0;
         int frameBufferSize = frameBuffer.size();
 

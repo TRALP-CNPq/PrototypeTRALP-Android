@@ -19,7 +19,7 @@ public class tr_MovimentoRotacional implements tr_Movimento {
 
 
     @Override
-    public boolean aceita(int idConfigMao, String orientacaoPalma, int posX, int posY) {
+    public boolean aceita(tr_FeatureStructure fs) {
         return false;
     }
 }

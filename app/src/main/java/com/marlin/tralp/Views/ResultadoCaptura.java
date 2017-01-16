@@ -29,7 +29,6 @@ public class ResultadoCaptura extends Activity implements View.OnTouchListener {
 
  //   @Override
     @Nullable
-//    protected void onCreate(Bundle savedInstanceState) {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_resultado_captura);
         super.onCreate(savedInstanceState);
@@ -48,14 +47,6 @@ public class ResultadoCaptura extends Activity implements View.OnTouchListener {
 
     }
 
-//    public void onCreate(Bundle bundle) {
-//        super.onCreate(bundle);
-//        setContentView(R.layout.activity_result);
-//        Bundle extras = getIntent().getExtras();
-//        String inputString = extras.getString("frase");
-//        TextView view = (TextView) findViewById(R.id.displayintentextra);
-//        view.setText(inputString);
-//    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

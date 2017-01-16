@@ -6,19 +6,18 @@ package com.marlin.tralp.Transcriber.tr_Models;
 
 public class tr_MovimentoConfigMao  implements tr_Movimento{
     public int idConfigMao;
-    public String descricao;
 
-    public tr_MovimentoConfigMao() {
-        //@// TODO: 2017-01-14 Parsear linha de consulta ao banco
+    public tr_MovimentoConfigMao(int id) {
+        idConfigMao = id;
     }
 
     @Override
     public String toString() {
-        return "[MOVIMENTO ConfigMao] idConfigMao:" + idConfigMao + ", descricao: " + descricao +" ]\n";
+        return "[MOVIMENTO ConfigMao] idConfigMao:" + idConfigMao + " ]\n";
     }
 
     @Override
-    public boolean aceita(int idConfigMao, String orientacaoPalma, int posX, int posY) {
-        return this.idConfigMao == idConfigMao;
+    public boolean aceita(tr_FeatureStructure fs) {
+        return this.idConfigMao == fs.idConfigMao;
     }
 }

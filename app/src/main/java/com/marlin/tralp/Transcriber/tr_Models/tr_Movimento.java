@@ -6,5 +6,5 @@ package com.marlin.tralp.Transcriber.tr_Models;
 
 public interface tr_Movimento {
 
-    public boolean aceita(int  idConfigMao, String orientacaoPalma, int posX, int posY);
+    public boolean aceita(tr_FeatureStructure fs);
 }

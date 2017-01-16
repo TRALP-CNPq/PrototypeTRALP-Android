@@ -1,6 +1,7 @@
 package com.marlin.tralp;
 
 import android.app.Application;
+import android.content.Context;
 import android.graphics.YuvImage;
 
 import com.marlin.tralp.Model.Mat;
@@ -17,6 +18,9 @@ import java.util.List;
  * Created by gabriel on 16-03-15.
  */
 public class MainApplication extends Application {
+    private static Context mContext;
+    private static MainApplication instance;
+
     static private List<Mat> frameBuffer;
 
     static public FrameQueue frameQueue;
@@ -34,6 +38,21 @@ public class MainApplication extends Application {
         frameBuffer.clear(); // unset the list reference to its elements; clear from other classes if
                             //any object only have reference to the list
         frameBuffer = null;  //unsets this reference to the list
+    }
+
+    public static Context getContext() {
+        return mContext;
+    }
+
+    public static MainApplication getInstance(){
+        return instance;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        instance = this;
+        mContext = getApplicationContext();
     }
 }
 

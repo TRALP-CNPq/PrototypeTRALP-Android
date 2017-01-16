@@ -40,14 +40,14 @@ public class tr_MovimentsDAO {
         Cursor busca = db.rawQuery(sql, null);
         ArrayList<tr_MovimentoLinear> moviments = new ArrayList<>();
         while (busca.moveToNext()){
-            tr_MovimentoLinear moviment = new tr_MovimentoLinear();
-//            moviment.setId_SinalxMov(busca.getInt(busca.getColumnIndex("ID_SINALxMOV")));
+//            tr_MovimentoLinear moviment = new tr_MovimentoLinear();
+//           moviment.setId_SinalxMov(busca.getInt(busca.getColumnIndex("ID_SINALxMOV")));
 //            moviment.setId_Sinal(busca.getInt(busca.getColumnIndex("ID_SINAL")));
 //            moviment.setId_mov_config_mao(busca.getInt(busca.getColumnIndex("ID_MOV_CONFIGURACAO_MAO")));
 //            moviment.setId_Mov_linear(busca.getInt(busca.getColumnIndex("ID_MOV_LINEAR")));
 //            moviment.setId_Mov_Rotacional(busca.getInt(busca.getColumnIndex("ID_MOV_CIRCULAR")));
 //            moviment.setCardinalidade(busca.getInt(busca.getColumnIndex("CARDINALIDADE")));
-            moviments.add(moviment);
+//            moviments.add(moviment);
         }
         busca.close();
         db.close();
