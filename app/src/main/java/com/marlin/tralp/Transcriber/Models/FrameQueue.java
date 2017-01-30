@@ -63,6 +63,11 @@ public class FrameQueue {
         }
 
     }
+    public String toString(){
+        if (frameData.size() == 0 )
+            return "Empty Data";
+        return "Seconds data: " + frameData.size() + ", at 0 groups: " + frameData.get(0).size() + ", at g1 frames: " + frameData.get(0).get(1).size();
+    }
     public void setSecondIndex(int num){
         secondIndex = num;
     }
@@ -80,8 +85,9 @@ public class FrameQueue {
         localMatList.add(order,frame);
     }
     public void setMatFrame(int secondIndex, int frameIndex, int order, Mat frame ){
-        List<Mat> localMatList = frameData.get(secondIndex).get(frameIndex);
-        localMatList.add(order,frame);
+//        List<Mat> localMatList = frameData.get(secondIndex).get(frameIndex);
+//        localMatList.add(order,frame);
+        frameData.get(secondIndex).get(frameIndex).add(order,frame);
     }
     public void setMatFrame(int order, Mat frame){
         List<Mat> localMatList = frameData.get(secondIndex).get(frameIndex);

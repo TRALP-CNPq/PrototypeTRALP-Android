@@ -64,6 +64,7 @@ public class CapturaCameraView extends Activity {
                     //ChamarEventoConfirma();
                     Intent intent = new Intent(CapturaCameraView.this, GravacaoVideo.class);
                     camera.stopPreview();
+                    camera.stopFaceDetection();
                     camera.release();
                     startActivity(intent);
                 } else if (event.getAction() == MotionEvent.ACTION_DOWN) {

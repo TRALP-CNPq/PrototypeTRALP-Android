@@ -231,10 +231,11 @@ public class FeatureAnnotation {
         return false;
     }
     private Rect[] detectOnFrame(CascadeClassifier detector, Mat img){
-        MatOfRect objectsDetected = new MatOfRect();
-
-        detector.detectMultiScale(img,objectsDetected,1.1,1,0,new Size(45,80), new Size(165,320));
-        return objectsDetected.toArray();
+//        MatOfRect objectsDetected = new MatOfRect();
+//
+//        detector.detectMultiScale(img,objectsDetected,1.1,1,0,new Size(45,80), new Size(165,320));
+//        return objectsDetected.toArray();
+        return null;
     }
     private CascadeClassifier loadClassifiers(String rawResource){
         CascadeClassifier haarCascade;
@@ -267,11 +268,11 @@ public class FeatureAnnotation {
         return haarCascade;
     }
 
-    private Frame fromMatToFrame(Mat img){
-        Bitmap tmp_bmp = Bitmap.createBitmap(img.cols(), img.rows(), Bitmap.Config.ARGB_8888); //Maybe ARGB_8888
-        Utils.matToBitmap(img,tmp_bmp);
-        return new Frame.Builder().setBitmap(tmp_bmp).build();
-    }
+//    private Frame fromMatToFrame(Mat img){
+//        Bitmap tmp_bmp = Bitmap.createBitmap(img.cols(), img.rows(), Bitmap.Config.ARGB_8888); //Maybe ARGB_8888
+//        Utils.matToBitmap(img,tmp_bmp);
+//        return new Frame.Builder().setBitmap(tmp_bmp).build();
+//    }
 
 
     /*public boolean *DEtector(mat){

@@ -1,7 +1,5 @@
 package com.marlin.tralp.Transcriber.tr_Models;
 
-import com.google.android.gms.common.server.converter.StringToIntConverter;
-import com.marlin.tralp.Transcriber.Models.FingerState;
 
 /**
  * Created by gabriel on 16-02-16.

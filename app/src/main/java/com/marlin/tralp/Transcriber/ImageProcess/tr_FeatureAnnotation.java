@@ -16,6 +16,7 @@ import com.marlin.tralp.Transcriber.tr_Models.tr_FeatureStructure;
 
 import org.opencv.android.Utils;
 import org.opencv.core.CvException;
+import org.opencv.core.CvType;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 
@@ -25,37 +26,34 @@ import java.util.ArrayList;
  * Created by gabriel on 16-02-16.
  */
 public class tr_FeatureAnnotation {
-    MainApplication mApp;
     FrameQueue frameQueue;
     FaceDetector faceDetector;
     ArrayList<tr_FeatureStructure> annotationResult;
     ArrayList<DetectorFactory.Detector> detectors;
 
-    public tr_FeatureAnnotation(MainApplication app){
-        mApp = app;
+    public tr_FeatureAnnotation(){
 
-        frameQueue = mApp.frameQueue;
+        frameQueue = MainApplication.frameQueue;
         if(frameQueue == null){
             throw new NullPointerException("No FrameQueue object found at the MainApplication");
         }
         annotationResult = new ArrayList<tr_FeatureStructure>();
-
         faceDetector = new
-                FaceDetector.Builder(new AppContext().getAppContext()).setTrackingEnabled(false)
+                FaceDetector.Builder(MainApplication.getContext()).setTrackingEnabled(false)
                 .build();
         loadDetectors();
     }
 
     public void annotateFeatures(){
-        frameQueue.getMatFrame(0,0,0);
         for (int secProcessed = 0; secProcessed < frameQueue.howManySeconds; secProcessed++) {
             for (int resPosition = 0; resPosition < frameQueue.resolutionFramesAmount; resPosition++) {
                 findObjectExtractFeature(secProcessed,resPosition);
             }
         }
 
-        mApp.annotation = annotationResult;
-        mApp.frameQueue = null;
+        MainApplication.annotation = annotationResult;
+        MainApplication.frameQueue = null;
+        faceDetector.release();
     }
 
     private void findObjectExtractFeature(int second, int position){
@@ -65,18 +63,20 @@ public class tr_FeatureAnnotation {
         tr_FeatureStructure tempFS = new tr_FeatureStructure();
         tempFS.succeedToDetect = false;
 
-        for(Mat img: frameQueue.getGroupList(second, position)){
-            if(!hasFoundFace) {
+        Mat img = frameQueue.popMatFrame(second, position);
+        while(img != null){
+            if(!hasFoundHand) {
                 tempFS = handDetector(img, second,position, tempFS);
-                hasFoundFace = tempFS.succeedToDetect;
-                tempFS.succeedToDetect = false;
-            }
-            if(!hasFoundHand){
-                tempFS = faceDetector(img,tempFS);
                 hasFoundHand = tempFS.succeedToDetect;
                 tempFS.succeedToDetect = false;
             }
-
+            if(!hasFoundFace){
+                tempFS = faceDetector(img,tempFS);
+//                img.release(); img = null;
+                hasFoundFace = tempFS.succeedToDetect;
+                tempFS.succeedToDetect = false;
+            }
+            System.gc();
             if (hasFoundFace && hasFoundHand) {
                 tempFS = calculateRelativePos(tempFS);
                 tempFS.succeedToDetect = true;
@@ -84,18 +84,22 @@ public class tr_FeatureAnnotation {
                 Log.d("Annotation", "Finshed one group with success");
                 break;
             }
+            img = frameQueue.popMatFrame(second, position);
         }
 
     }
 
 
     private void loadDetectors(){
-        detectors = (new DetectorFactory()).getDetectors(mApp);
+        detectors = (new DetectorFactory()).getDetectors();
     }
 
     private tr_FeatureStructure handDetector(Mat img, int second, int position, tr_FeatureStructure fs){
+
         for (DetectorFactory.Detector detector : detectors){
-            Rect[]found = detector.detect(img);
+            org.opencv.core.Mat m = bitmapToMat(img);
+            Rect[]found = detector.detect(m);
+            m.release();
             if (found != null && found.length > 0){
                 ////@// TODO: 2017-01-15 checar orientacao
                 fs.handCenterX = found[0].x + (found[0].width / 2);
@@ -117,11 +121,16 @@ public class tr_FeatureAnnotation {
     }
 
     private tr_FeatureStructure faceDetector(Mat img, tr_FeatureStructure toFill){
-        Bitmap bitmap = matToBitmap(img);
+        Bitmap bitmap = img.data;//matToBitmap(img);
+        if(bitmap == null)
+            return toFill;
 
         Frame frame = new Frame.Builder().setBitmap(bitmap).build();
 
         SparseArray<Face> faces = faceDetector.detect(frame);
+
+        bitmap.recycle(); bitmap = null;
+        frame = null;
 
         if( faces.size() == 0) return toFill;
 
@@ -154,13 +163,29 @@ public class tr_FeatureAnnotation {
 
     }
 
-    private Bitmap matToBitmap(Mat img){
+    private org.opencv.core.Mat bitmapToMat(Mat img){
+        Bitmap bmp = img.data;
+        org.opencv.core.Mat tmp = new org.opencv.core.Mat(bmp.getHeight(), bmp.getWidth(), CvType.CV_8UC1);
+        Utils.bitmapToMat(bmp, tmp);
+        org.opencv.core.Mat t2 = new org.opencv.core.Mat();
+        Imgproc.cvtColor(tmp, t2, Imgproc.COLOR_RGB2GRAY);
+        tmp.release();
+        return t2;
+    }
+
+
+    private Bitmap matToBitmap(org.opencv.core.Mat img){
+        if(img.size().area() == 0){
+            Log.d("matToBitmap", "Got empty mat");
+            return null;
+        }
         org.opencv.core.Mat temp = new org.opencv.core.Mat();
         try {
             //Imgproc.cvtColor(img, temp, Imgproc.COLOR_RGB2BGRA);
             Imgproc.cvtColor(img, temp, Imgproc.COLOR_GRAY2RGBA, 4);
             Bitmap bmp = Bitmap.createBitmap(temp.cols(), temp.rows(), Bitmap.Config.ARGB_8888);
             Utils.matToBitmap(temp, bmp);
+            temp.release();
             return bmp;
         }
         catch (CvException e){

@@ -3,6 +3,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.marlin.tralp.AppContext;
 import com.marlin.tralp.Conexao.DbConnection;
@@ -55,11 +56,12 @@ public class SignClassification {
 
     private void findSigns(tr_FeatureStructure props, ArrayList<tr_Sinal> candidates ){
         String query =
-                "SELECT ID" +
-                "FROM tr_SINAL AS S" +
-                "  WHERE S.POSX = " + props.handRelativeX +
-                "  AND S.POSY = " + props.handRelativeY +
-                "  AND S.ID_CONFIG_MAO = " + props.idConfigMao;
+                "SELECT ID\n" +
+                "FROM tr_SINAL\n" +
+                "  WHERE POSX = " + 0  + "\n" + //props.handRelativeX
+                "  AND POSY = " + 8 + "\n" + //props.handRelativeY
+                "  AND ID_CONFIG_MAO = " + props.idConfigMao;
+        Log.d("QUERY findsings", query);
         Cursor results = db.rawQuery(query,null);
         for (results.moveToFirst(); !results.isAfterLast(); results.moveToNext()) {
             candidates.add(new tr_Sinal(getI(results,"ID")));
@@ -93,12 +95,15 @@ public class SignClassification {
     }
 
     private void connectDb(){
-        DbConnection connection = new DbConnection(new AppContext().getAppContext());
+        DbConnection connection = new DbConnection(MainApplication.getContext());
         try {
             connection.createDataBase();
         } catch (IOException ioe) {
             throw new Error("Unable to create database");
+        }catch (Exception e) {
+            Log.d("SignClass", "connectDb: " + e.getMessage().toString());
         }
+
         try {
             db = connection.openDataBase();
         } catch (SQLException sql) {

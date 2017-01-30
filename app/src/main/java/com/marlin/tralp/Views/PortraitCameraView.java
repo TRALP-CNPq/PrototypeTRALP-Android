@@ -69,7 +69,7 @@ public class PortraitCameraView extends CameraBridgeViewBase implements Camera.P
     }
 
     protected boolean initializeCamera(int width, int height) {
-        Log.d(TAG, "Initialize java camera");
+//        Log.d(TAG, "Initialize java camera");
         boolean result = true;
         synchronized (this) {
             mCamera = null;
@@ -96,7 +96,7 @@ public class PortraitCameraView extends CameraBridgeViewBase implements Camera.P
         /* Now set camera parameters */
             try {
                 Camera.Parameters params = mCamera.getParameters();
-                Log.d(TAG, "getSupportedPreviewSizes()");
+//                Log.d(TAG, "getSupportedPreviewSizes()");
                 List<Camera.Size> sizes = params.getSupportedPreviewSizes();
 
                 if (sizes != null) {
@@ -104,7 +104,7 @@ public class PortraitCameraView extends CameraBridgeViewBase implements Camera.P
                     Size frameSize = calculateCameraFrameSize(sizes, new JavaCameraSizeAccessor(), height, width); //use turn around values here to get the correct prev size for portrait mode
 
                     params.setPreviewFormat(ImageFormat.NV21);
-                    Log.d(TAG, "Set preview size to " + Integer.valueOf((int)frameSize.width) + "x" + Integer.valueOf((int)frameSize.height));
+//                    Log.d(TAG, "Set preview size to " + Integer.valueOf((int)frameSize.width) + "x" + Integer.valueOf((int)frameSize.height));
                     params.setPreviewSize((int)frameSize.width, (int)frameSize.height);
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -158,7 +158,7 @@ public class PortraitCameraView extends CameraBridgeViewBase implements Camera.P
                         mCamera.setPreviewDisplay(null);
 
                 /* Finally we are ready to start the preview */
-                    Log.d(TAG, "startPreview");
+//                    Log.d(TAG, "startPreview");
                     mCamera.startPreview();
                 }
                 else
@@ -199,12 +199,12 @@ public class PortraitCameraView extends CameraBridgeViewBase implements Camera.P
      * 2. We need to start thread which will be getting frames
      */
     /* First step - initialize camera connection */
-        Log.d(TAG, "Connecting to camera");
+//        Log.d(TAG, "Connecting to camera");
         if (!initializeCamera(width, height))
             return false;
 
     /* now we can start update thread */
-        Log.d(TAG, "Starting processing thread");
+//        Log.d(TAG, "Starting processing thread");
         mStopThread = false;
         mThread = new Thread(new CameraWorker());
         mThread.start();
@@ -216,14 +216,14 @@ public class PortraitCameraView extends CameraBridgeViewBase implements Camera.P
     /* 1. We need to stop thread which updating the frames
      * 2. Stop camera and release it
      */
-        Log.d(TAG, "Disconnecting from camera");
+//        Log.d(TAG, "Disconnecting from camera");
         try {
             mStopThread = true;
-            Log.d(TAG, "Notify thread");
+//            Log.d(TAG, "Notify thread");
             synchronized (this) {
                 this.notify();
             }
-            Log.d(TAG, "Wating for thread");
+//            Log.d(TAG, "Wating for thread");
             if (mThread != null)
                 mThread.join();
         } catch (InterruptedException e) {
@@ -237,7 +237,7 @@ public class PortraitCameraView extends CameraBridgeViewBase implements Camera.P
     }
 
     public void onPreviewFrame(byte[] frame, Camera arg1) {
-        Log.d(TAG, "Preview Frame received. Frame size: " + frame.length);
+//        Log.d(TAG, "Preview Frame received. Frame size: " + frame.length);
         synchronized (this) {
             mFrameChain[1 - mChainIdx].put(0, 0, frame);
             this.notify();
@@ -303,7 +303,7 @@ public class PortraitCameraView extends CameraBridgeViewBase implements Camera.P
                     mChainIdx = 1 - mChainIdx;
                 }
             } while (!mStopThread);
-            Log.d(TAG, "Finish processing thread");
+//            Log.d(TAG, "Finish processing thread");
         }
     }
 }

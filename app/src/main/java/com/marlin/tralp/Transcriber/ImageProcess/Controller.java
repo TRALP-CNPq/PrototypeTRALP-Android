@@ -22,18 +22,28 @@ public class Controller {
 
     public Controller(MainApplication app){
         mApp = app;
+        Log.d("ImageProcess", "Controller created");
     }
 
     public void process(){
+        Log.d("ImageProcess", "Process called");
 
-        Filter localFilter = new Filter(mApp);
+        Filter localFilter = new Filter();
+
+        Log.d("ImageProcess", "Filter process start");
 
         localFilter.process();
 
-        tr_FeatureAnnotation localFA = new tr_FeatureAnnotation(mApp);
+        Log.d("ImageProcess", "Filter process end");
+
+        tr_FeatureAnnotation localFA = new tr_FeatureAnnotation();
+
+        Log.d("ImageProcess", "Feature annotation created");
 
 
         localFA.annotateFeatures();
+
+        Log.d("ImageProcess", "Feature annotation done");
 
         Log.d("annotationResult: ", "Size " + localFA.annotationResult.size());
         for (int index = 0; index < (localFA.annotationResult.size()-1); index++) {

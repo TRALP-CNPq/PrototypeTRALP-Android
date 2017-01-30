@@ -5,6 +5,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 //import android.support.design.widget.FloatingActionButton;
@@ -20,29 +23,48 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.marlin.tralp.MainActivity;
+import com.marlin.tralp.MainApplication;
 import com.marlin.tralp.R;
+import com.marlin.tralp.Transcriber.ImageProcess.Controller;
 
 public class ResultadoCaptura extends Activity implements View.OnTouchListener {
     private TextToSpeech t1;
     private String frasePortugues;
     private Button btnVoltar;
+    TextView mTxtView;
+    boolean blocked;
+    private Handler handler;
 
  //   @Override
     @Nullable
     protected void onCreate(Bundle savedInstanceState) {
+        blocked = false;
+
         setContentView(R.layout.activity_resultado_captura);
         super.onCreate(savedInstanceState);
+
         Log.d("msg ", "Entrei ResultadoCaptura.onCreate");
+
         Bundle extras = getIntent().getExtras();
-    //    String inputString = extras.getString("frase");
-        //TextView view = (TextView) findViewById(R.id.displayintentextra);
-        //    view.setText(inputString);
+
         String frase = extras.getString("frase");
         TextView mTxtView = (TextView)findViewById(R.id.textView3); // getView().
         mTxtView.setText(frase);
         btnVoltar = (Button) findViewById(R.id.Btn_Voltar);
-//
-//        start_camera();
+
+        handler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message inputMessage) {
+                // Gets the task from the incoming Message object.
+                String supermsg = (String) inputMessage.getData().getString("what");
+                Log.d("handler", supermsg);
+                setContentView(R.layout.activity_resultado_captura);
+                TextView mTxtView = (TextView)findViewById(R.id.textView3); // getView().
+                mTxtView.setText(supermsg);
+            }
+        };
+
+
         CarregarListeners();
 
     }
@@ -57,7 +79,7 @@ public class ResultadoCaptura extends Activity implements View.OnTouchListener {
 
 
         String frase = "Capturei: ";
-        TextView mTxtView = (TextView)findViewById(R.id.textView); // getView().
+        mTxtView = (TextView)findViewById(R.id.textView); // getView().
         mTxtView.setText("Consegui!! "+ frase);
 
         return rootview;
@@ -79,33 +101,50 @@ public class ResultadoCaptura extends Activity implements View.OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         Log.d("[onTouch]", "voltar para tela principal");
-        Intent intent;//CameraViewLayout.class);// MainActivity.class    ProcessView
+        if(!blocked) {
+            processaImages();
+            blocked = true;
+        }
 
-        intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+
         return false;
     }
 
+    public void processaImages(){
+        Log.d("ResCap-ProcessaImages", "comecando");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                simpleSendString(handler, "Sera?!");
+                Log.d("Resultado 1st runnable", "entered");
+
+                MainApplication mApp = MainApplication.getInstance();
+                Log.d("RCap-ProcessaImages", "instance");
+                new Controller(mApp).process();
+                Log.d("RCap-ProcessaImages", "Annotation done");
+                String frase = (new com.marlin.tralp.Transcriber.FeatureProcess.Controller(mApp)).process();
+                Log.d("RCap-ProcessaImages", frase);
+                simpleSendString(handler, frase);
+
+            }
+
+            public void simpleSendString(Handler h, String sMsg){
+                Message msg = new Message();
+                Bundle o = new Bundle();
+                o.putString("what", sMsg);
+                msg.setData(o);
+                msg.what = 15;
+                h.sendMessage(msg);
+            }
+
+        }).start();
+
+    }
+
+
     private void CarregarListeners() {
         btnVoltar.setOnTouchListener(this);
-//        btnVoltar.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (event.getAction() == MotionEvent.ACTION_UP) {
-//                    btnVoltar.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.presence_video_busy));
-//                    //ChamarEventoConfirma();
-//                    Log.d("[onTouch]", "voltar para tela principal");
-//                    Intent intent;//CameraViewLayout.class);// MainActivity.class    ProcessView
-//
-//                    intent = new Intent(ResultadoCaptura.class, MainActivity.class);
-//                    startActivity(intent);
-//                    return false;
-//
-//                } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                    btnVoltar.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.presence_video_online));
-//                }
-//                return true;
-//            }
-//        });
+
     }
 }

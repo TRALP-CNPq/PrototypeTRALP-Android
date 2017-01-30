@@ -84,7 +84,7 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
         mHolder.addCallback(this);
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_NORMAL);
 
-        mCamera.setFaceDetectionListener(this);
+//        mCamera.setFaceDetectionListener(this);
         for(int i = 0; i < mPaintList.length; i++)
         {
             mPaintList[i] = new Paint();
@@ -147,7 +147,7 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
             mCamera.startPreview();
             int MaxNumDetectedFaces = mCamera.getParameters().getMaxNumDetectedFaces();
             Log.i(TAG, "[INFO] MaxNumDetectedFaces: " + MaxNumDetectedFaces);
-            if (MaxNumDetectedFaces > 0)                 mCamera.startFaceDetection();
+//            if (MaxNumDetectedFaces > 0)                 mCamera.startFaceDetection();
 
         } catch (IOException e) {
             Log.d("ERROR", "Camera error on surfaceChanged " + e.getMessage());
@@ -159,7 +159,6 @@ public class CameraViewLayout extends SurfaceView implements SurfaceHolder.Callb
         //our app has only one screen, so we'll destroy the camera in the surface
         //if you are unsing with more screens, please move this code your activity
         Log.d("surfaceDestroyed", "Camera Destroyed " + holder.toString());
-//        mCamera.stopPreview();
 //        mCamera.release();
     }
 

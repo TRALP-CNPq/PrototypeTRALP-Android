@@ -1,5 +1,6 @@
 package com.marlin.tralp.Transcriber.ImageProcess;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.marlin.tralp.MainApplication;
@@ -7,6 +8,7 @@ import com.marlin.tralp.Model.Pair;
 import com.marlin.tralp.Transcriber.Models.FrameQueue;
 import com.marlin.tralp.Views.GravacaoVideo;
 
+import org.opencv.android.Utils;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -24,12 +26,11 @@ import java.util.List;
 public class Filter {
     private List<com.marlin.tralp.Model.Mat> frameBuffer; // List of <PhotoFrame, itsSecond>
     private FrameQueue frameQueue;
-    private MainApplication mApp;
     private int seconds;
 
-    public Filter(MainApplication app){
-        MainApplication mApp = app;
-        frameBuffer = mApp.getFrameBuffer();
+    public Filter(){
+        frameBuffer = MainApplication.getFrameBuffer();
+        Log.d("Filter", "amount of frames: " + frameBuffer.size());
         seconds = frameBuffer.get(frameBuffer.size()-1).second;
         frameQueue = new FrameQueue();
         frameQueue.setHowManySeconds(seconds);
@@ -86,14 +87,17 @@ public class Filter {
                         break;
                     }
                     /* CORE Blur Calculation*/
-                    com.marlin.tralp.Model.Mat tempMat = frameBuffer.get(lastFrameBufferIndex);
-                    Imgproc.Laplacian(tempMat, out, CvType.CV_64F); //dst, out, CvType.CV_64F);
-                    Core.meanStdDev(out, mean, std);
-                    calulatedLaplacian = std.get(0,0)[0];
-                    calulatedLaplacian = calulatedLaplacian * calulatedLaplacian;
+                    com.marlin.tralp.Model.Mat temp  = frameBuffer.get(lastFrameBufferIndex);
+                    org.opencv.core.Mat tempMat = bitmapToMat(temp);
+                    if(tempMat.size().area() == 0)
+                        Log.d("Laplacian", "Area zero for " + second + " second and " + position + "group");
+//                    Imgproc.Laplacian(new Mat(tempMat.nativeObj), out, CvType.CV_64F); //dst, out, CvType.CV_64F);
+//                    Core.meanStdDev(out, mean, std);
+//                    calulatedLaplacian = std.get(0,0)[0];
+//                    calulatedLaplacian = calulatedLaplacian * calulatedLaplacian;
                     /* CORE Blur Calculation*/
 
-                    tempMat.quality = calulatedLaplacian;
+                    temp.quality = 0; //calulatedLaplacian;
                     classificationList = insertOrderingAscending(classificationList,
                             new Pair<Integer, Double>(lastFrameBufferIndex, calulatedLaplacian));
                     Log.d("Filter_FPS", "calulatedLaplacian: "+calulatedLaplacian+" lastFrameBufferIndex: " + lastFrameBufferIndex);
@@ -109,8 +113,9 @@ public class Filter {
                 }
             }
         }
-        mApp.frameBufferUnSet(); //Free Memory
-        mApp.frameQueue = frameQueue;
+        Log.d("FinishedFilter", "frameQueue: " + frameQueue.toString());
+        MainApplication.frameBufferUnSet(); //Free Memory
+        MainApplication.frameQueue = frameQueue;
     }
     private List<Pair<Integer, Double>> insertOrderingAscending(List<Pair<Integer, Double>> defaultList,Pair<Integer, Double> pair ){
         Pair<Integer, Double> temp;
@@ -124,4 +129,14 @@ public class Filter {
         defaultList.add(pair);
         return defaultList;
     }
+    private org.opencv.core.Mat bitmapToMat(com.marlin.tralp.Model.Mat img){
+        Bitmap bmp = img.data;
+        org.opencv.core.Mat tmp = new org.opencv.core.Mat(bmp.getHeight(), bmp.getWidth(), CvType.CV_8UC1);
+        Utils.bitmapToMat(bmp, tmp);
+        org.opencv.core.Mat t2 = new org.opencv.core.Mat();
+        Imgproc.cvtColor(tmp, t2, Imgproc.COLOR_RGB2GRAY);
+        tmp.release();
+        return t2;
+    }
+
 }

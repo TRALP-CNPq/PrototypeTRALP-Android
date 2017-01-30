@@ -47,12 +47,14 @@ public class DbConnection extends SQLiteOpenHelper {
         }else{
             //By calling this method and empty database will be created into the default system path
             //of your application so we are gonna be able to overwrite that database with our database.
-            this.getReadableDatabase();
-            Log.d("createDataBase: ", "Vou criar o banco ");
             try {
+                this.getReadableDatabase();
+                Log.d("createDataBase: ", "Vou criar o banco ");
                 copyDataBase();
             } catch (IOException e) {
                 throw new Error("Error copying database: " + e.getMessage().toString());
+            } catch (Exception a){
+                Log.d("DB CREATE", "createDataBase: failed " + a.getMessage().toString());
             }
         }
 
@@ -63,7 +65,6 @@ public class DbConnection extends SQLiteOpenHelper {
      * @return true if it exists, false if it doesn't
      */
     private boolean checkDataBase(){
-
         SQLiteDatabase checkDB = null;
 
         try{
@@ -79,9 +80,13 @@ public class DbConnection extends SQLiteOpenHelper {
                 Log.d("checkDataBase: ", "Diretorio nao existe " + myPath);
             }
         }catch(SQLiteException e){
-            Toast.makeText(myContext, e.getMessage(), Toast.LENGTH_LONG).show();
-            //database does't exist yet.
-            Log.d("checkDataBase: ", "Banco nao existe ");
+            try {
+                //            Toast.makeText(myContext, e.getMessage(), Toast.LENGTH_LONG).show();
+                //database does't exist yet.
+                Log.d("checkDataBase: ", "Banco nao existe ");
+            }catch(Exception a){
+
+            }
         }
         if(checkDB != null){
             checkDB.close();

@@ -27,8 +27,18 @@ public class MainApplication extends Application {
 
     static public ArrayList<tr_FeatureStructure> annotation;
 
+    static public void addToFrameBuffer(Mat img){
+        if(frameBuffer == null)
+            frameBuffer = new ArrayList<Mat>();
+        frameBuffer.add(img);
+    }
+
     static public void setFrameBuffer(List<Mat> received){
-        frameBuffer = received;
+//        frameBuffer = received;
+        frameBuffer = new ArrayList<Mat>();
+        for(Mat temp: received){
+            frameBuffer.add(temp);
+        }
     }
 
     static public List<Mat> getFrameBuffer(){
