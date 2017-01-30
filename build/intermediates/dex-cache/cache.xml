@@ -3,42 +3,6 @@
 
     <item
         is-multidex="true"
-        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.0"
-        sha1="7d7a4f587a5f03f3e967f0b20a4a8b1fa3605a28">
-        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_345f71696748d689e956cab285948cce574083cb/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.0.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.0"
-        sha1="2f7e6e2dad1bccaf68a8820820adc6c0d5b96d37">
-        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-24.0.0_7d3a7a469eb74f68893d0f7e2df7395a4d2f67cc/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/gabriel/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.6.2/f1bc476cc167b18e66c297df599b2377131a8947/gson-2.6.2.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.0"
-        sha1="f1bc476cc167b18e66c297df599b2377131a8947">
-        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.6.2_1673237e7246402019d85fc8e99bd9ac60485e85/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/libs/unity-classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.0"
-        sha1="96798cae35ac60eb5a18ed28892d2954092cdaab">
-        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/2/unity-classes_580e9cabe35c138df716d8e0fe408b07ac735556/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/10.0.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -66,6 +30,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.0"
+        sha1="7d7a4f587a5f03f3e967f0b20a4a8b1fa3605a28">
+        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_345f71696748d689e956cab285948cce574083cb/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/gabriel/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/24.0.0/support-annotations-24.0.0.jar"
         jumboMode="true"
         optimize="true"
@@ -79,7 +52,7 @@
         jumboMode="true"
         optimize="true"
         revision="23.0.0"
-        sha1="eb98871216a221d21b50853f643bac024aaf9cf4">
+        sha1="2196be055b4d3d87fc2f4bd508ab7a523866599e">
         <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_406f264fd2cac079acf3489319d9fde008714a79/classes.dex" />
     </item>
     <item
@@ -93,12 +66,39 @@
     </item>
     <item
         is-multidex="true"
+        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.0"
+        sha1="2f7e6e2dad1bccaf68a8820820adc6c0d5b96d37">
+        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-24.0.0_7d3a7a469eb74f68893d0f7e2df7395a4d2f67cc/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/10.0.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="23.0.0"
         sha1="6addaba208e21c6da776d0ca75b6b23a6ccd5499">
         <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-tasks-10.0.1_c47789c5e768c9b39ef0f0670aa6f0d90dc1bdfd/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/gabriel/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.6.2/f1bc476cc167b18e66c297df599b2377131a8947/gson-2.6.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.0"
+        sha1="f1bc476cc167b18e66c297df599b2377131a8947">
+        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.6.2_1673237e7246402019d85fc8e99bd9ac60485e85/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/libs/unity-classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.0"
+        sha1="96798cae35ac60eb5a18ed28892d2954092cdaab">
+        <dex dex="/Users/gabriel/Documents/github/PrototypeTRALP-Android/app/build/intermediates/transforms/dex/debug/folders/1000/2/unity-classes_580e9cabe35c138df716d8e0fe408b07ac735556/classes.dex" />
     </item>
     <item
         is-multidex="true"

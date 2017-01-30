@@ -69,7 +69,7 @@ public class tr_Sinal {
         if(fs.idConfigMao != fs.idConfigMao) return estado.falhou;
         if( fs.handRelativeX > posX + 1 || fs.handRelativeX < posX -1)
             return estado.falhou;
-        if( fs.handRelativeY > posY + 1 || fs.handRelativeY < posY -1)
+        if( fs.handRelativeY > posY + 3 || fs.handRelativeY < posY -3)
             return estado.falhou;
         return estado.concluiu;
     }

@@ -34,6 +34,7 @@ public class ResultadoCaptura extends Activity implements View.OnTouchListener {
     TextView mTxtView;
     boolean blocked;
     private Handler handler;
+    Thread process;
 
  //   @Override
     @Nullable
@@ -61,6 +62,14 @@ public class ResultadoCaptura extends Activity implements View.OnTouchListener {
                 setContentView(R.layout.activity_resultado_captura);
                 TextView mTxtView = (TextView)findViewById(R.id.textView3); // getView().
                 mTxtView.setText(supermsg);
+                if(inputMessage.what == 10){
+                    try {
+                        process.join();
+                        Looper.myLooper().quitSafely();
+                    } catch (Exception e){
+                        Log.d("failed to join", "handleMessage: " + e.getMessage().toString());
+                    }
+                }
             }
         };
 
@@ -105,41 +114,41 @@ public class ResultadoCaptura extends Activity implements View.OnTouchListener {
             processaImages();
             blocked = true;
         }
-
-
         return false;
     }
 
     public void processaImages(){
         Log.d("ResCap-ProcessaImages", "comecando");
 
-        new Thread(new Runnable() {
+        process = new Thread(new Runnable() {
             @Override
             public void run() {
-                simpleSendString(handler, "Processando o video...");
+                simpleSendString(handler, "Processando o video...", 0);
                 Log.d("Resultado 1st runnable", "entered");
 
                 MainApplication mApp = MainApplication.getInstance();
                 Log.d("RCap-ProcessaImages", "instance");
                 new Controller(mApp).process();
-                simpleSendString(handler, "Processando as anotações...");
+                simpleSendString(handler, "Processando as anotações...", 0);
                 Log.d("RCap-ProcessaImages", "Annotation done");
                 String frase = (new com.marlin.tralp.Transcriber.FeatureProcess.Controller(mApp)).process();
                 Log.d("RCap-ProcessaImages", "Resultado:\n" + frase);
-                simpleSendString(handler, frase);
+                simpleSendString(handler, "Resultado:\n" + frase, 10);
 
+                Log.d("RCap-ProcessaImages", "end");
             }
 
-            public void simpleSendString(Handler h, String sMsg){
+            public void simpleSendString(Handler h, String sMsg, int what){
                 Message msg = new Message();
                 Bundle o = new Bundle();
                 o.putString("what", sMsg);
                 msg.setData(o);
-                msg.what = 15;
+                msg.what = what;
                 h.sendMessage(msg);
             }
 
-        }).start();
+        });
+        process.start();
 
     }
 

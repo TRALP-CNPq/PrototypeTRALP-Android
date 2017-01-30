@@ -17,9 +17,12 @@ public class Controller {
             SignClassification signProcessor = new SignClassification(mApp);
             ArrayList<String> result = signProcessor.process();
 
-            String setence = "";
+            String setence = "", last = "";
             for(String word:result){
-                setence = setence + " " + word;
+                if(!last.equals(word)){
+                    setence = setence + " " + word;
+                    last = word;
+                }
             }
 
             return setence;

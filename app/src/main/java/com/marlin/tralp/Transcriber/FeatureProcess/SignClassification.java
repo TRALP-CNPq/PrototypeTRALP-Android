@@ -50,7 +50,7 @@ public class SignClassification {
                 candidates.clear();
             }
         }
-
+        db.close();
         return words;
     }
 
