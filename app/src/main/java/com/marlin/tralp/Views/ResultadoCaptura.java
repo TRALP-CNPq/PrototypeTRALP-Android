@@ -116,15 +116,16 @@ public class ResultadoCaptura extends Activity implements View.OnTouchListener {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                simpleSendString(handler, "Sera?!");
+                simpleSendString(handler, "Processando o video...");
                 Log.d("Resultado 1st runnable", "entered");
 
                 MainApplication mApp = MainApplication.getInstance();
                 Log.d("RCap-ProcessaImages", "instance");
                 new Controller(mApp).process();
+                simpleSendString(handler, "Processando as anotações...");
                 Log.d("RCap-ProcessaImages", "Annotation done");
                 String frase = (new com.marlin.tralp.Transcriber.FeatureProcess.Controller(mApp)).process();
-                Log.d("RCap-ProcessaImages", frase);
+                Log.d("RCap-ProcessaImages", "Resultado:\n" + frase);
                 simpleSendString(handler, frase);
 
             }

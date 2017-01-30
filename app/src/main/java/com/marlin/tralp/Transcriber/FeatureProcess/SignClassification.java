@@ -60,23 +60,32 @@ public class SignClassification {
                 "FROM tr_SINAL\n" +
                 "  WHERE POSX = " + 0  + "\n" + //props.handRelativeX
                 "  AND POSY = " + 8 + "\n" + //props.handRelativeY
-                "  AND ID_CONFIG_MAO = " + props.idConfigMao;
+                "  AND ID_CONFIG_MAO = " + 3; //props.idConfigMao;
         Log.d("QUERY findsings", query);
         Cursor results = db.rawQuery(query,null);
         for (results.moveToFirst(); !results.isAfterLast(); results.moveToNext()) {
-            candidates.add(new tr_Sinal(getI(results,"ID")));
+            try{
+                tr_Sinal temp = new tr_Sinal(getI(results,"ID"));
+                candidates.add(temp);
+            } catch(Exception e){
+                Log.d("SignClassification", "findSigns: " + e.getMessage().toString());
+            }
         }
     }
 
     private int filterSignal(ArrayList<tr_Sinal> toFilter, int index ){
+        int candIndex = 0;
+        while (toFilter.size() > 0){
+            if(index >= annotations.size()) return index;
 
-        for (tr_Sinal candidate: toFilter){
+            tr_Sinal candidate = toFilter.get(candIndex);
             tr_Sinal.estado result = candidate.aceita(annotations.get(index));
+
             if (result == tr_Sinal.estado.falhou) {
-                toFilter.remove(candidate);
-                continue;
+                toFilter.remove(candIndex);
+                candIndex--;
             }
-            if (result == tr_Sinal.estado.concluiu){
+            else if (result == tr_Sinal.estado.concluiu){
                 while (result == tr_Sinal.estado.concluiu){
                     index++;
                     result = candidate.aceita(annotations.get(index));
@@ -85,13 +94,20 @@ public class SignClassification {
                 toFilter.add(candidate);
                 return index;
             }
+
+            candIndex++;
+            if(candIndex == toFilter.size() &&  toFilter.size() != 0){
+                index++;
+                candIndex=0;
+            }
         }
 
         return index;
     }
 
     private int getI(Cursor c, String key ){
-        return c.getInt(c.getColumnIndexOrThrow(key));
+        int temp = c.getInt(c.getColumnIndexOrThrow(key));
+        return temp;
     }
 
     private void connectDb(){

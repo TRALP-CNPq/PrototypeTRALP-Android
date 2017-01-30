@@ -108,7 +108,7 @@ public class GravacaoVideo extends AppCompatActivity implements View.OnTouchList
         Log.d("GravacaoVideo OnCreate", "mCameraId: " + mCameraId);
 
         opencvCameraView = new PortraitCameraView(this, mCameraId);
-        opencvCameraView.setMaxFrameSize(1000, 1000);
+        opencvCameraView.setMaxFrameSize(750, 750);
         opencvCameraView.setCvCameraViewListener(this);
         opencvCameraView.enableFpsMeter();
 

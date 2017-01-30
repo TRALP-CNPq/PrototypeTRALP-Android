@@ -36,6 +36,7 @@ public class tr_Sinal {
     }
 
     public tr_Sinal(int idSinal){
+        movimentosEmOrdem = new ArrayList<tr_Movimento>();
         this.idSinal = idSinal;
         loadInfo();
         if(movimentosEmOrdem.size()==0)
@@ -88,15 +89,15 @@ public class tr_Sinal {
         idConfigMao = getI(results, "ID_CONFIG_MAO");
 
         String queryMov =
-                "SELECT " +
-                "  MC.ANGULO as CIRC_ANGULO," +
-                "  ML.ANGULO as LIN_ANGULO," +
-                "  , *  " +
-                "FROM tr_SINALxMOV AS SM" +
-                "  LEFT JOIN tr_MOV_LINEAR  as ML" +
-                "   on ML.ID = SM.ID_MOV_LINEAR" +
-                "  LEFT JOIN tr_MOV_CIRCULAR as MC" +
-                "   on MC.ID = SM.ID_MOV_CIRCULAR" +
+                "SELECT " + "\n"+
+                "  MC.ANGULO as CIRC_ANGULO" + "\n"+
+                "  ,ML.ANGULO as LIN_ANGULO" + "\n"+
+                "  , *  " + "\n"+
+                "FROM tr_SINALxMOV AS SM" + "\n"+
+                "  LEFT JOIN tr_MOV_LINEAR  as ML" + "\n"+
+                "   on ML.ID = SM.ID_MOV_LINEAR" + "\n"+
+                "  LEFT JOIN tr_MOV_CIRCULAR as MC" + "\n"+
+                "   on MC.ID = SM.ID_MOV_CIRCULAR" + "\n"+
                 " WHERE  SM.ID_SINAL = " + idSinal;
 
         results = db.rawQuery(queryMov, null);
@@ -104,6 +105,7 @@ public class tr_Sinal {
         for (results.moveToFirst(); !results.isAfterLast(); results.moveToNext()) {
             parseMov(results);
         }
+        db.close();
     }
 
     private void parseMov(Cursor c){
